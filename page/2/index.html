@@ -1,0 +1,4399 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.1" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.4.1',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="For Geek">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Fox Hound">
+<meta property="og:url" content="https://arnoforst.github.io/page/2/index.html">
+<meta property="og:site_name" content="Fox Hound">
+<meta property="og:description" content="For Geek">
+<meta property="og:locale" content="zh-CN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Fox Hound">
+<meta name="twitter:description" content="For Geek">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Fox Hound" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="https://arnoforst.github.io/page/2/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Fox Hound</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left 
+  page-home">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Fox Hound</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+  
+  
+  
+    
+      
+    
+    <a href="https://github.com/arnofrost" class="github-corner" target="_blank" title="Follow me on GitHub" aria-label="Follow me on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#222; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg>
+    
+      </a>
+    
+
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://arnoforst.github.io/2017/10/27/百度地图集成的小问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Arno Frost">
+      <meta itemprop="description" content="For Geek">
+      <meta itemprop="image" content="/images/ArnoImage.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fox Hound">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/10/27/百度地图集成的小问题/" itemprop="url">
+                  百度地图集成的小问题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-10-27 11:17:24" itemprop="dateCreated datePublished" datetime="2017-10-27T11:17:24+08:00">2017-10-27</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-05-11 16:38:06" itemprop="dateModified" datetime="2018-05-11T16:38:06+08:00">2018-05-11</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/开发/" itemprop="url" rel="index"><span itemprop="name">开发</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">981</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">2 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="模拟器运行时候JS不加载或白屏"><a href="#模拟器运行时候JS不加载或白屏" class="headerlink" title="模拟器运行时候JS不加载或白屏"></a>模拟器运行时候JS不加载或白屏</h2><hr>
+<p>之前用百度地图的时候都是直接Copy过来其他项目的地方，因为好业务逻辑相同，也简单了不少。但是偶然在运行中发现了这样一个问题。我用的是SDK 25（7.1）的模拟器，在我点击跳转到页面的时候显示了空白，同时我的日志输出了这样一段：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chromium: [ERROR:interface_registry.cc(104)] Failed to locate a binder for interface: autofill::mojom::PasswordManagerDriver</span><br></pre></td></tr></table></figure>
+<p>上网查阅资料里好多人说的是权限没获取到，又或是服务器资源不好。但这个页面短暂空白后，又出现了地图列表，看起来似乎是JS没有加载。可是我的代码里已经有了这些东西：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">webView.getSettings().setJavaScriptEnabled(true);</span><br><span class="line">webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);</span><br><span class="line">webView.getSettings().setDomStorageEnabled(true);</span><br><span class="line">webView.getSettings().setLoadsImagesAutomatically(true);</span><br></pre></td></tr></table></figure>
+<p>这个时候还是Stack Overflow上能看出些门道， 同时我注意到还有另外一条信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Unrecognized GLES max version string in extensions: ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_dma_v1</span><br></pre></td></tr></table></figure>
+<p>由于是使用虚拟机，我意识到可能还有显示渲染的不兼容。</p>
+<p>然后我试着找了一个x86版本的虚拟机安装上去，画面又显示回来了。</p>
+<p>目前在Stack Overflow上没有找到什么能解决的办法。</p>
+<h2 id="无法在AndroidManifest-xml中获取com-baidu-android-lbs-API-KEY的值"><a href="#无法在AndroidManifest-xml中获取com-baidu-android-lbs-API-KEY的值" class="headerlink" title="无法在AndroidManifest.xml中获取com.baidu.android.lbs.API_KEY的值"></a>无法在AndroidManifest.xml中获取com.baidu.android.lbs.API_KEY的值</h2><hr>
+<p>按照文档上的说明，我在AndroidManifest文件中配置meta-data应该是可以的，但是读取不到，后来发现原来key 不应该是api_key而是com.baidu.lbsapi.API_KEY，这个问题还是要细心注意一下。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://arnoforst.github.io/2017/10/27/AndroidStudio 工程jar包重复引入报错/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Arno Frost">
+      <meta itemprop="description" content="For Geek">
+      <meta itemprop="image" content="/images/ArnoImage.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fox Hound">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/10/27/AndroidStudio 工程jar包重复引入报错/" itemprop="url">
+                  AndroidStudio 工程jar包重复引入报错
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-10-27 11:17:24" itemprop="dateCreated datePublished" datetime="2017-10-27T11:17:24+08:00">2017-10-27</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2017-10-28 11:25:42" itemprop="dateModified" datetime="2017-10-28T11:25:42+08:00">2017-10-28</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">662</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">1 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="app-transformClassesWithJarMergingForDebug"><a href="#app-transformClassesWithJarMergingForDebug" class="headerlink" title="app:transformClassesWithJarMergingForDebug"></a>app:transformClassesWithJarMergingForDebug</h2><hr>
+<p>工程中，如果我们叫A，要引用的两个三方库分别叫B和C。</p>
+<p>其中B包含了若干小jar包，比如其中有一个叫d，C中也包含了同样的jar包d。</p>
+<p>那么我们直接应用这两个库的时候，编译过程会报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Execution failed for task &apos;:app:transformClassesWithJarMergingForDebug&apos;.</span><br></pre></td></tr></table></figure>
+<p>那么我们只需要在其中库中「去掉」jar包的引用，或者说过滤掉。</p>
+<p>可以切换到「Project」视图， 查看比较两者间有什么库是一样的名字。这里我举了个例子：</p>
+<p><img src="https://i.imgur.com/grwZaIA.png" alt="rxjava包冲突"></p>
+<p>在MANIFEST.MF文件中,找到要过滤的包名: <strong>io.reactivex.java</strong></p>
+<p><img src="https://i.imgur.com/QhKFots.png" alt="Bundle-SymbolicName的字段"></p>
+<p>在gradle文件中，引用工程后面添加过滤的包名。这里我将rx有关的都过滤了，（使用的是AS3.0有了新的关键字implementation<a href="https://stackoverflow.com/questions/44493378/whats-the-difference-between-implementation-and-compile-in-gradle" target="_blank" rel="noopener">具体看这里</a>）</p>
+<p><img src="https://i.imgur.com/IIMN7Rv.png" alt="添加group"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">compile(&apos;cn.bmob.android:bmob-sdk:3.5.5&apos;) &#123;</span><br><span class="line">    exclude group: &apos;io.reactivex&apos;</span><br><span class="line">&#125;</span><br><span class="line">compile(&apos;com.kymjs.rxvolley:rxvolley:1.1.4&apos;) &#123;</span><br><span class="line">    exclude group: &apos;io.reactivex&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>重新编译一下，就可以正常运行了。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://arnoforst.github.io/2017/10/25/ListView和RecyclerView中item中宽度不占满的一种可能/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Arno Frost">
+      <meta itemprop="description" content="For Geek">
+      <meta itemprop="image" content="/images/ArnoImage.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fox Hound">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/10/25/ListView和RecyclerView中item中宽度不占满的一种可能/" itemprop="url">
+                  ListView和RecyclerView中item中宽度不占满的一种可能
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-10-25 09:48:46" itemprop="dateCreated datePublished" datetime="2017-10-25T09:48:46+08:00">2017-10-25</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-05-11 16:39:04" itemprop="dateModified" datetime="2018-05-11T16:39:04+08:00">2018-05-11</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/开发/" itemprop="url" rel="index"><span itemprop="name">开发</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">3.4k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">7 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="ListView和RecyclerView中item中宽度不占满的一种可能"><a href="#ListView和RecyclerView中item中宽度不占满的一种可能" class="headerlink" title="ListView和RecyclerView中item中宽度不占满的一种可能"></a>ListView和RecyclerView中item中宽度不占满的一种可能</h2><p>公司里有个项目，用到一个简单的ListView，我在item里写了match_parent属性，但是在运行中却并没有占满一整行，就导致了布局有问题。</p>
+<p>在使用ListView的Adapter中,我们在getView方法里是这样的写的：</p>
+<pre><code>public View getView(int position, View convertView, ViewGroup parent) {   
+if (convertView == null) {  
+     convertView = inflate(R.layout.item_lv_test, null); 
+} 
+return convertView;
+}
+</code></pre><p>其中的第二个参数是放parent，通常情况下之前一直在用null，但是这次却行不通了。问题在其实还真就在于这个null上。</p>
+<p>点进去去看了下源码，发现inflate里还有一个方法。</p>
+<p><img src="https://i.imgur.com/fi1OiMk.png" alt=""></p>
+<p>查阅资料，发现了我代码的问题。</p>
+<h2 id="1-如果设置为null："><a href="#1-如果设置为null：" class="headerlink" title="1.如果设置为null："></a>1.如果设置为null：</h2><p>根布局设置的高度是不起作用的，即使根布局是一个控件，比如：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+
+&lt;TextView 
+xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+android:layout_width=&quot;match_parent&quot;
+android:layout_height=&quot;200dp&quot;
+android:text=&quot;abc&quot; /&gt;
+</code></pre><p>这时200dp不起作用，而是根据里面的文字大小来决定item的高度,比如如下起作用:</p>
+<pre><code>&lt;TextView 
+xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+android:layout_width=&quot;match_parent&quot;
+android:layout_height=&quot;200dp&quot;
+android:text=&quot;abc&quot;
+android:textSize=&quot;200dp&quot; /&gt;
+</code></pre><p>根布局是一个layout的情况下，根布局的高度也不起作用，而是里面子控件的高度起作用，比如下面item的高度是100dp：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+android:layout_width=&quot;match_parent&quot;
+android:layout_height=&quot;300dp&quot;&gt;
+
+    &lt;TextView
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;100dp&quot;
+        android:text=&quot;abc&quot;/&gt;
+
+&lt;/RelativeLayout&gt;
+</code></pre><p>如果里面的内容设置为match_parent,效果跟第一个一样，根据文字大小来决定item高度，因为parent设置的高度没用，所以里面子空间match_parent也没用：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+android:layout_width=&quot;match_parent&quot;
+android:layout_height=&quot;300dp&quot;&gt;
+    &lt;TextView
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;match_parent&quot;
+        android:text=&quot;abc&quot;/&gt;
+
+&lt;/RelativeLayout&gt;
+</code></pre><h3 id="对传null总结："><a href="#对传null总结：" class="headerlink" title="对传null总结："></a>对传null总结：</h3><p>设置为null时，因为没有父亲，根布局的layout_height没有作用，子布局的layout_height为绝对值时有用，为相对值（match_parent,wrap_content）时没用，里面内容的高度决定了item的高度（根部局为普通空间时，控件内容决定item高度，根布局为layout时，子控件设置的绝对高度或子控件的内容决定item高度）</p>
+<h2 id="2-如果传入三个参数"><a href="#2-如果传入三个参数" class="headerlink" title="2.如果传入三个参数"></a>2.如果传入三个参数</h2><p>如果parent设置为getview传入的parent（第三个参数false），则根布局设置的高度就有用了：</p>
+<p>比如上面第一个就是200dp了</p>
+<p>如果这时候，根部局设置为match_parent，则根据里面内容来适配，比如以下item高度跟上面第一个一样，为文字的高度：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;&gt;
+    &lt;TextView
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;match_parent&quot;
+        android:text=&quot;abc&quot;/&gt;
+
+&lt;/RelativeLayout&gt;
+</code></pre><p>以下高度变成了200dp:</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;&gt;
+    &lt;TextView
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;200dp&quot;
+        android:text=&quot;abc&quot;/&gt;
+
+&lt;/RelativeLayout&gt;
+</code></pre><p>同样这个在RecyclerView中也是，总结起来是自己当初用的时候太过着急没仔细看看这个方法是什么用的。以此来记录这次小坑。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://arnoforst.github.io/2017/10/25/Windows快捷键/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Arno Frost">
+      <meta itemprop="description" content="For Geek">
+      <meta itemprop="image" content="/images/ArnoImage.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fox Hound">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/10/25/Windows快捷键/" itemprop="url">
+                  Windows中的一些快捷键
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-10-25 08:36:02" itemprop="dateCreated datePublished" datetime="2017-10-25T08:36:02+08:00">2017-10-25</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-05-11 16:38:26" itemprop="dateModified" datetime="2018-05-11T16:38:26+08:00">2018-05-11</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技巧/" itemprop="url" rel="index"><span itemprop="name">技巧</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">5.1k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">10 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Winodws快捷键"><a href="#Winodws快捷键" class="headerlink" title="Winodws快捷键"></a>Winodws快捷键</h2><p>根据Microsoft官网:2017年10月18日 - 修订版本： 8<br>(这篇文章中的信息适用于:<br>Windows 10, Windows 8.1, Windows 7)</p>
+<h2 id="复制、粘贴及其他常规的键盘快捷方式"><a href="#复制、粘贴及其他常规的键盘快捷方式" class="headerlink" title="复制、粘贴及其他常规的键盘快捷方式"></a>复制、粘贴及其他常规的键盘快捷方式</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">快捷键</th>
+<th style="text-align:left">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Ctrl + X</td>
+<td style="text-align:left">剪切选定项</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + C（或 Ctrl + Insert）</td>
+<td style="text-align:left">复制选定项</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + V（或 Shift + Insert）</td>
+<td style="text-align:left">粘贴选定项</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + Z</td>
+<td style="text-align:left">撤消操作</td>
+</tr>
+<tr>
+<td style="text-align:left">Alt + Tab</td>
+<td style="text-align:left">在打开的应用之间切换</td>
+</tr>
+<tr>
+<td style="text-align:left">Alt + F4</td>
+<td style="text-align:left">关闭活动项，或者退出活动应用</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + L</td>
+<td style="text-align:left">锁定你的电脑</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + D</td>
+<td style="text-align:left">显示和隐藏桌面</td>
+</tr>
+<tr>
+<td style="text-align:left">F2</td>
+<td style="text-align:left">重命名选定项</td>
+</tr>
+<tr>
+<td style="text-align:left">F3</td>
+<td style="text-align:left">在文件资源管理器中搜索文件或文件夹</td>
+</tr>
+<tr>
+<td style="text-align:left">F4</td>
+<td style="text-align:left">在文件资源管理器中显示地址栏列表</td>
+</tr>
+<tr>
+<td style="text-align:left">F5</td>
+<td style="text-align:left">刷新活动窗口</td>
+</tr>
+<tr>
+<td style="text-align:left">F6</td>
+<td style="text-align:left">循环浏览窗口中或桌面上的屏幕元素</td>
+</tr>
+<tr>
+<td style="text-align:left">F10</td>
+<td style="text-align:left">激活活动应用中的菜单栏</td>
+</tr>
+<tr>
+<td style="text-align:left">Alt + F8</td>
+<td style="text-align:left">在登录屏幕上显示你的密码</td>
+</tr>
+<tr>
+<td style="text-align:left">Alt + Esc</td>
+<td style="text-align:left">按项目打开顺序循环浏览</td>
+</tr>
+<tr>
+<td style="text-align:left">Alt + 带下划线的字母</td>
+<td style="text-align:left">执行该字母相关的命令</td>
+</tr>
+<tr>
+<td style="text-align:left">Alt + Enter</td>
+<td style="text-align:left">显示所选项目的属性</td>
+</tr>
+<tr>
+<td style="text-align:left">Alt + 空格键</td>
+<td style="text-align:left">打开活动窗口的快捷方式菜单</td>
+</tr>
+<tr>
+<td style="text-align:left">Alt + 向左键</td>
+<td style="text-align:left">返回</td>
+</tr>
+<tr>
+<td style="text-align:left">Alt + 向右键</td>
+<td style="text-align:left">前进</td>
+</tr>
+<tr>
+<td style="text-align:left">Alt + Page Up</td>
+<td style="text-align:left">向上移动一个屏幕</td>
+</tr>
+<tr>
+<td style="text-align:left">Alt + Page Down</td>
+<td style="text-align:left">向下移动一个屏幕</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + F4</td>
+<td style="text-align:left">关闭活动文档（在可全屏显示并允许你同时打开多个文档的应用中）</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + A</td>
+<td style="text-align:left">选择文档或窗口中的所有项目</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + D（或 Delete）</td>
+<td style="text-align:left">删除所选的项目，将其移至回收站</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + R（或 F5）</td>
+<td style="text-align:left">刷新活动窗口</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + Y</td>
+<td style="text-align:left">恢复操作</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + 向右键</td>
+<td style="text-align:left">将光标移动到下一个字词的起始处</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + 向左键</td>
+<td style="text-align:left">将光标移动到上一个字词的起始处</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + 向下键</td>
+<td style="text-align:left">将光标移动到下一段落的起始处</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + 向上键</td>
+<td style="text-align:left">将光标移动到上一段落的起始处</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + Alt + Tab</td>
+<td style="text-align:left">使用箭头键在所有打开的应用之间进行切换</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + Alt + Shift + 箭头键</td>
+<td style="text-align:left">当组或磁贴的焦点放在“开始”菜单上时，可将其朝指定方向移动</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + 箭头键（移至某个项目）+ 空格键</td>
+<td style="text-align:left">选择窗口中或桌面上的多个单独项目</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + Shift（及箭头键）</td>
+<td style="text-align:left">选择文本块</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + Esc</td>
+<td style="text-align:left">打开“开始”屏幕</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + Shift + Esc</td>
+<td style="text-align:left">打开任务管理器</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + Shift</td>
+<td style="text-align:left">如果多种键盘布局可用，则可切换键盘布局</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + 空格键</td>
+<td style="text-align:left">打开或关闭的中文输入法编辑器 (IME)</td>
+</tr>
+<tr>
+<td style="text-align:left">Shift + F10</td>
+<td style="text-align:left">显示所选项目的快捷方式菜单</td>
+</tr>
+<tr>
+<td style="text-align:left">按 Shift 与任何箭头键</td>
+<td style="text-align:left">在窗口中或桌面上选择多个项目，或在文档中选择文本</td>
+</tr>
+<tr>
+<td style="text-align:left">Shift + Delete</td>
+<td style="text-align:left">删除选定项，无需先移动到回收站</td>
+</tr>
+<tr>
+<td style="text-align:left">向右键</td>
+<td style="text-align:left">打开右侧的下一个菜单，或打开子菜单</td>
+</tr>
+<tr>
+<td style="text-align:left">向左键</td>
+<td style="text-align:left">打开左侧的下一个菜单，或关闭子菜单</td>
+</tr>
+<tr>
+<td style="text-align:left">Esc</td>
+<td style="text-align:left">停止或离开当前任务</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Windows-徽标键键盘快捷方式"><a href="#Windows-徽标键键盘快捷方式" class="headerlink" title="Windows 徽标键键盘快捷方式"></a>Windows 徽标键键盘快捷方式</h2><hr>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">快捷键</th>
+<th style="text-align:left">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Windows 徽标键</td>
+<td style="text-align:left">打开或关闭“开始”屏幕</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + A</td>
+<td style="text-align:left">打开操作中心</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + B</td>
+<td style="text-align:left">将焦点放在通知区域上</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + C</td>
+<td style="text-align:left">在侦听模式下打开 Cortana</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + Shift + C</td>
+<td style="text-align:left">打开超级按钮菜单</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + D</td>
+<td style="text-align:left">显示和隐藏桌面</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + Alt + D</td>
+<td style="text-align:left">显示和隐藏桌面上的日期和时间</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + E</td>
+<td style="text-align:left">打开文件资源管理器</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + F</td>
+<td style="text-align:left">打开反馈中心并获取屏幕截图</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + G</td>
+<td style="text-align:left">打开游戏栏（当游戏处于打开状态时）</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + H</td>
+<td style="text-align:left">开始听写</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + I</td>
+<td style="text-align:left">打开“设置”</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + J</td>
+<td style="text-align:left">请将焦点设置到可用的 Windows 提示。</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + K</td>
+<td style="text-align:left">打开“连接”快速操作</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + L</td>
+<td style="text-align:left">锁定你的电脑或切换帐户</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + M</td>
+<td style="text-align:left">最小化所有窗口</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + O</td>
+<td style="text-align:left">锁定设备方向</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + P</td>
+<td style="text-align:left">选择演示显示模式</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + R</td>
+<td style="text-align:left">打开“运行”对话框</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + S</td>
+<td style="text-align:left">打开“搜索”</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + T</td>
+<td style="text-align:left">循环浏览任务栏上的应用</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + U</td>
+<td style="text-align:left">打开“轻松使用设置中心”</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + V</td>
+<td style="text-align:left">循环浏览通知</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + Shift + V</td>
+<td style="text-align:left">以相反顺序循环浏览通知</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + X</td>
+<td style="text-align:left">打开“快速链接”菜单</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + Y</td>
+<td style="text-align:left">在 Windows Mixed Reality 与桌面之间切换输入</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + Z</td>
+<td style="text-align:left">以全屏模式显示应用中可用的命令</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + 句点 (.) 或分号 (;)</td>
+<td style="text-align:left">打开表情符号面板</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + 逗号 (,)</td>
+<td style="text-align:left">临时速览桌面</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + Pause 键</td>
+<td style="text-align:left">显示“系统属性”对话框</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + Ctrl + F</td>
+<td style="text-align:left">搜索电脑（如果已连接到网络）</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + Shift + M</td>
+<td style="text-align:left">还原桌面上的最小化窗口</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + 数字</td>
+<td style="text-align:left">打开桌面，然后启动固定到任务栏的应用（位于数字所指明的位置）。如果应用已处于运行状态，则切换至该应用。</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + Shift + 数字</td>
+<td style="text-align:left">打开桌面，然后启动固定到任务栏的应用新实例（位于数字所指明的位置）</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + Ctrl + 数字</td>
+<td style="text-align:left">打开桌面，然后切换至固定到任务栏的应用的最后活动窗口（位于数字所指明的位置）</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + Alt + 数字</td>
+<td style="text-align:left">打开桌面，然后打开固定到任务栏的应用的“跳转列表”（位于数字所指明的位置）</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + Ctrl + Shift + 数字</td>
+<td style="text-align:left">打开桌面，然后以管理员身份打开位于任务栏上指定位置的应用新实例</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + Tab</td>
+<td style="text-align:left">打开任务视图</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  向上键</td>
+<td style="text-align:left">最大化窗口</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  向下键</td>
+<td style="text-align:left">删除屏幕上的当前应用并最小化桌面窗口</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + 向左键</td>
+<td style="text-align:left">最大化屏幕左侧的应用或桌面窗口</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + 向右键</td>
+<td style="text-align:left">最大化屏幕右侧的应用或桌面窗口</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + Home</td>
+<td style="text-align:left">最小化活动桌面窗口之外的所有窗口（在第二个笔划时还原所有窗口）</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + Shift + 向上键</td>
+<td style="text-align:left">将桌面窗口拉伸至屏幕顶部和底部</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + Shift + 向下键</td>
+<td style="text-align:left">在垂直方向上还原/最小化活动桌面窗口，而宽度保持不变</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  Shift + 向左键或向右键</td>
+<td style="text-align:left">将桌面上的应用或窗口从一台显示器移动至另一台显示器</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + 空格键</td>
+<td style="text-align:left">切换输入语言和键盘布局</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + Ctrl + 空格键</td>
+<td style="text-align:left">对之前选择的输入所做的更改</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键 + Ctrl + Enter</td>
+<td style="text-align:left">打开“讲述人”</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + 正斜杠 (/)</td>
+<td style="text-align:left">开始输入法复原流程</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + Ctrl + V</td>
+<td style="text-align:left">打开肩式分接设备</td>
+</tr>
+</tbody>
+</table>
+<h2 id="命令提示符键盘快捷方式"><a href="#命令提示符键盘快捷方式" class="headerlink" title="命令提示符键盘快捷方式"></a>命令提示符键盘快捷方式</h2><hr>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">快捷键</th>
+<th style="text-align:left">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Ctrl + C（或 Ctrl + Insert）</td>
+<td style="text-align:left">复制选定文本</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + V（或 Shift + Insert）</td>
+<td style="text-align:left">粘贴选定文本</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + M</td>
+<td style="text-align:left">输入标记模式</td>
+</tr>
+<tr>
+<td style="text-align:left">Alt + 所选择的键</td>
+<td style="text-align:left">开始在块模式下选择</td>
+</tr>
+<tr>
+<td style="text-align:left">箭头键</td>
+<td style="text-align:left">按指定方向移动光标</td>
+</tr>
+<tr>
+<td style="text-align:left">Page up</td>
+<td style="text-align:left">将光标向上移动一个页面</td>
+</tr>
+<tr>
+<td style="text-align:left">Page down</td>
+<td style="text-align:left">将光标向下移动一个页面</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + Home（标记模式）</td>
+<td style="text-align:left">将光标移动到缓冲区起始处</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + End（标记模式）</td>
+<td style="text-align:left">将光标移动到缓冲区结尾处</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + 向上键</td>
+<td style="text-align:left">在输出历史记录中上移一行</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + 向下键</td>
+<td style="text-align:left">在输出历史记录中下移一行</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + Home（历史记录导航）</td>
+<td style="text-align:left">如果命令行为空，则将视区移动到缓冲区顶部。否则，请删除命令行中光标左侧的所有字符。</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + End（历史记录导航）</td>
+<td style="text-align:left">如果命令行为空，则将视区移动到命令行。否则，请删除命令行中光标右侧的所有字符。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="对话框键盘快捷方式"><a href="#对话框键盘快捷方式" class="headerlink" title="对话框键盘快捷方式"></a>对话框键盘快捷方式</h2><hr>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">快捷键</th>
+<th style="text-align:left">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">对话框键盘快捷方式</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">按键</td>
+<td style="text-align:left">操作</td>
+</tr>
+<tr>
+<td style="text-align:left">F4</td>
+<td style="text-align:left">显示活动列表中的项目</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + Tab</td>
+<td style="text-align:left">在选项卡中向前移动</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + Shift + Tab</td>
+<td style="text-align:left">在选项卡中向后移动</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + 数字（数字 1–9）</td>
+<td style="text-align:left">移动到第 n 个选项卡</td>
+</tr>
+<tr>
+<td style="text-align:left">Tab</td>
+<td style="text-align:left">在选项中向前移动</td>
+</tr>
+<tr>
+<td style="text-align:left">Shift + Tab</td>
+<td style="text-align:left">在选项中向后移动</td>
+</tr>
+<tr>
+<td style="text-align:left">Alt + 带下划线的字母</td>
+<td style="text-align:left">执行可与该字母结合使用的命令（或选择该选项）</td>
+</tr>
+<tr>
+<td style="text-align:left">空格键</td>
+<td style="text-align:left">如果活动选项为复选框，则选择或清除复选框</td>
+</tr>
+<tr>
+<td style="text-align:left">Backspace</td>
+<td style="text-align:left">如果在“另存为”或“打开”对话框中选择文件夹，则打开上一级别的文件夹</td>
+</tr>
+<tr>
+<td style="text-align:left">箭头键</td>
+<td style="text-align:left">如果活动选项是一组选项按钮，请选择一个按钮</td>
+</tr>
+</tbody>
+</table>
+<h2 id="文件资源管理器键盘快捷方式"><a href="#文件资源管理器键盘快捷方式" class="headerlink" title="文件资源管理器键盘快捷方式"></a>文件资源管理器键盘快捷方式</h2><hr>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">快捷键</th>
+<th style="text-align:left">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Alt + D</td>
+<td style="text-align:left">选择地址栏</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + E</td>
+<td style="text-align:left">选择搜索框</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + F</td>
+<td style="text-align:left">选择搜索框</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + N</td>
+<td style="text-align:left">打开新窗口</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + W</td>
+<td style="text-align:left">关闭活动窗口</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + 鼠标滚轮</td>
+<td style="text-align:left">更改文件和文件夹图标的大小和外观</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + Shift + E</td>
+<td style="text-align:left">显示选定文件夹上所有级别文件夹</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + Shift + N</td>
+<td style="text-align:left">新建文件夹</td>
+</tr>
+<tr>
+<td style="text-align:left">Num Lock + 星号 (*)</td>
+<td style="text-align:left">显示选定文件夹下所有子文件夹</td>
+</tr>
+<tr>
+<td style="text-align:left">Num Lock + 加号 (+)</td>
+<td style="text-align:left">显示选定文件夹中的内容</td>
+</tr>
+<tr>
+<td style="text-align:left">Num Lock + 减号 (-)</td>
+<td style="text-align:left">折叠选定文件夹</td>
+</tr>
+<tr>
+<td style="text-align:left">Alt + P</td>
+<td style="text-align:left">显示预览面板</td>
+</tr>
+<tr>
+<td style="text-align:left">Alt + Enter</td>
+<td style="text-align:left">打开选定项目的“属性”对话框</td>
+</tr>
+<tr>
+<td style="text-align:left">Alt + 向右键</td>
+<td style="text-align:left">查看下一个文件夹</td>
+</tr>
+<tr>
+<td style="text-align:left">Alt + 向上键</td>
+<td style="text-align:left">查看该文件夹所在的文件夹</td>
+</tr>
+<tr>
+<td style="text-align:left">Alt + 向左键</td>
+<td style="text-align:left">查看上一个文件夹</td>
+</tr>
+<tr>
+<td style="text-align:left">Backspace</td>
+<td style="text-align:left">查看上一个文件夹</td>
+</tr>
+<tr>
+<td style="text-align:left">向右键</td>
+<td style="text-align:left">显示当前选择内容（如果已折叠），或选择第一个子文件夹</td>
+</tr>
+<tr>
+<td style="text-align:left">向左键</td>
+<td style="text-align:left">折叠当前所选内容（如果已展开），或选择该文件夹所在的文件夹</td>
+</tr>
+<tr>
+<td style="text-align:left">End</td>
+<td style="text-align:left">显示活动窗口底部</td>
+</tr>
+<tr>
+<td style="text-align:left">Home</td>
+<td style="text-align:left">显示活动窗口顶部</td>
+</tr>
+<tr>
+<td style="text-align:left">F11</td>
+<td style="text-align:left">最大化或最小化活动窗口</td>
+</tr>
+</tbody>
+</table>
+<h2 id="虚拟桌面的键盘快捷方式"><a href="#虚拟桌面的键盘快捷方式" class="headerlink" title="虚拟桌面的键盘快捷方式"></a>虚拟桌面的键盘快捷方式</h2><hr>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">快捷键</th>
+<th style="text-align:left">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Windows 徽标键  + Tab</td>
+<td style="text-align:left">打开“任务视图”</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + Ctrl + D</td>
+<td style="text-align:left">添加虚拟桌面</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + Ctrl + 向右键</td>
+<td style="text-align:left">在你于右侧创建的虚拟桌面之间切换</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + Ctrl + 向左键</td>
+<td style="text-align:left">在你于左侧创建的虚拟桌面之间切换</td>
+</tr>
+<tr>
+<td style="text-align:left">Windows 徽标键  + Ctrl + F4</td>
+<td style="text-align:left">关闭你正在使用的虚拟桌面</td>
+</tr>
+</tbody>
+</table>
+<h2 id="任务栏键盘快捷方式"><a href="#任务栏键盘快捷方式" class="headerlink" title="任务栏键盘快捷方式"></a>任务栏键盘快捷方式</h2><hr>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">快捷键</th>
+<th style="text-align:left">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Shift + 单击任务栏按钮</td>
+<td style="text-align:left">打开应用或快速打开另一个应用实例</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + Shift + 单击任务栏按钮</td>
+<td style="text-align:left">以管理员身份打开应用</td>
+</tr>
+<tr>
+<td style="text-align:left">Shift + 右键单击任务栏按钮</td>
+<td style="text-align:left">显示应用的窗口菜单</td>
+</tr>
+<tr>
+<td style="text-align:left">Shift + 右键单击分组任务栏按钮</td>
+<td style="text-align:left">显示组窗口菜单</td>
+</tr>
+<tr>
+<td style="text-align:left">Ctrl + 单击分组任务栏按钮</td>
+<td style="text-align:left">循环浏览组窗口</td>
+</tr>
+</tbody>
+</table>
+<h2 id="任务栏键盘快捷方式-1"><a href="#任务栏键盘快捷方式-1" class="headerlink" title="任务栏键盘快捷方式"></a>任务栏键盘快捷方式</h2><hr>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">快捷键</th>
+<th style="text-align:left">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Windows 徽标键  + I</td>
+<td style="text-align:left">打开设置</td>
+</tr>
+<tr>
+<td style="text-align:left">Backspace</td>
+<td style="text-align:left">返回至设置主页</td>
+</tr>
+<tr>
+<td style="text-align:left">使用搜索框在任何页面上键入</td>
+<td style="text-align:left">搜索设置</td>
+</tr>
+</tbody>
+</table>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://arnoforst.github.io/2017/10/24/记一次折腾过程(二)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Arno Frost">
+      <meta itemprop="description" content="For Geek">
+      <meta itemprop="image" content="/images/ArnoImage.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fox Hound">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/10/24/记一次折腾过程(二)/" itemprop="url">
+                  记一次折腾过程（二）
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-10-24 14:29:01" itemprop="dateCreated datePublished" datetime="2017-10-24T14:29:01+08:00">2017-10-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2017-10-25 09:30:50" itemprop="dateModified" datetime="2017-10-25T09:30:50+08:00">2017-10-25</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">3.8k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">8 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="第二次折腾"><a href="#第二次折腾" class="headerlink" title=" 第二次折腾:"></a> 第二次折腾:</h2><p>在稳定的使用一段时间后,有一天突然不能访问了。<br>想到后台看一眼，没想到官网来了这样一段文字。</p>
+<p><img src="https://i.imgur.com/6dteqRt.png" alt=""></p>
+<p>为了避免之前其他的提供商那句：“相会有时，后会无期”的话。我还是别等了。</p>
+<h2 id="VPS："><a href="#VPS：" class="headerlink" title="VPS："></a>VPS：</h2><hr>
+<p><img src="https://i.imgur.com/ZW9lkbz.png" alt=""></p>
+<p>其实之前没搞VPS是因为需要信用卡或者PayPal，当时还没有。不过现在终于有了，又重新找了找发现有的提供商付款选项里有个支付宝，马云爸爸还是厉害啊。（比特币笑而不语）</p>
+<p><img src="https://i.imgur.com/aaSERVz.png" alt=""></p>
+<p>VPS的选择也有很多，可以上知乎看一看。别着急，耐心的看一看你是否都需要那么多配置，你需要为你过剩的CPU，内存以及硬盘空间来买单的。当然，性能越好，可做的事情就越多。你可以搭个服务器，跑点PHP，远程下载balabala的。</p>
+<p>选择好你的服务器确定好系统后，我们可以开始了。（注：这里最好使用Linux 比Windows便宜很多而且Linux毕竟是专门干这种的，而且这里还有一个坑就是可能给你的IP也被*了，具体有没有Ping一下就行了，如果发生了咱态度诚恳点找一下客服给你换个IP解决）</p>
+<p><img src="https://i.imgur.com/MQedmiO.png" alt="这是一个悲伤的故事"></p>
+<h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><hr>
+<p>然后我们需要用到SSH连接工具来登录我们的服务器。</p>
+<p>Mac和Linux下直接在终端中输入命令，连接后直接输入你的登录密码就可以直接连接。<br>在Windows系统下需要专门的客户端来SSH登录VPS。在<a href="http://www.netsarang.com/download/down_form.html?code=522&amp;utm_source=textarea.com&amp;utm_medium=textarea.com&amp;utm_campaign=article" target="_blank" rel="noopener">Xshell</a>官网下载。</p>
+<pre><code>ssh root@your_VPS_ipAddress
+</code></pre><p><strong>安装Shadowsocks：</strong></p>
+<p>Debian / Ubuntu:</p>
+<pre><code>apt-get install python-pip
+pip install shadowsocks
+</code></pre><p>CentOS:</p>
+<pre><code>yum install python-setuptools &amp;&amp; easy_install pip
+pip install shadowsocks
+</code></pre><p><strong>配置文件：</strong></p>
+<p>使用vim命令来编辑 /etc/shadowsocks.json</p>
+<pre><code>vim /etc/shadowsocks.json
+</code></pre><p>如果你不会用vim来保存和编辑的话，去用几分钟学习下简单的使用，这个神器还有有很多故事和强大之处的。</p>
+<pre><code>{
+&quot;server&quot;:&quot;my_server_ip&quot;,
+&quot;server_port&quot;:8388,
+&quot;local_address&quot;: &quot;127.0.0.1&quot;,
+&quot;local_port&quot;:1080,
+&quot;password&quot;:&quot;mypassword&quot;,
+&quot;timeout&quot;:300,
+&quot;method&quot;:&quot;aes-256-cfb&quot;,
+&quot;fast_open&quot;: false    
+}
+</code></pre><table>
+<thead>
+<tr>
+<th>字段名</th>
+<th>意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>server</td>
+<td>你的服务器地址</td>
+</tr>
+<tr>
+<td>server_port</td>
+<td>连接你服务器的端口</td>
+</tr>
+<tr>
+<td>local_address</td>
+<td>本地服务器地址</td>
+</tr>
+<tr>
+<td>local_port</td>
+<td>本地端口</td>
+</tr>
+<tr>
+<td>password</td>
+<td>密码</td>
+</tr>
+<tr>
+<td>timeout</td>
+<td>超时时间（秒）</td>
+</tr>
+<tr>
+<td>method</td>
+<td>加密方式（默认：aes-256-cfb）</td>
+</tr>
+<tr>
+<td>fast_open</td>
+<td>TCP快速开启 （true / false）</td>
+</tr>
+</tbody>
+</table>
+<p>填写正确后我们保存并退出。</p>
+<p><strong>运行:</strong></p>
+<pre><code>ssserver -c /etc/shadowsocks.json
+</code></pre><p>如果一切配置顺利，你可以在你的终端看见端口正在启动，然后我们在客户端上按照之前的一样填写好我们的配置就可以了。这里的小细节，不要打错任何东西，否则两边不一致是无论如何都都建立不起来连接的。</p>
+<p><img src="https://i.imgur.com/RV10Sah.png" alt=""></p>
+<p>好了，我们又可以愉快的玩耍了~</p>
+<h2 id="又是彩蛋："><a href="#又是彩蛋：" class="headerlink" title="又是彩蛋："></a>又是彩蛋：</h2><hr>
+<p>没错，我们通过自己建立VPS有了一个自己的专属服务器连接，这个的速度和性能完全是根据我们选择去定制的。同时，我们会发现一个小弊端，那么就是我们如何让它一直活动，不能关闭后就不能用了，那也太坑了。</p>
+<p>我们当然可以写一个shell脚本，放在开机自启动。这里有个比较取巧的方法。(感谢我的渣浪好室友,冠希童鞋:手动撒花~)</p>
+<blockquote>
+<h3 id="保持SS运行"><a href="#保持SS运行" class="headerlink" title="保持SS运行"></a>保持SS运行</h3></blockquote>
+<blockquote>
+<p><strong>使用screen命令进行远程回话管理流程：</strong></p>
+<ol>
+<li>ssh登陆到远程机器上</li>
+<li>键入screen建立一个新的会话窗口</li>
+<li>在这个新的会话窗口中运行命令（通常是一些时间较长的任务），键入C-a d，退出并保存该会话窗口<br>（这之后可以退出ssh登陆的终端，下次工作时重新ssh登陆，再进行如下步骤）</li>
+<li>screen -ls列出所有会话</li>
+<li>screen -r id重新连接会话</li>
+<li>使用exit真正退出会话</li>
+</ol>
+</blockquote>
+<p>该命令真正强大之处是退出远程登陆后，<strong>screen依然会替我们管理保存的会话</strong>，在后台执行，我们再次远程登陆后可以恢复任何会话的现场，<strong>适用于时间较长的任务</strong>。</p>
+<p>其中C-a d是<code>ctrl</code> + <code>A</code> + <code>D</code>一起键入。</p>
+<p>这样我们在screen中运行启动命令，然后按<code>ctrl</code> + <code>A</code> + <code>D</code>退出。<br>再断开连接的时候就不会中断这个命令，可以放心的关闭SSH连接了。</p>
+<hr>
+<p><strong>当然正统的方法是这样的：</strong></p>
+<p><strong>添加应用到service：</strong><br>创建脚本 <code>/etc/init.d/shadowsocks</code> 文件（其实也是 <code>/etc/rc.d/init.d/shadowsocks</code> 文件）</p>
+<pre><code>sudo vim /etc/init.d/shadowsocks
+</code></pre><p>添加以下内容：</p>
+<pre><code>#!/bin/sh
+#
+# shadowsocks start/restart/stop shadowsocks
+#
+# chkconfig: 2345 85 15
+# description: start shadowsocks/ssserver at boot time
+
+start(){
+        ssserver -c /etc/shadowsocks.json -d start
+}
+stop(){
+        ssserver -c /etc/shadowsocks.json -d stop
+}
+restart(){
+        ssserver -c /etc/shadowsocks.json -d restart
+}
+
+case &quot;$1&quot; in
+start)
+        start
+        ;;
+stop)
+        stop
+        ;;
+restart)
+        restart
+        ;;
+*)
+        echo &quot;Usage: $0 {start|restart|stop}&quot;
+        exit 1
+        ;;
+esac
+</code></pre><p><strong>然后增加这个文件的可执行权限：</strong></p>
+<pre><code>sudo chmod +x /etc/init.d/shadowsocks
+</code></pre><p><strong><br>这样就可以在 shell 中直接运行下面的命令开启程序了（重启和停止同理）：</strong></p>
+<pre><code>sudo service shadowsocks start
+</code></pre><blockquote>
+<p>注意：<br>这里以root权限运行的，如果不想以root权限运行可以用 sudo -u {user} {command}。<br>如果不给脚本文件加上其他用户的可执行权限，不带参数运行 service shadowsocks 会提示 unrecognized service。</p>
+</blockquote>
+<p><strong>设置开机启动：</strong><br>在上面脚本没有问题（也就是保留了前面10行，并且语法正确）的情况下，通过下面的命令，就可以设置程序自动启动了</p>
+<pre><code>sudo chkconfig shadowsocks on
+</code></pre><p>这样程序就会自动启动了。</p>
+<p>结合此处两个解决方案:</p>
+<p><a href="https://www.awaimai.com/439.html" target="_blank" rel="noopener">Linux将应用添加到service，并设置自动启动</a></p>
+<p><a href="https://stackoverflow.com/a/20680309/6835285" target="_blank" rel="noopener">How do I install chkconfig on Ubuntu?</a></p>
+<hr>
+<blockquote>
+<h3 id="多用户配置"><a href="#多用户配置" class="headerlink" title="多用户配置"></a>多用户配置</h3></blockquote>
+<p>我使用的每个月有2T流量，嗯…单单使用做SS的话，的确过剩了。</p>
+<p>我们可以开辟多个端口，为每个端口使用不同的密码来登录。</p>
+<pre><code>{  
+ &quot;server&quot;:&quot;my_server_ip&quot;,  
+ &quot;local_address&quot;: &quot;127.0.0.1&quot;,  
+ &quot;local_port&quot;:1080,  
+  &quot;port_password&quot;: {  
+    &quot;2333&quot;:&quot;mima12345&quot;,
+    &quot;6666&quot;:&quot;mima12345&quot;
+ },  
+ &quot;timeout&quot;:300,  
+ &quot;method&quot;:&quot;aes-256-cfb&quot;,  
+ &quot;fast_open&quot;: false  
+}
+</code></pre><p>这其中加密方式 我还是推荐rc4-md5的。或者他们说chacha20对移动端访问速度比较快。</p>
+<p>主要是AES加密太耗时。</p>
+<p>另附地址：<a href="http://calonye.com/22419.html" target="_blank" rel="noopener">多用户配置</a></p>
+<h2 id="结束"><a href="#结束" class="headerlink" title="结束:"></a>结束:</h2><hr>
+<p>经过这样我们可以暂时有一个小小的窗户，来继续访问官网的最新技术。</p>
+<p>扔给你个小软件<a href="https://sspai.com/post/38846" target="_blank" rel="noopener">HyperApp</a>~（撒花~φ(&gt;ω&lt;*) ）</p>
+<p>至此，我们已经可以实现一个很理想的状态。但是能不能更好地让家里全局的设备，比如Chromecat也支持呢？下一篇我会介绍。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://arnoforst.github.io/2017/10/24/记一次折腾过程(一)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Arno Frost">
+      <meta itemprop="description" content="For Geek">
+      <meta itemprop="image" content="/images/ArnoImage.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fox Hound">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/10/24/记一次折腾过程(一)/" itemprop="url">
+                  记一次折腾过程（一）
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-10-24 13:03:08" itemprop="dateCreated datePublished" datetime="2017-10-24T13:03:08+08:00">2017-10-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2017-10-25 09:42:48" itemprop="dateModified" datetime="2017-10-25T09:42:48+08:00">2017-10-25</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">2.8k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">6 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="写在前面"><a href="#写在前面" class="headerlink" title=" 写在前面:"></a> 写在前面:</h2><p>做安卓的都知道，安卓是归谷歌的。谷歌很多最新的好玩儿有趣的功能，第一时间对移动端的支持大部分也都是在安卓上。身为平常娱乐，有些东西可有可无，也就作罢。但是身为一名开发者，你经常要了解最新的咨询需要上官网，那么这个官网还不能访问，这种情况是不能容忍的。本文是我对这系列折腾过程的记录，当做一个对过去的总结。</p>
+<h2 id="Why？"><a href="#Why？" class="headerlink" title="Why？"></a>Why？</h2><hr>
+<blockquote>
+<p>整体软件环境</p>
+</blockquote>
+<p>安卓的开源是便利的，但同样是危险的。当开发者发现安卓的各种可定制的功能时，同样也是对一名开发者或者说一个软件团队的技术与「道德」的考验。</p>
+<p>常驻后台，相互唤醒。国内安卓的App市场里各种应用的审核并不像想想象中那么严，尤其是身为一名开发者后，发现国内环境的确没有Play Store上那种基于机器学习App检测系统更安全。</p>
+<p>如果你可以可以看看QQ在Play Store上的功能要简约明朗很多，我想无论如何Play Store多多少少制约了一下现在这种软件的「店大欺客」的状态，什么微信<strong>必须</strong>给定位权限，支付宝<strong>必须</strong>要给电话拨打权限，否则就不让用。这相当有悖于谷歌的设计动态权限申请的原则。国内虽然也有一大堆「国人习惯」的第三方ROM来制衡这个混乱的生态圈，但这也给很多开发者带来了更多的适配兼容的问题。(´-ι_-｀)</p>
+<blockquote>
+<p>海外连接速度<strong>过慢</strong></p>
+</blockquote>
+<p>作为一个开发者，上到软件的下载，下到linux的代码仓，好多软件的更新支持都需要一个稳定速度的带宽支持。说到这点，就好比我刚开始用AS开发，一个几百兆的gradle文件愣是让我下载了半天时间，除了学校当时网速有点低之外更主要还是本身对海外节点的访问速度。</p>
+<blockquote>
+<p>You Can Learn More And More</p>
+</blockquote>
+<p>我只是一个纯粹的喜爱生活，热爱技术的人，好多东西明明应该是「无害」的，就好比我想看个谷歌IO大会的直播视频，却难以实现。好在谷歌在国内的影响力又渐渐有了些起色，虽然现在也有腾讯的同声转播，但是总感觉哪里有点不一样。</p>
+<h2 id="What？"><a href="#What？" class="headerlink" title="What？"></a>What？</h2><hr>
+<p>最简单的人们听过最多的也就是VPN，这个简单粗暴和正常软件的使用没什么太大难度。很多时候我们只是使用了一个服务商提供的已经设置好的「工具」，来直接使用，多数的直接就是提供商自己的出的软件，定制化不是很高。理论上和SS速度不应该差距太多，但是实际使用中稳定性，速度体验都有很大折扣。当然在企业里VPN这种东西还是很方便的，你可以远程访问内网环境来提交你的文件管理日常等。</p>
+<p>我选择的是Shadowsocks，简称SS。</p>
+<p>简单理解的话，Shadowsocks是将以前通过SSH创建的Socks5协议拆开成Server端和client端，下面这个原理图能简单介绍其翻墙原理，基本上和利用SSH tunnel大致类似：</p>
+<p><img src="https://i.imgur.com/6ZDVSNr.png" alt=""></p>
+<blockquote>
+<ol>
+<li>PC客户端（即你的电脑）发出请求基于Socks5协议跟SS-Local端进行通讯，由于这个SS-Local一般是本机或路由器等局域网的其他机器，不经过GFW，所以解决GFW通过特征分析进行干扰的问题。</li>
+<li>SS-Local和SS-Server两端通过多种可选的加密方法进行通讯，经过GFW的时候因为是常规的TCP包，没有明显特征码GFW也无法对通讯数据进行解密，因此通讯放行。</li>
+<li>SS-Server将收到的加密数据进行解密，还原初始请求，再发送到用户需要访问的服务网站，获取响应原路再返回SS-04，返回途中依然使用了加密，使得流量是普通TCP包，并成功穿过GFW防火墙。</li>
+</ol>
+</blockquote>
+<h2 id="How？"><a href="#How？" class="headerlink" title="How？"></a>How？</h2><hr>
+<p><a href="https://github.com/shadowsocksr-backup/shadowsocks-rss" target="_blank" rel="noopener">各平台位置</a></p>
+<blockquote>
+<p>（注： 这里的SS和SSR还是有区别的 不过本篇暂且不说。）<br>找到一个稳定的提供商，根据节点信息来填写后连接就好。而且二维码的加入更是降低了用户门槛，很多时候只需要点击客户端的扫描二维码就可以啦！</p>
+</blockquote>
+<p><img src="https://i.imgur.com/09eRspU.png" alt=""></p>
+<p>你可以在小伙伴的客户端或者提供商页面找到二维码，其实就是包含我所填入的这些信息的一段内容。</p>
+<p><img src="https://i.imgur.com/CzREqdg.png" alt=""></p>
+<p>然后我们直接点击扫描屏幕上的二维码就会拿到识别信息了。如果没有的话，手动填写即可。（这里mac客户端是SS那么没有混淆和协议选项的情况下先不写。或者有的使用的是启动参数，-O -o等）</p>
+<p><img src="https://i.imgur.com/EhZ1piC.png" alt=""></p>
+<p>最后我们可以选择服务器来切换不同的节点，同样可以开启全局。也可在需要时开启。</p>
+<p>然后我们就可以愉快的看着我们gradle下载文件的速度变快了不少。</p>
+<h2 id="当然还有彩蛋"><a href="#当然还有彩蛋" class="headerlink" title="当然还有彩蛋"></a>当然还有彩蛋</h2><p>这是折腾过程的第一部分，没有什么复杂的东西，如果你要是动手实现的话，估计几分钟十几分钟就能搞定。当然我们们可以做的还远不止这些。</p>
+<blockquote>
+<h2 id="为软件设置代理"><a href="#为软件设置代理" class="headerlink" title="为软件设置代理"></a>为软件设置代理</h2></blockquote>
+<ol>
+<li>公司里大局域网屏蔽了一切和音视频相关的内容网站和信息，连网易云音乐都不让听。小伙伴们可着急了，音乐是动力啊有木有。 </li>
+<li>全局代理虽然简单暴力，让你直接达到直连的效果。但是你会发现会有很多弊端：访问国内网站时候我们仍然会走这个代理模式，这就导致了速度变慢，而且很多提供商每个月的流量也都有限。虽然正常使用下流量基本够用，但是也是浪费了不必要的资源。</li>
+</ol>
+<p>在运行客户端后我们开始，选择设置中为局域网开启代理。</p>
+<p><img src="https://i.imgur.com/a2cbV80.png" alt=""></p>
+<p>然后在网易云音乐里的设置里找到下载，填写好本地地址和端口，点击测试发现代理可用，然后重启软件，发现每日推荐又活过来了。</p>
+<p><img src="https://i.imgur.com/yeLt6ag.png" alt=""></p>
+<p>以此类推，你会发现好多软件都可以这样设置代理。达到节约流量和不影响你日常的网速效果。</p>
+<blockquote>
+<h2 id="更灵活的配置方式-PAC"><a href="#更灵活的配置方式-PAC" class="headerlink" title="更灵活的配置方式 PAC"></a>更灵活的配置方式 PAC</h2></blockquote>
+<blockquote>
+<p>代理自动配置（英语：Proxy auto-config，简称PAC）是一种网页浏览器技术，用于定义浏览器该如何自动选择适当的代理服务器来访问一个网址。<br>一个PAC文件包含一个JavaScript形式的函数“FindProxyForURL(url, host)”。这个函数返回一个包含一个或多个访问规则的字符串。用户代理根据这些规则适用一个特定的代理器或者直接访问。当一个代理服务器无法响应的时候，多个访问规则提供了其他的后备访问方法。浏览器在访问其他页面以前，首先访问这个PAC文件。PAC文件中的URL可能是手工配置的，也可能是是通过网页的网络代理自动发现协议（WPAD）自动配置的。</p>
+</blockquote>
+<p>简单来说就是国内走国内，国外走代理。<br>你可以在客户端找到这个选项，我们可以设置国内不走这个节点，国外自动走代理。</p>
+<p><img src="https://i.imgur.com/F9WTFks.png" alt=""></p>
+<p>这里我用了一个好像不是最优不过也还好：</p>
+<blockquote>
+<p><a href="http://jiasd123.oss-cn-hangzhou.aliyuncs.com/list.txt" target="_blank" rel="noopener">http://jiasd123.oss-cn-hangzhou.aliyuncs.com/list.txt</a></p>
+</blockquote>
+<p>同样我们可以自己通过JS编辑规则，来实现更高度的定制化。语法规则和具体，可以查阅这几个参考资料:</p>
+<ul>
+<li><a href="http://www.cnblogs.com/edward2013/p/5560836.html" target="_blank" rel="noopener">浅析PAC，教你动手修改你的PAC文件及user-rule文件实现自动代理</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/22166179?refer=barretlee" target="_blank" rel="noopener">详解代理自动配置 PAC-知乎专栏</a></li>
+<li><a href="http://blog.csdn.net/xundh/article/details/48193369" target="_blank" rel="noopener">PAC脚本语法（代理自动配置）</a></li>
+</ul>
+<p><img src="https://i.imgur.com/L4unCUQ.png" alt=""></p>
+<p>我们还可以通过软件来直接在Chrome上集成这种自动切换的插件。</p>
+<p>比如：<a href="https://switchyomega.com/" target="_blank" rel="noopener">proxy-switchyomega</a> </p>
+<p>跟着教程走一遍，你会发现PAC的神器之处。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><hr>
+<p>祝下载不再缓慢，祝git把把顺畅。<br>当然我们只是走了第一步，还有很多可提升的空间，后续我会再写两篇。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://arnoforst.github.io/2017/08/26/2017七夕/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Arno Frost">
+      <meta itemprop="description" content="For Geek">
+      <meta itemprop="image" content="/images/ArnoImage.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fox Hound">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/26/2017七夕/" itemprop="url">
+                  2017七夕
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-08-26 19:36:19" itemprop="dateCreated datePublished" datetime="2017-08-26T19:36:19+08:00">2017-08-26</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2017-10-24 12:40:58" itemprop="dateModified" datetime="2017-10-24T12:40:58+08:00">2017-10-24</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">1.4k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">3 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="2017七夕"><a href="#2017七夕" class="headerlink" title=" 2017七夕"></a> 2017七夕</h2><blockquote class="blockquote-center"><p>我爱你，没有技巧，野蛮真诚。</p>
+</blockquote>
+<p>老婆：</p>
+<p>　　2017年，七夕快乐。我知道七夕节这一天的你，还在东北往北京行驶的长途大巴上。这时候的你，或是在望着沿途公路的风景，或是翻看着手机与周围人说话，也可能因为太疲劳正睡着。为了能和以往有些不同，我先写了草稿，又打在电脑上打印出来这次的信。<br>　　<br>　　我知道工作和生活一定要平衡的好，既要把工作弄好，也要把生活过好。这样才会有权利去照顾别人，才有资格成为你身边的人。<br>　　<br>　　时光真快，转眼就是两年多的光景，感谢能有你这一路的陪伴。你说凡事顺其自然，我当然知道这句话的意思。我很珍惜能和你在一起的每段时光。这段时间经常惹你生气，我害怕，害怕每次你生气的时候。怕哪一次就真的失去你，所以每次的礼物都当是最后一次。只要我能力所及，总是想能让你过的和别人女朋友一样开心。<br>　　<br>　　对美好的东西,我总是拙于言辞,对美好的事物如此,对你也是如此。<br>　　<br>　　你知道，我想爱你。我想多主动的表达我的爱意，也错误的表达好多样子，害你总是对我有些想法，好在我们那天说开了。我想了很多种再次见到你要怎样的定格才算永久，怎样的相遇姿势才能不辜负一场不轰轰烈烈，但是刻骨铭心的爱情。　　<br>　　<br>　　我知道你内心里还是住着一个可爱善良的小公主，虽然有时候你会突然的高冷女神范儿。我问你想我没的时候，你总是违背心思的说没想我。你知道吗，虽然你叫我老公的次数很有限，但是每次都让我好开心。让我知道其实你很在乎我，也为我付出了那么多辛苦。每个周末的两天似乎是上天对我们最简单的恩赐，虽然你会经常有事去忙。但是你也从来没有因为自己太累而对我的语音要求说不，当然生气的时候除外。<br>　　<br>　　<blockquote class="blockquote-center"><p>想带你走过每个春夏秋冬，不想太普通，不想落于俗套，却也不想弄得浮夸做做。</p>
+</blockquote></p>
+<p>   想在你开心的时候坐在沙发上听你说天南海北，在你需要的时候有一个可以依靠的肩膀。想了解你穿衣服的风格，想明白对化妆品牌的偏爱，想知道你爱吃的每个味道。太多的想要了解，太多的想要知道。想慢慢的守着我们的幸福，简简单单却丰富多彩。<br>　　<br>　　我这段时间过得其实并不是想象中的好，但是眼前的所有都是为了能更好的见到你的考验。我也在努力争取时间，努力丰富自己，好早日在北京与你相聚。这件事情，我定不负你。<br>　　<br>　　<blockquote class="blockquote-center"><p>可遇不可求，珍惜便是。</p>
+</blockquote><br>　　<br>　　其实我真的很想很想在七夕之前完成好它，每个机关都想着最完美的实现方式。但是任何能让你感到惊喜的机会，都不想错过。哪怕只有一毫秒的惊艳之感，就要用力去做。我不知道当这个盒子到你手里的时候,会不会是准时的七夕。准确来说它不算是一个盒子吧，我知道这又是一个毫不实用，也无处安放的东西。没有地方的话，尽管让它魂归垃圾桶。只要能让你开心这一秒，这都不算是事情。<br>　　<br>　　（如果老婆大人还有空间的话，这个小小的盒子就请先寄存在那也好。等我去北京，我帮你放着。）<br>　　<br>　　如果余生来得及，你是我所有的不介意。<br>　　<br>　　                                                            　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　徐鑫<br>　　<br>　　                                                                　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　2017年8月25日晚</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://arnoforst.github.io/2017/06/22/Android Studio更改R文件位置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Arno Frost">
+      <meta itemprop="description" content="For Geek">
+      <meta itemprop="image" content="/images/ArnoImage.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fox Hound">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/22/Android Studio更改R文件位置/" itemprop="url">
+                  Android Studio更改R文件位置
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-06-22 13:23:30 / 修改时间：13:58:38" itemprop="dateCreated datePublished" datetime="2017-06-22T13:23:30+08:00">2017-06-22</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">461</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">1 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="前言"><a href="#前言" class="headerlink" title=" 前言"></a> 前言</h2><p>AndroidStudio（以下简称AS）内置了多种强大的快捷操作，最近项目需要在另一个项目基础上更改，替换包名是个麻烦的工作。安卓程序中的R文件改名的各种坑，导致找不到文件的错误。</p>
+<p>后来发现只需要几个简单的步骤就可以将R文件位置替换好。</p>
+<h2 id="步骤一"><a href="#步骤一" class="headerlink" title="步骤一"></a>步骤一</h2><ul>
+<li>视图切换为<code>Project</code>或者<code>Android</code>，方便查找文件。</li>
+</ul>
+<p><img src="http://i.imgur.com/s9ARji6.png" alt=""></p>
+<p>以Android视图为例：</p>
+<ul>
+<li>找到AndroidManifest文件，找到package中的包名并选中</li>
+</ul>
+<p><img src="http://i.imgur.com/nZvPIT3.png" alt=""></p>
+<ul>
+<li>右键<br><code>Refactor</code> -&gt; <code>Rename</code> 或者快捷键<code>shift</code> + <code>F6</code></li>
+</ul>
+<p><img src="http://i.imgur.com/ksnKdvK.png" alt=""></p>
+<ul>
+<li>点击<code>RenamePackage</code>，然后输入所需的R文件名字，点击<code>Refactor</code> 过程可能会有点卡顿，等待画面加载完毕。<br>（过程中出现的重命名都用<code>Do Refactor</code>）</li>
+</ul>
+<p><img src="http://i.imgur.com/O0eniLK.png" alt=""></p>
+<h2 id="步骤二"><a href="#步骤二" class="headerlink" title="步骤二"></a>步骤二</h2><ul>
+<li>打开对应Module的build.gradle文件,更改相应的applicationId即可。</li>
+</ul>
+<p><img src="http://i.imgur.com/dKAGhzw.png" alt=""></p>
+<ul>
+<li>然后点击<code>Build</code> -&gt; <code>Rebuild Project</code>等待Build完成</li>
+</ul>
+<p><img src="http://i.imgur.com/kq155GY.png" alt=""></p>
+<ul>
+<li>这时候会发现包名及R文件已经更改。</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://arnoforst.github.io/2017/06/12/安卓开发常用软件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Arno Frost">
+      <meta itemprop="description" content="For Geek">
+      <meta itemprop="image" content="/images/ArnoImage.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fox Hound">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/12/安卓开发常用软件/" itemprop="url">
+                  安卓开发常用软件
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-06-12 10:36:10" itemprop="dateCreated datePublished" datetime="2017-06-12T10:36:10+08:00">2017-06-12</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-05-11 16:37:52" itemprop="dateModified" datetime="2018-05-11T16:37:52+08:00">2018-05-11</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技巧/" itemprop="url" rel="index"><span itemprop="name">技巧</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">893</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">2 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <div class="note primary"><h3 id="系统工具类"><a href="#系统工具类" class="headerlink" title="系统工具类"></a>系统工具类</h3><p>基石软件</p></div>    
+<blockquote>
+<p><a href="http://www.160.com/" target="_blank" rel="noopener">驱动人生软件</a></p>
+</blockquote>
+<blockquote>
+<p><a href="http://guanjia.qq.com/?ADTAG=media.buy.baidu.DNGJSEM" target="_blank" rel="noopener">电脑管家</a></p>
+</blockquote>
+<blockquote>
+<p><a href="http://www.nvidia.cn/Download/index.aspx?lang=cn" title="NVIDIA" target="_blank" rel="noopener">NVIDIA</a></p>
+</blockquote>
+<blockquote>
+<p><a href="http://pinyin.sogou.com/" target="_blank" rel="noopener">搜狗输入法</a></p>
+</blockquote>
+<blockquote>
+<p><a href="http://www.google.cn/chrome/browser/desktop/index.html" target="_blank" rel="noopener">Chrome</a></p>
+</blockquote>
+<blockquote>
+<p><strong>Chorme常用插件:</strong></p>
+</blockquote>
+<ul>
+<li>TamperMonkey</li>
+<li>穹顶穿越</li>
+<li>Smooth Key Scroll</li>
+<li>小番茄</li>
+</ul>
+<blockquote>
+<p><a href="https://github.com/oldj/SwitchHosts" target="_blank" rel="noopener">SwitchHosts</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://raw.githubusercontent.com/racaljk/hosts/master/hosts" target="_blank" rel="noopener">hosts文件下载</a></p>
+</blockquote>
+<div class="note primary"><h3 id="开发工具类"><a href="#开发工具类" class="headerlink" title="开发工具类"></a>开发工具类</h3><p>开发必要支持</p></div>
+<blockquote>
+<p><a href="https://developer.android.com/studio/index.html" target="_blank" rel="noopener">Android Studio</a></p>
+</blockquote>
+<blockquote>
+<p><a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html" target="_blank" rel="noopener">JDK</a></p>
+</blockquote>
+<blockquote>
+<p><a href="http://www.eclipse.org/downloads/" target="_blank" rel="noopener">Eclipse</a></p>
+</blockquote>
+<blockquote>
+<p><a href="http://download.csdn.net/detail/liu_tao/9257815#comment" target="_blank" rel="noopener">ADT23.0.7</a></p>
+</blockquote>
+<blockquote>
+<p><a href="http://www.myeclipsecn.com/" target="_blank" rel="noopener">Myeclipse</a></p>
+</blockquote>
+<blockquote>
+<p><a href="http://download.csdn.net/detail/zxc406924714/4382091" target="_blank" rel="noopener">Sqlite Expert</a></p>
+</blockquote>
+<blockquote>
+<p><a href="http://pan.baidu.com/s/1i3vEHb3" target="_blank" rel="noopener">ApkToolKit</a></p>
+</blockquote>
+<blockquote>
+<p><a href="http://www.52pojie.cn/forum.php?mod=viewthread&amp;tid=405618&amp;page=1" target="_blank" rel="noopener">VMware破解版</a></p>
+</blockquote>
+<blockquote>
+<p><a href="http://www.mysql.com/downloads/" target="_blank" rel="noopener">MySQL</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://tomcat.apache.org/" target="_blank" rel="noopener">Tomcat</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://developers.google.com/android/images" target="_blank" rel="noopener">Android镜像</a></p>
+</blockquote>
+<blockquote>
+<p><a href="http://www.wugfresh.com/nrt/" target="_blank" rel="noopener">Nexus toolkit</a></p>
+</blockquote>
+<div class="note primary"><h3 id="文字处理类"><a href="#文字处理类" class="headerlink" title="文字处理类"></a>文字处理类</h3><p>文字编辑所需</p></div>
+<blockquote>
+<p><a href="http://www.xiumu.org/note/sublime-text-3.shtml" target="_blank" rel="noopener">Sublime Text3 破解</a></p>
+</blockquote>
+<blockquote>
+<p><a href="http://www.jb51.net/softs/277559.html" target="_blank" rel="noopener">Ultracompare</a></p>
+</blockquote>
+<blockquote>
+<p><a href="http://markdownpad.com/" target="_blank" rel="noopener">MarkdownPad</a></p>
+</blockquote>
+<blockquote>
+<p><a href="http://markdownpad.com/download/awesomium_v1.6.6_sdk_win.exe" target="_blank" rel="noopener">Awesomium 1.6.6 SDK</a></p>
+</blockquote>
+<blockquote>
+<p>邮箱:<a href="mailto:**Soar360@live.com" target="_blank" rel="noopener">**Soar360@live.com</a>**</p>
+</blockquote>
+<blockquote>
+<p>授权秘钥:</p>
+</blockquote>
+<pre><code>GBPduHjWfJU1mZqcPM3BikjYKF6xKhlKIys3i1MU2eJHqWGImDHzWdD6xhMNLGVpbP2M5SN6bnxn2
+kSE8qHqNY5QaaRxmO3YSMHxlv2EYpjdwLcPwfeTG7kUdnhKE0vVy4RidP6Y2wZ0q74f47fzsZo45J
+E2hfQBFi2O9Jldjp1mW8HUpTtLA2a5/sQytXJUQl/QKO0jUQY4pa5CCx20sV1ClOTZtAGngSOJtIOFXK599sBr5aIEFyH0K7H4BoNMiiDMnxt1rD8Vb/ikJd
+hGMMQr0R4B+L3nWU97eaVPTRKfWGDE8/eAgKzpGwrQQoDh+nzX1xoVQ8NAuH+s4UcSeQ==
+</code></pre><div class="note primary"><h3 id="常用软件类"><a href="#常用软件类" class="headerlink" title="常用软件类"></a>常用软件类</h3><p>功能扩展</p></div>
+<blockquote>
+<p><a href="http://www.getwox.com/" target="_blank" rel="noopener">wox</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://sourceforge.net/projects/ccseer/" target="_blank" rel="noopener">seer官网下载</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://justgetflux.com/" target="_blank" rel="noopener">flux</a></p>
+</blockquote>
+<blockquote>
+<p><a href="http://mofang.ruanmei.com/" target="_blank" rel="noopener">魔方</a></p>
+</blockquote>
+<blockquote>
+<p><a href="http://www.mochiwang.com/" target="_blank" rel="noopener">小黑屋云写作软件</a></p>
+</blockquote>
+<blockquote>
+<p><a href="http://www.51dzt.com/" target="_blank" rel="noopener">金山打字通</a></p>
+</blockquote>
+<blockquote>
+<p><a href="http://pic.2345.com/" target="_blank" rel="noopener">2345软件</a></p>
+</blockquote>
+<blockquote>
+<p><a href="http://haozip.2345.com/" target="_blank" rel="noopener">好压</a></p>
+</blockquote>
+<blockquote>
+<p><a href="http://www.voidtools.com/" target="_blank" rel="noopener">Everything</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://www.yinxiang.com/download/" target="_blank" rel="noopener">印象笔记</a></p>
+</blockquote>
+<p><strong>整理:</strong> ArnoFrost</p>
+<p><strong>版本:</strong>v1.2    2017年6月14日15:04:39</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://arnoforst.github.io/2017/06/12/IC卡破解介绍/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Arno Frost">
+      <meta itemprop="description" content="For Geek">
+      <meta itemprop="image" content="/images/ArnoImage.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fox Hound">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/12/IC卡破解介绍/" itemprop="url">
+                  IC卡破解教程
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-06-12 10:36:10" itemprop="dateCreated datePublished" datetime="2017-06-12T10:36:10+08:00">2017-06-12</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-05-11 16:40:08" itemprop="dateModified" datetime="2018-05-11T16:40:08+08:00">2018-05-11</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技巧/" itemprop="url" rel="index"><span itemprop="name">技巧</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">4.5k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">9 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <div class="note info"><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3></div>
+
+　　我的学校并不是“211”,“985”之类的重点大学，学校的热水也不是免费。每学期补贴的20多块根本不够用，而且丢了之后也**懒得去买**，关键还是觉得**热水** 这个东西**太奢侈**。走过弯路，不过也算比较顺利的解决了问题。后来我还自己编写了一个带GUI程序和安卓小DEMO软件，直到后来学校把设备都换成**联网**，并且实名制。免费水卡算是告一段落。
+
+　　好在升级设备前也把水卡钱充的足够多了，我不贪心够用就好，仅仅帮助我女朋友和室友在内的几个人而已。本文是把我理解的一些入门知识梳理开来，特此纪念一下这段大学时光。自学能力有限，不足之处望不吝指正。
+
+　　我把实现过程分成两个部分，可以先看**原理简介**，也可以直接看**实现过程**。
+<br>
+<div class="note info"><h3 id="原理简介"><a href="#原理简介" class="headerlink" title="原理简介"></a>原理简介</h3></div>
+<p>1.首先介绍一个概念，<a href="http://baike.baidu.com/link?url=7tGP8VDdC3AEO5P7G-1OzIf_yUIdpyQhrKyOknEtkvp25htStZQEPpy1DWFGlcDmq1HonwDLFKglh_qcZ2QVPQfz360hWlkuZjMLyJz1KKJDNieHDLcv1LttPN2bCv3HjR3ItzLgnjPvYdgP1_Ti3zGtlquvP6jvN9KL8tGVvG59QmLxwxNYKPfxCQEj48HNcQ2HbAYhN2184QZd2XOipq" target="_blank" rel="noopener">RFID</a></p>
+<blockquote class="blockquote-center"><p><strong>射频识别</strong>，<em>RFID</em>（Radio Frequency Identification）技术，又称无线射频识别，是一种通信技术，可通过无线电讯号识别特定目标并读写相关数据，无需识别系统与特定目标之间建立机械或光学接触。 </p>
+</blockquote>
+<p>射频的话，一般是<em>微波</em>，1-100GHz，适用于短距离识别通信。<br>RFID读写器也分移动式的和固定式的，目前RFID技术应用很广，如：图书馆，门禁系统，食品安全溯源等。</p>
+<p>从概念上来讲，RFID类似于<em>条码扫描</em>，对于条码技术而言，它是将已编码的条形码附着于目标物并使用专用的扫描读写器利用光信号将信息由条形磁传送到扫描读写器；</p>
+<p>而RFID则使用专用的RFID<strong>读写器</strong>及专门的可附着于目标物的RFID标签，利用频率信号将信息由RFID标签传送至RFID读写器。</p>
+<p>从结构上讲RFID是一种简单的<strong>无线系统</strong>，只有两个基本器件，该系统用于控制、检测和跟踪物体。系统由一个询问器和很多应答器组成。</p>
+<p>2.简单说下RFID<strong>工作原理:</strong></p>
+<p>卡片由一个卷绕天线和特定用途集成电路模块组成。</p>
+<p>其中，模块由一个高速(106KB波特率)的RF接口。一个控制单元和一个8K位E2PROM组成。读写器向MF1卡发出一组固定频率(13.56MHZ)的电磁波，</p>
+<p>卡片内有一个LC串联谐振电路，其频率与读写器发射的频率相同，</p>
+<p>在电磁波的激励下，LC谐振电路产生共振，从而使谐振电容内有了电荷，</p>
+<p>在这个电容的另一端，接有一个单向导通的电子泵，将电容内的电荷送到模块存储电容内储存，</p>
+<p>当所积累的电荷达到2V以上时，此电容可作为电源向模块电路提供工作电压，将卡内数据发射出去或接收读写器的数据。</p>
+<p>3.<strong>存储结构:</strong></p>
+<table>
+<thead>
+<tr>
+<th>字节号</th>
+<th>0 1 2 3 4 5</th>
+<th>6 7 8 9</th>
+<th>10 11 12 13 14 15</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>控制值</td>
+<td>FF FF FF FF FF FF</td>
+<td>07 08 69</td>
+<td>FF FF FF FF FF FF</td>
+</tr>
+<tr>
+<td>说明</td>
+<td>密码A（0~5字节）</td>
+<td>存储控制</td>
+<td>密码B（10~15字节）</td>
+</tr>
+</tbody>
+</table>
+<p>4.<strong>控制属性：</strong></p>
+<p>每个扇区的用户密码和存取控制条件都是独立设置的，可以根据实际需要设定各自的密码及存取控制。</p>
+<p>在存取控制中，每个块都有三个控制位相对应，用以决定某数据块或控制块的读写条件，定义为：”CXxy”，见表1所示。 </p>
+<p>其中CX代表每块控制位号(C1～C3)，x代表某块所属扇区号(0～15)， y代表该扇区内某块号。例如C1x2 即为x扇区内块2的第1控制位，余此类推。 </p>
+<div class="note warning"><p>注：控制位的设置存放在存取控制字节中，见表2所示。 </p></div>
+	　　
+
+>**表1：控制位定义"CXxy"**
+>
+块0|		C1x0|	C2x0|	C3x0|	用户数据块，(0区0块除外)
+---|		--- |	----|	----|
+块1|		C1x1|	C2x1|	C3x1|	用户数据块
+块2|		C1x2|	C2x2|	C3x2|	用户数据块
+块3|		C1x3|	C2x3|	C3x3|	密匙存取控制块
+
+>**表2:三个控制位在存取控制字节中的位置**(注：" _b" 表示取反)
+>
+|位号		|	bit 7|	6|	5|	4|	3|	2|	1|	0
+---			| ---	| ----|---|---|---|---|---|---
+**字节号**	|		|	|	|	|	|	|	|	|	|
+字节6	||C2x3_b	|C2x2_b	|C2x1_b	|C2x0_b	|C1x3_b	|C1x2_b	|C1x1_b	|C1x0_b|
+字节7	||C1x3	|C1x2	|C1x1	|C1x0	|C3x3_b	|C3x2_b	|C3x1_b	|C3x0_b|
+字节8	||C3x3	|C3x2	|C3x1	|C3x0	|C2x3	|C2x2	|C2x1	|C2x0|
+字节9	||BX7	|BX6	|BX5	|BX4	|BX3	|BX2	|BX1	|BX0|
+所属块	||块3控制位|块2控制位	|块1控制位	|块0控制位	|块3控制位	|块2控制位	|块1控制位	|块0控制位|
+
+关于更多细节知识，点击这里: [mifare卡的初值说明及使用方法](http://pan.baidu.com/s/1jHCeVkU)
+
+
+
+<br>
+<div class="note info"><h3 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h3></div>
+<p>　　<br>1.<strong>分清卡的种类：</strong></p>
+<p>　　我们破解卡，首先要分清是什么卡。<a href="http://baike.baidu.com/link?url=7tGP8VDdC3AEO5P7G-1OzIf_yUIdpyQhrKyOknEtkvp25htStZQEPpy1DWFGlcDmq1HonwDLFKglh_qcZ2QVPQfz360hWlkuZjMLyJz1KKJDNieHDLcv1LttPN2bCv3HjR3ItzLgnjPvYdgP1_Ti3zGtlquvP6jvN9KL8tGVvG59QmLxwxNYKPfxCQEj48HNcQ2HbAYhN2184QZd2XOipq" target="_blank" rel="noopener">RFID</a>里有很多种卡，IC卡现在最为常见。ID卡过去较为常见，逐渐被淘汰。现多数卡都是IC卡，M1类型的。为了帮助大家识别，介绍个简单方法。</p>
+<p><img src="http://i.imgur.com/iyB4fcR.jpg" alt=""><br><img src="http://i.imgur.com/UtzOH7q.jpg" alt=""><br><img src="http://i.imgur.com/qFHqPhB.jpg" alt=""></p>
+<p>　　<br>2.<strong>破解原理：</strong></p>
+<blockquote class="blockquote-center"><p>IC卡的特点是由16个扇区存储数据（<strong>0~15</strong>，不是16，0扇区是第一个），0扇区用来存储卡号，所以机器上<strong>直接能读取到卡号</strong>。每个扇区的数据有４块，即0~3。前三个用于存储数据，最后一个块用来存放KeyA和KeyB。先不用管有什么区别，只要记住这个就是破解一个扇区的关键就好。 </p>
+</blockquote>
+<p>　　紧接着如果我们有了<strong>KeyA</strong>就可以更改相应扇区的块里面的值。（这样听起来是不是简单多了？）<br>　　<br><img src="http://i.imgur.com/7xU2e5p.jpg" alt=""></p>
+<p>　　被标为<strong>蓝色的就是KeyA</strong>，后面跟着的ff07 8069是默认控制位，先不用理会，后面的6efd 32e1 1f59就是KeyB。只要我们获得到这个，就可以随意更改其他三个块里面的数据。（其实第四个块，块3也能更改，后面会提到，一般不需要因为你改了，机器不识别也没用0.0）细心的你可能发现这KeyA和KeyB不TM一样嘛！本来应该不一样，这里它俩一样更是降低了安全系数，同时为以后我们穷举破解减少了时间。</p>
+<p>　　这是一个卡<strong>0扇区</strong>的数据，第一行为0块，卡号就是存在这里。</p>
+<p>　　也是识别一张唯一卡的标志，<strong>它是不会被更改的</strong>，就是说你即使知道KeyA也更改不了这个扇区里面的值。这样做的目的当然是有的，就是说如果以后出了问题通过日志记录会知道是哪张卡。</p>
+<p><img src="http://i.imgur.com/UctsbM0.jpg" alt=""></p>
+<p>　　<br>3.<strong>破解过程：</strong></p>
+<p>　　说了这么多知道了原理，现在终于开始操作了。</p>
+<p>　　连接上ACR122U读卡器到电脑，运行M1卡服务程序。</p>
+<p>　　程序会自动识别出读卡器，初次安装可能会自动安装驱动，稍等一下就行。直到读卡器的灯亮起红色，这时候如果程序没识别读卡器重启一次程序就行。</p>
+<p><img src="http://i.imgur.com/TfMmApC.jpg" alt=""></p>
+<p>　　这个时候已经识别出读卡器，将需要破解的卡放在上面，读卡器的灯会变成绿色，并会有一声“滴”表示已经检测到卡片。点击开始破解，进入穷举。</p>
+<p>　　等待破解，这个过程看卡加密扇区多少和密码强度有关，只要不是全扇区加密耐心等待一会儿就好。极个别情况，我试过会长时间无响应，再试一次就好。破解完成后读卡器会闪一下，并有一声“滴”。</p>
+<p>　　在软件根目录下会按日期生成dump文件，用ultra edit 或者sublime text之类的编辑软件就能直接打开，看见里面的数据。</p>
+<p><img src="http://i.imgur.com/1eePs6m.png" alt=""></p>
+<p>　　接下来的范畴就是<strong>改数据</strong>，我两次打水后的金额一定不相同。以此找出数据区，推荐使用ultra compare这个软件。省着自己人工找了。</p>
+<p><img src="http://i.imgur.com/QjZBq1S.jpg" alt=""></p>
+<p>　　我比较懒，没拿以前的水卡做对比，这里放了一张我饭卡的。<strong>饭卡联网大家不要动啊！</strong>联网的服务器有数据!<strong>切记！切记！切记！重要的事情说三遍！</strong></p>
+<p>　　我上次卡里有<code>35.47</code>块16进制是<code>0ddb</code>，它存储的是<code>db0d</code>，这里不难看出。下一次消费<code>12</code>，所以是<code>23.47</code>块16进制是<code>092b</code></p>
+<p>　　在后面的<code>0069</code>没弄清，不过每次都不变动，再后面的<code>13b9</code>。<code>13</code>是日期<code>13</code>号，和我们的消费终端位置。<code>b004</code>是<code>04b0</code>换算过来就是<code>1200</code>精确少数点后两位就是<code>12.00</code>块就是我这次消费的金额。在后面<code>0605</code>类似，最后<code>6a7b</code>那里和<code>6aee</code>不同是为了让整个行的异或和校验为<code>00</code>。</p>
+<p>　　这有点类似于一个<strong>密码校验</strong>，不能让人随便改数，当然这个算法我现在通过<strong>多次数据对比</strong>发现了，所以随便改数也就没事了。可以根据实际情况，<strong>多次取值</strong>，一般都可以推算出结构，然后算出来滴。</p>
+<p>　　<br>4.<strong>复制、改值</strong></p>
+<p>　　先说复制，直接把另一个复制软件打开，将uid卡放在上面，dump文件对应好，就直接成功了。没什么技巧，一般都能看懂，注意一点一定要是UID卡，否则会因为0扇区写入不成功出错。</p>
+<p>　　改值，用<strong>PCSC Mifare</strong>。</p>
+<p>　　打开软件，初始化，放上卡片。点击加载秘钥，把从dump文件里要修改的扇区KeyA记住，输入进去。密钥存储编号默认就行。</p>
+<p><img src="http://i.imgur.com/uCTIL2Q.jpg" alt=""></p>
+<p>　　点击扇区认证，我是要修改2扇区所以打2，密钥选A</p>
+<p><img src="http://i.imgur.com/avAbUjS.jpg" alt=""></p>
+<p>　　如果你前两步没有出问题，那么会显示认证成功！紧接着点读取扇区就会显示这个扇区的数据。</p>
+<p><img src="http://i.imgur.com/ajrs9hJ.jpg" alt=""></p>
+<p>　　点击二进制写扇区将数据<code>9B 07 00 69 15 B9 0B 01 40 06 4B 00 06 05 6A 3A</code>写进去，去掉空格（由于这个里有两个块都存值，所以我勾选两个，一次更改完）<br><img src="http://i.imgur.com/0QjoPzz.jpg" alt=""></p>
+<p>　　完事点击二进制读扇区会发现数据已经更改，后一次我是又写回来了，改饭卡<strong>绝对作死</strong>啊！</p>
+<p><img src="http://i.imgur.com/S96X9nw.jpg" alt=""></p>
+<p>　　通过<strong>PCSC</strong>可以修改密钥，自行探索即可。</p>
+<div class="note danger"><p>注意：经测试发现这个软件只能在xp下好使，所以我把它放进xp虚拟机中运行，应该是软件不兼容后期维护也差着了的缘故。还有如果打不开记得安装framework 2.0框架 </p></div>
+
+　　5.**全扇区加密破解**
+
+　　当然上面的方法只适用于非全扇区加密的小打小闹，现在好多公司都是防复制卡，就是全扇区加密。但是通过侦听方式还是可以实现的。这部分比较复杂，自行百度就行，我说的也都大同小异。
+
+　　pm3的工具比较贵，廉价方案是用侦听卡，前提要有ACR122U读卡器。简单原理就是通过侦听两次通信，得出一个KeyA，相当于有一个扇区已知，再进行破解。这部分内容可自行探索。
+<br>
+<div class="note info"><h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3></div>
+<p>　　花了几个小时，终于整理完了这篇文章也算是有始有终吧。未来估计用到很少，可能就是自己电梯卡用用而已。大四上学期，临近毕业人的心态也有变化。细细想来这算是一个很宝贵的经历。感谢百度，感谢我的室友，感谢我女朋友桐。</p>
+<p>　　2017年6月12日11:08:24:毕业后又整理了一次这个文章，重新提交到博客上。以此纪念我的一段大学Geek时光，纪念当时为了与一个编程兴奋到彻夜未眠的自己。</p>
+<p>　　希望这篇文章能对你有帮助。</p>
+<p>更新历史：</p>
+<p>version 1.0</p>
+<p>2016/10/16 星期日 22:12:50 </p>
+<p>version 1.1</p>
+<p>2017年6月12日09:47:48</p>
+<p>version 1.3</p>
+<p>2017年6月14日15:24:56</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+  </section>
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/ArnoImage.jpg"
+                alt="Arno Frost" />
+            
+              <p class="site-author-name" itemprop="name">Arno Frost</p>
+              <p class="site-description motion-element" itemprop="description">For Geek</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">分类</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">12</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/arnofrost" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:arnofrost47@gmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Arno Frost</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">54k</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">1:48</span>
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.4.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+      <div id="needsharebutton-float">
+        <span class="btn">
+          <i class="fa fa-share-alt" aria-hidden="true"></i>
+        </span>
+      </div>
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="https://github.com/hustcc/canvas-nest.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.1"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  
+
+  
+
+
+  
+  
+  
+  <script src="/lib/needsharebutton/needsharebutton.js"></script>
+
+  <script>
+    
+      pbOptions = {};
+      
+          pbOptions.iconStyle = "box";
+      
+          pbOptions.boxForm = "horizontal";
+      
+          pbOptions.position = "bottomCenter";
+      
+          pbOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+    
+    
+      flOptions = {};
+      
+          flOptions.iconStyle = "box";
+      
+          flOptions.boxForm = "horizontal";
+      
+          flOptions.position = "middleRight";
+      
+          flOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-float', flOptions);
+    
+  </script>
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+  
+    
+  
+  <script src="https://cdn.jsdelivr.net/gh/theme-next/theme-next-bookmark@latest/bookmark.min.js"></script>
+  <script type="text/javascript">
+  
+    bookmark.loadBookmark();
+  
+  </script>
+
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+          if(result)$(this).text('复制成功')
+          else $(this).text('复制失败')
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>
