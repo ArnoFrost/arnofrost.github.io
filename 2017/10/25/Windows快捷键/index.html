@@ -30,6 +30,13 @@
 
 
 
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-loading-bar.min.css?v=1.0.2" rel="stylesheet">
+
 
 
 
@@ -95,7 +102,7 @@
     fastclick: false,
     lazyload: false,
     tabs: true,
-    motion: {"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"bounceLeftIn","post_body":"bounceLeftIn","coll_header":"slideLeftIn","sidebar":"bounceDownIn"}},
     algolia: {
       applicationID: '',
       apiKey: '',
@@ -338,6 +345,8 @@
   
   
 
+  
+    <div class="reading-progress-bar"></div>
   
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
@@ -1609,6 +1618,8 @@
 
 
 
+  
+
 
 
   
@@ -1629,6 +1640,11 @@
   
   
     <script type="text/javascript" src="https://github.com/hustcc/canvas-nest.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/theme-next/theme-next-reading-progress@1.1/reading_progress.min.js"></script>
   
 
 
