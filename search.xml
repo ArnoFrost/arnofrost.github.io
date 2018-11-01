@@ -106,21 +106,21 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[百度地图集成的小问题]]></title>
-    <url>%2F2017%2F10%2F27%2F%E7%99%BE%E5%BA%A6%E5%9C%B0%E5%9B%BE%E9%9B%86%E6%88%90%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98%2F</url>
-    <content type="text"><![CDATA[模拟器运行时候JS不加载或白屏 之前用百度地图的时候都是直接Copy过来其他项目的地方，因为好业务逻辑相同，也简单了不少。但是偶然在运行中发现了这样一个问题。我用的是SDK 25（7.1）的模拟器，在我点击跳转到页面的时候显示了空白，同时我的日志输出了这样一段： 1chromium: [ERROR:interface_registry.cc(104)] Failed to locate a binder for interface: autofill::mojom::PasswordManagerDriver 上网查阅资料里好多人说的是权限没获取到，又或是服务器资源不好。但这个页面短暂空白后，又出现了地图列表，看起来似乎是JS没有加载。可是我的代码里已经有了这些东西： 1234webView.getSettings().setJavaScriptEnabled(true);webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);webView.getSettings().setDomStorageEnabled(true);webView.getSettings().setLoadsImagesAutomatically(true); 这个时候还是Stack Overflow上能看出些门道， 同时我注意到还有另外一条信息： 1Unrecognized GLES max version string in extensions: ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_dma_v1 由于是使用虚拟机，我意识到可能还有显示渲染的不兼容。 然后我试着找了一个x86版本的虚拟机安装上去，画面又显示回来了。 目前在Stack Overflow上没有找到什么能解决的办法。 无法在AndroidManifest.xml中获取com.baidu.android.lbs.API_KEY的值 按照文档上的说明，我在AndroidManifest文件中配置meta-data应该是可以的，但是读取不到，后来发现原来key 不应该是api_key而是com.baidu.lbsapi.API_KEY，这个问题还是要细心注意一下。]]></content>
-      <categories>
-        <category>开发</category>
-      </categories>
+    <title><![CDATA[AndroidStudio 工程jar包重复引入报错]]></title>
+    <url>%2F2017%2F10%2F27%2FAndroidStudio%20%E5%B7%A5%E7%A8%8Bjar%E5%8C%85%E9%87%8D%E5%A4%8D%E5%BC%95%E5%85%A5%E6%8A%A5%E9%94%99%2F</url>
+    <content type="text"><![CDATA[app:transformClassesWithJarMergingForDebug 工程中，如果我们叫A，要引用的两个三方库分别叫B和C。 其中B包含了若干小jar包，比如其中有一个叫d，C中也包含了同样的jar包d。 那么我们直接应用这两个库的时候，编译过程会报错 1Execution failed for task &apos;:app:transformClassesWithJarMergingForDebug&apos;. 那么我们只需要在其中库中「去掉」jar包的引用，或者说过滤掉。 可以切换到「Project」视图， 查看比较两者间有什么库是一样的名字。这里我举了个例子： 在MANIFEST.MF文件中,找到要过滤的包名: io.reactivex.java 在gradle文件中，引用工程后面添加过滤的包名。这里我将rx有关的都过滤了，（使用的是AS3.0有了新的关键字implementation具体看这里） 123456compile(&apos;cn.bmob.android:bmob-sdk:3.5.5&apos;) &#123; exclude group: &apos;io.reactivex&apos;&#125;compile(&apos;com.kymjs.rxvolley:rxvolley:1.1.4&apos;) &#123; exclude group: &apos;io.reactivex&apos;&#125; 重新编译一下，就可以正常运行了。]]></content>
       <tags>
         <tag>Android</tag>
         <tag>三方集成</tag>
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[AndroidStudio 工程jar包重复引入报错]]></title>
-    <url>%2F2017%2F10%2F27%2FAndroidStudio%20%E5%B7%A5%E7%A8%8Bjar%E5%8C%85%E9%87%8D%E5%A4%8D%E5%BC%95%E5%85%A5%E6%8A%A5%E9%94%99%2F</url>
-    <content type="text"><![CDATA[app:transformClassesWithJarMergingForDebug 工程中，如果我们叫A，要引用的两个三方库分别叫B和C。 其中B包含了若干小jar包，比如其中有一个叫d，C中也包含了同样的jar包d。 那么我们直接应用这两个库的时候，编译过程会报错 1Execution failed for task &apos;:app:transformClassesWithJarMergingForDebug&apos;. 那么我们只需要在其中库中「去掉」jar包的引用，或者说过滤掉。 可以切换到「Project」视图， 查看比较两者间有什么库是一样的名字。这里我举了个例子： 在MANIFEST.MF文件中,找到要过滤的包名: io.reactivex.java 在gradle文件中，引用工程后面添加过滤的包名。这里我将rx有关的都过滤了，（使用的是AS3.0有了新的关键字implementation具体看这里） 123456compile(&apos;cn.bmob.android:bmob-sdk:3.5.5&apos;) &#123; exclude group: &apos;io.reactivex&apos;&#125;compile(&apos;com.kymjs.rxvolley:rxvolley:1.1.4&apos;) &#123; exclude group: &apos;io.reactivex&apos;&#125; 重新编译一下，就可以正常运行了。]]></content>
+    <title><![CDATA[百度地图集成的小问题]]></title>
+    <url>%2F2017%2F10%2F27%2F%E7%99%BE%E5%BA%A6%E5%9C%B0%E5%9B%BE%E9%9B%86%E6%88%90%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98%2F</url>
+    <content type="text"><![CDATA[模拟器运行时候JS不加载或白屏 之前用百度地图的时候都是直接Copy过来其他项目的地方，因为好业务逻辑相同，也简单了不少。但是偶然在运行中发现了这样一个问题。我用的是SDK 25（7.1）的模拟器，在我点击跳转到页面的时候显示了空白，同时我的日志输出了这样一段： 1chromium: [ERROR:interface_registry.cc(104)] Failed to locate a binder for interface: autofill::mojom::PasswordManagerDriver 上网查阅资料里好多人说的是权限没获取到，又或是服务器资源不好。但这个页面短暂空白后，又出现了地图列表，看起来似乎是JS没有加载。可是我的代码里已经有了这些东西： 1234webView.getSettings().setJavaScriptEnabled(true);webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);webView.getSettings().setDomStorageEnabled(true);webView.getSettings().setLoadsImagesAutomatically(true); 这个时候还是Stack Overflow上能看出些门道， 同时我注意到还有另外一条信息： 1Unrecognized GLES max version string in extensions: ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_dma_v1 由于是使用虚拟机，我意识到可能还有显示渲染的不兼容。 然后我试着找了一个x86版本的虚拟机安装上去，画面又显示回来了。 目前在Stack Overflow上没有找到什么能解决的办法。 无法在AndroidManifest.xml中获取com.baidu.android.lbs.API_KEY的值 按照文档上的说明，我在AndroidManifest文件中配置meta-data应该是可以的，但是读取不到，后来发现原来key 不应该是api_key而是com.baidu.lbsapi.API_KEY，这个问题还是要细心注意一下。]]></content>
+      <categories>
+        <category>开发</category>
+      </categories>
       <tags>
         <tag>Android</tag>
         <tag>三方集成</tag>

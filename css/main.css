@@ -1944,6 +1944,16 @@ pre .javascript .function {
 .rtl.post-title {
   font-family: UKIJ Ekran;
 }
+.reading-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  display: block;
+  width: 0;
+  height: 2px;
+  background: #EB6D39;
+}
 .sidebar {
   position: fixed;
   right: 0;
@@ -2116,7 +2126,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #214db4;
+  background: #ba70ff;
 }
 .links-of-blogroll {
   font-size: 13px;
