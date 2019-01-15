@@ -30,13 +30,6 @@
 
 
 
-  
-  
-    
-    
-  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
-  <link href="/lib/pace/pace-theme-loading-bar.min.css?v=1.0.2" rel="stylesheet">
-
 
 
 
@@ -339,6 +332,212 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://arnoforst.github.io/2019/01/15/为macOS开启局域网ss/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Arno Frost">
+      <meta itemprop="description" content="Life should be so">
+      <meta itemprop="image" content="/images/ArnoImage.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fox Hound">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/15/为macOS开启局域网ss/" itemprop="url">
+                  为macOS开启局域网ss
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-01-15 15:55:27 / 修改时间：16:29:06" itemprop="dateCreated datePublished" datetime="2019-01-15T15:55:27+08:00">2019-01-15</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">810</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">2 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>version 0.0.1</p>
+</blockquote>
+<h2 id="1-通过-brew-安装-privoxy"><a href="#1-通过-brew-安装-privoxy" class="headerlink" title="1. 通过 brew 安装 privoxy"></a>1. 通过 brew 安装 privoxy</h2><p><code>brew install privoxy</code></p>
+<p>安装后查看安装目录</p>
+<p><code>brew privoxy list</code></p>
+<p>打开目录并编辑config文件</p>
+<p><code>open /usr/local/etc/privoxy/config</code></p>
+<h2 id="2-添加需要映射的端口"><a href="#2-添加需要映射的端口" class="headerlink" title="2. 添加需要映射的端口"></a>2. 添加需要映射的端口</h2><p>本地ss端口<br><code>forward-socks5t   /               127.0.0.1:1086 .</code>(注意要有默认的点)</p>
+<p>转发的端口</p>
+<p><code>listen-address  0.0.0.0:6666</code></p>
+<h3 id="3-运行privoxy"><a href="#3-运行privoxy" class="headerlink" title="3. 运行privoxy"></a>3. 运行privoxy</h3><p><code>sudo /usr/local/Cellar/privoxy/3.0.26/sbin/privoxy /usr/local/etc/privoxy/config</code></p>
+<h3 id="4-添加开机启动"><a href="#4-添加开机启动" class="headerlink" title="4. 添加开机启动"></a>4. 添加开机启动</h3><p>将变量添加到 <code>.bash_profile</code> 中: </p>
+<p><code>export PATH=$PATH:/usr/local/Cellar/privoxy/3.0.26/sbin/</code></p>
+<p>新建一个文本文档, 将如下添加后, 修改后缀名为.sh</p>
+<blockquote>
+</blockquote>
+<p># 添加开机启动:<br>ln -sfv /usr/local/opt/privoxy/*.plist ~/Library/LaunchAgents<br># 开启 Privoxy:<br>launchctl load ~/Library/LaunchAgents/homebrew.mxcl.privoxy.plist<br># 如果不需要用 launchctl 就直接运行:<br>privoxy /usr/local/etc/privoxy/config</p>
+<p>在终端运行 :</p>
+<p>eg: <code>sh test.sh</code></p>
+<h2 id="5-查看是否已经开启"><a href="#5-查看是否已经开启" class="headerlink" title="5. 查看是否已经开启"></a>5. 查看是否已经开启</h2><p><code>netstat -na | grep 6666</code></p>
+<p><img src="https://s2.ax1x.com/2019/01/15/FzwTQU.png" alt="监听端口"></p>
+<p>如上, 已经成功监听</p>
+<h2 id="6-更新说明"><a href="#6-更新说明" class="headerlink" title="6. 更新说明:"></a>6. 更新说明:</h2><table>
+<thead>
+<tr>
+<th>版本</th>
+<th>时间</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>version 0.0.1</td>
+<td>2019年01月15日16:10:55</td>
+<td>初版</td>
+</tr>
+</tbody>
+</table>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -2529,237 +2728,6 @@ AT_MOST : 父容器为所有子视图指定一个最大的尺寸, 子视图所�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://arnoforst.github.io/2017/11/07/AsyncTask/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Arno Frost">
-      <meta itemprop="description" content="Life should be so">
-      <meta itemprop="image" content="/images/ArnoImage.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Fox Hound">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/07/AsyncTask/" itemprop="url">
-                  AsyncTask
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-11-07 12:32:52" itemprop="dateCreated datePublished" datetime="2017-11-07T12:32:52+08:00">2017-11-07</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2017-11-09 12:40:32" itemprop="dateModified" datetime="2017-11-09T12:40:32+08:00">2017-11-09</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-symbolscount">
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">本文字数：</span>
-                
-                <span title="本文字数">2.2k</span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">4 分钟</span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="AsyncTask"><a href="#AsyncTask" class="headerlink" title="AsyncTask"></a>AsyncTask</h1><h2 id="1-什么是-AsyncTask"><a href="#1-什么是-AsyncTask" class="headerlink" title="1. 什么是 AsyncTask"></a>1. 什么是 AsyncTask</h2><h3 id="1-1-AsyncTask-是安卓提供的轻量异步类-抽象-可以继承AsyncTask-在类中可以进行异步操作-并提供接口反馈当前异步执行的程度或进度。"><a href="#1-1-AsyncTask-是安卓提供的轻量异步类-抽象-可以继承AsyncTask-在类中可以进行异步操作-并提供接口反馈当前异步执行的程度或进度。" class="headerlink" title="1.1 AsyncTask 是安卓提供的轻量异步类(抽象), 可以继承AsyncTask,在类中可以进行异步操作, 并提供接口反馈当前异步执行的程度或进度。"></a>1.1 AsyncTask 是安卓提供的轻量异步类(抽象), 可以继承AsyncTask,在类中可以进行异步操作, 并提供接口反馈当前异步执行的程度或进度。</h3><blockquote>
-<p>本质上就是一个封装了线程池和handler的异步框架,主要用来执行异步任务,由于集成了handler,通过handler发送消息,它很方便的在工作线程和UI线程之间切换<br>(最好做耗时比较短的,长的还是用线程池)</p>
-</blockquote>
-<h2 id="2-AsyncTask的使用方法"><a href="#2-AsyncTask的使用方法" class="headerlink" title="2. AsyncTask的使用方法"></a>2. AsyncTask的使用方法</h2><p>2.1 三个参数<br>    public abstract class AsyncTask&lt;Params, Progress, Result&gt; {<br>    private static final String LOG_TAG = “AsyncTask”;<br>    private static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();<br>    // We want at least 2 threads and at most 4 threads in the core pool, // preferring to have 1 less than the CPU count to avoid saturating // the CPU with background work  private static final int CORE_POOL_SIZE = Math.max(2, Math.min(CPU_COUNT - 1, 4));<br>    private static final int MAXIMUM_POOL_SIZE = CPU_COUNT * 2 + 1;<br>    private static final int KEEP_ALIVE_SECONDS = 30;<br>    private static final ThreadFactory sThreadFactory = new ThreadFactory() {<br>        private final AtomicInteger mCount = new AtomicInteger(1);<br>        public Thread newThread(Runnable r) {<br>            return new Thread(r, “AsyncTask #” + mCount.getAndIncrement());<br>        }<br>    };<br>Params:执行时传入的参数;<br>Progress:在后台执行时的进度;<br>Result:当任务执行完毕后的结果返回;</p>
-<hr>
-<p>2.2 五个方法</p>
-<p>耗时操作没进行前,在UI线程汇中调用onPreExecute();</p>
-<pre><code>@MainThread
-protected void onPreExecute() {
-}
-</code></pre><p>在后台执行时调用doInBackground();计算结果必须有一个返回,并会被传到onPost()中;<br>也可以调用publishProgress();返回进度显示<br>    @WorkerThread<br>    protected abstract Result doInBackground(Params… params);<br>在每次onProgressUpdate()调用完后会执行onProgressUpdate();通过progressbar.setProgress(value)动态显示进度条;</p>
-<pre><code>@MainThread
-protected void onProgressUpdate(Progress... values) {
-}
-</code></pre><p>最后所有doInBackground之后会通过result来传递给onPostExecute()并调用;</p>
-<pre><code>@MainThread
-protected void onPostExecute(Result result) {
-}
-</code></pre><h2 id="3-AsyncTask内部原理"><a href="#3-AsyncTask内部原理" class="headerlink" title="3. AsyncTask内部原理"></a>3. AsyncTask内部原理</h2><p>3.1 AsyncTask的本质是一个静态的线程池,AsyncTask派生出的子类可以实现不同的异步任务, 这些任务都是提交到静态的线程池中执行;</p>
-<p>3.2 线程池中的工作线程执行doInBackground(mParans)方法执行异步任务;</p>
-<p>3.3 当任务状态改变之后,工作线程会向UI线程发送消息,AsyncTask内部的InternalHandler响应这些消息, 并调用相关的回调函数;</p>
-<h2 id="4-AsyncTask注意事项"><a href="#4-AsyncTask注意事项" class="headerlink" title="4. AsyncTask注意事项"></a>4. AsyncTask注意事项</h2><p>4.1 内存泄露 </p>
-<p>被声明为Activity的非静态的内部类,会持有外部类的引用;</p>
-<blockquote>
-<p>设为静态 static;<br>或者持有弱引用;<br>或在外部onDestroy里用cancle;</p>
-</blockquote>
-<p>4.2 生命周期<br>必须在activity生命周期销毁时销毁AsyncTask</p>
-<p>4.3 结果丢失原因</p>
-<p>如被杀掉,或者屏幕旋转时onPostExcute不会更新界面</p>
-<p>4.4 并行OR串行</p>
-<table>
-<thead>
-<tr>
-<th>版本</th>
-<th>执行方式</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>&lt;= 1.6</td>
-<td>串行</td>
-</tr>
-<tr>
-<td>&gt;= 1.6 &amp;&amp; &lt; 2.3</td>
-<td>并行</td>
-</tr>
-<tr>
-<td>&gt;= 2.3</td>
-<td>串行</td>
-</tr>
-</tbody>
-</table>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2811,7 +2779,7 @@ protected void onPostExecute(Result result) {
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-count">22</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2928,7 +2896,7 @@ protected void onPostExecute(Result result) {
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
@@ -2940,7 +2908,7 @@ protected void onPostExecute(Result result) {
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="站点总字数">54k</span>
+    <span title="站点总字数">55k</span>
   
 
   
@@ -2949,7 +2917,7 @@ protected void onPostExecute(Result result) {
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="站点阅读时长">1:48</span>
+    <span title="站点阅读时长">1:49</span>
   
 </div>
 

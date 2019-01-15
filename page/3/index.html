@@ -30,13 +30,6 @@
 
 
 
-  
-  
-    
-    
-  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
-  <link href="/lib/pace/pace-theme-loading-bar.min.css?v=1.0.2" rel="stylesheet">
-
 
 
 
@@ -355,6 +348,341 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://arnoforst.github.io/2017/06/12/IC卡破解介绍/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Arno Frost">
+      <meta itemprop="description" content="Life should be so">
+      <meta itemprop="image" content="/images/ArnoImage.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fox Hound">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/12/IC卡破解介绍/" itemprop="url">
+                  IC卡破解教程
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-06-12 10:36:10" itemprop="dateCreated datePublished" datetime="2017-06-12T10:36:10+08:00">2017-06-12</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-05-11 16:40:08" itemprop="dateModified" datetime="2018-05-11T16:40:08+08:00">2018-05-11</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技巧/" itemprop="url" rel="index"><span itemprop="name">技巧</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">4.5k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">9 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <div class="note info"><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3></div>
+
+　　我的学校并不是“211”,“985”之类的重点大学，学校的热水也不是免费。每学期补贴的20多块根本不够用，而且丢了之后也**懒得去买**，关键还是觉得**热水** 这个东西**太奢侈**。走过弯路，不过也算比较顺利的解决了问题。后来我还自己编写了一个带GUI程序和安卓小DEMO软件，直到后来学校把设备都换成**联网**，并且实名制。免费水卡算是告一段落。
+
+　　好在升级设备前也把水卡钱充的足够多了，我不贪心够用就好，仅仅帮助我女朋友和室友在内的几个人而已。本文是把我理解的一些入门知识梳理开来，特此纪念一下这段大学时光。自学能力有限，不足之处望不吝指正。
+
+　　我把实现过程分成两个部分，可以先看**原理简介**，也可以直接看**实现过程**。
+<br>
+<div class="note info"><h3 id="原理简介"><a href="#原理简介" class="headerlink" title="原理简介"></a>原理简介</h3></div>
+<p>1.首先介绍一个概念，<a href="http://baike.baidu.com/link?url=7tGP8VDdC3AEO5P7G-1OzIf_yUIdpyQhrKyOknEtkvp25htStZQEPpy1DWFGlcDmq1HonwDLFKglh_qcZ2QVPQfz360hWlkuZjMLyJz1KKJDNieHDLcv1LttPN2bCv3HjR3ItzLgnjPvYdgP1_Ti3zGtlquvP6jvN9KL8tGVvG59QmLxwxNYKPfxCQEj48HNcQ2HbAYhN2184QZd2XOipq" target="_blank" rel="noopener">RFID</a></p>
+<blockquote class="blockquote-center"><p><strong>射频识别</strong>，<em>RFID</em>（Radio Frequency Identification）技术，又称无线射频识别，是一种通信技术，可通过无线电讯号识别特定目标并读写相关数据，无需识别系统与特定目标之间建立机械或光学接触。 </p>
+</blockquote>
+<p>射频的话，一般是<em>微波</em>，1-100GHz，适用于短距离识别通信。<br>RFID读写器也分移动式的和固定式的，目前RFID技术应用很广，如：图书馆，门禁系统，食品安全溯源等。</p>
+<p>从概念上来讲，RFID类似于<em>条码扫描</em>，对于条码技术而言，它是将已编码的条形码附着于目标物并使用专用的扫描读写器利用光信号将信息由条形磁传送到扫描读写器；</p>
+<p>而RFID则使用专用的RFID<strong>读写器</strong>及专门的可附着于目标物的RFID标签，利用频率信号将信息由RFID标签传送至RFID读写器。</p>
+<p>从结构上讲RFID是一种简单的<strong>无线系统</strong>，只有两个基本器件，该系统用于控制、检测和跟踪物体。系统由一个询问器和很多应答器组成。</p>
+<p>2.简单说下RFID<strong>工作原理:</strong></p>
+<p>卡片由一个卷绕天线和特定用途集成电路模块组成。</p>
+<p>其中，模块由一个高速(106KB波特率)的RF接口。一个控制单元和一个8K位E2PROM组成。读写器向MF1卡发出一组固定频率(13.56MHZ)的电磁波，</p>
+<p>卡片内有一个LC串联谐振电路，其频率与读写器发射的频率相同，</p>
+<p>在电磁波的激励下，LC谐振电路产生共振，从而使谐振电容内有了电荷，</p>
+<p>在这个电容的另一端，接有一个单向导通的电子泵，将电容内的电荷送到模块存储电容内储存，</p>
+<p>当所积累的电荷达到2V以上时，此电容可作为电源向模块电路提供工作电压，将卡内数据发射出去或接收读写器的数据。</p>
+<p>3.<strong>存储结构:</strong></p>
+<table>
+<thead>
+<tr>
+<th>字节号</th>
+<th>0 1 2 3 4 5</th>
+<th>6 7 8 9</th>
+<th>10 11 12 13 14 15</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>控制值</td>
+<td>FF FF FF FF FF FF</td>
+<td>07 08 69</td>
+<td>FF FF FF FF FF FF</td>
+</tr>
+<tr>
+<td>说明</td>
+<td>密码A（0~5字节）</td>
+<td>存储控制</td>
+<td>密码B（10~15字节）</td>
+</tr>
+</tbody>
+</table>
+<p>4.<strong>控制属性：</strong></p>
+<p>每个扇区的用户密码和存取控制条件都是独立设置的，可以根据实际需要设定各自的密码及存取控制。</p>
+<p>在存取控制中，每个块都有三个控制位相对应，用以决定某数据块或控制块的读写条件，定义为：”CXxy”，见表1所示。 </p>
+<p>其中CX代表每块控制位号(C1～C3)，x代表某块所属扇区号(0～15)， y代表该扇区内某块号。例如C1x2 即为x扇区内块2的第1控制位，余此类推。 </p>
+<div class="note warning"><p>注：控制位的设置存放在存取控制字节中，见表2所示。 </p></div>
+	　　
+
+>**表1：控制位定义"CXxy"**
+>
+块0|		C1x0|	C2x0|	C3x0|	用户数据块，(0区0块除外)
+---|		--- |	----|	----|
+块1|		C1x1|	C2x1|	C3x1|	用户数据块
+块2|		C1x2|	C2x2|	C3x2|	用户数据块
+块3|		C1x3|	C2x3|	C3x3|	密匙存取控制块
+
+>**表2:三个控制位在存取控制字节中的位置**(注：" _b" 表示取反)
+>
+|位号		|	bit 7|	6|	5|	4|	3|	2|	1|	0
+---			| ---	| ----|---|---|---|---|---|---
+**字节号**	|		|	|	|	|	|	|	|	|	|
+字节6	||C2x3_b	|C2x2_b	|C2x1_b	|C2x0_b	|C1x3_b	|C1x2_b	|C1x1_b	|C1x0_b|
+字节7	||C1x3	|C1x2	|C1x1	|C1x0	|C3x3_b	|C3x2_b	|C3x1_b	|C3x0_b|
+字节8	||C3x3	|C3x2	|C3x1	|C3x0	|C2x3	|C2x2	|C2x1	|C2x0|
+字节9	||BX7	|BX6	|BX5	|BX4	|BX3	|BX2	|BX1	|BX0|
+所属块	||块3控制位|块2控制位	|块1控制位	|块0控制位	|块3控制位	|块2控制位	|块1控制位	|块0控制位|
+
+关于更多细节知识，点击这里: [mifare卡的初值说明及使用方法](http://pan.baidu.com/s/1jHCeVkU)
+
+
+
+<br>
+<div class="note info"><h3 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h3></div>
+<p>　　<br>1.<strong>分清卡的种类：</strong></p>
+<p>　　我们破解卡，首先要分清是什么卡。<a href="http://baike.baidu.com/link?url=7tGP8VDdC3AEO5P7G-1OzIf_yUIdpyQhrKyOknEtkvp25htStZQEPpy1DWFGlcDmq1HonwDLFKglh_qcZ2QVPQfz360hWlkuZjMLyJz1KKJDNieHDLcv1LttPN2bCv3HjR3ItzLgnjPvYdgP1_Ti3zGtlquvP6jvN9KL8tGVvG59QmLxwxNYKPfxCQEj48HNcQ2HbAYhN2184QZd2XOipq" target="_blank" rel="noopener">RFID</a>里有很多种卡，IC卡现在最为常见。ID卡过去较为常见，逐渐被淘汰。现多数卡都是IC卡，M1类型的。为了帮助大家识别，介绍个简单方法。</p>
+<p><img src="http://i.imgur.com/iyB4fcR.jpg" alt=""><br><img src="http://i.imgur.com/UtzOH7q.jpg" alt=""><br><img src="http://i.imgur.com/qFHqPhB.jpg" alt=""></p>
+<p>　　<br>2.<strong>破解原理：</strong></p>
+<blockquote class="blockquote-center"><p>IC卡的特点是由16个扇区存储数据（<strong>0~15</strong>，不是16，0扇区是第一个），0扇区用来存储卡号，所以机器上<strong>直接能读取到卡号</strong>。每个扇区的数据有４块，即0~3。前三个用于存储数据，最后一个块用来存放KeyA和KeyB。先不用管有什么区别，只要记住这个就是破解一个扇区的关键就好。 </p>
+</blockquote>
+<p>　　紧接着如果我们有了<strong>KeyA</strong>就可以更改相应扇区的块里面的值。（这样听起来是不是简单多了？）<br>　　<br><img src="http://i.imgur.com/7xU2e5p.jpg" alt=""></p>
+<p>　　被标为<strong>蓝色的就是KeyA</strong>，后面跟着的ff07 8069是默认控制位，先不用理会，后面的6efd 32e1 1f59就是KeyB。只要我们获得到这个，就可以随意更改其他三个块里面的数据。（其实第四个块，块3也能更改，后面会提到，一般不需要因为你改了，机器不识别也没用0.0）细心的你可能发现这KeyA和KeyB不TM一样嘛！本来应该不一样，这里它俩一样更是降低了安全系数，同时为以后我们穷举破解减少了时间。</p>
+<p>　　这是一个卡<strong>0扇区</strong>的数据，第一行为0块，卡号就是存在这里。</p>
+<p>　　也是识别一张唯一卡的标志，<strong>它是不会被更改的</strong>，就是说你即使知道KeyA也更改不了这个扇区里面的值。这样做的目的当然是有的，就是说如果以后出了问题通过日志记录会知道是哪张卡。</p>
+<p><img src="http://i.imgur.com/UctsbM0.jpg" alt=""></p>
+<p>　　<br>3.<strong>破解过程：</strong></p>
+<p>　　说了这么多知道了原理，现在终于开始操作了。</p>
+<p>　　连接上ACR122U读卡器到电脑，运行M1卡服务程序。</p>
+<p>　　程序会自动识别出读卡器，初次安装可能会自动安装驱动，稍等一下就行。直到读卡器的灯亮起红色，这时候如果程序没识别读卡器重启一次程序就行。</p>
+<p><img src="http://i.imgur.com/TfMmApC.jpg" alt=""></p>
+<p>　　这个时候已经识别出读卡器，将需要破解的卡放在上面，读卡器的灯会变成绿色，并会有一声“滴”表示已经检测到卡片。点击开始破解，进入穷举。</p>
+<p>　　等待破解，这个过程看卡加密扇区多少和密码强度有关，只要不是全扇区加密耐心等待一会儿就好。极个别情况，我试过会长时间无响应，再试一次就好。破解完成后读卡器会闪一下，并有一声“滴”。</p>
+<p>　　在软件根目录下会按日期生成dump文件，用ultra edit 或者sublime text之类的编辑软件就能直接打开，看见里面的数据。</p>
+<p><img src="http://i.imgur.com/1eePs6m.png" alt=""></p>
+<p>　　接下来的范畴就是<strong>改数据</strong>，我两次打水后的金额一定不相同。以此找出数据区，推荐使用ultra compare这个软件。省着自己人工找了。</p>
+<p><img src="http://i.imgur.com/QjZBq1S.jpg" alt=""></p>
+<p>　　我比较懒，没拿以前的水卡做对比，这里放了一张我饭卡的。<strong>饭卡联网大家不要动啊！</strong>联网的服务器有数据!<strong>切记！切记！切记！重要的事情说三遍！</strong></p>
+<p>　　我上次卡里有<code>35.47</code>块16进制是<code>0ddb</code>，它存储的是<code>db0d</code>，这里不难看出。下一次消费<code>12</code>，所以是<code>23.47</code>块16进制是<code>092b</code></p>
+<p>　　在后面的<code>0069</code>没弄清，不过每次都不变动，再后面的<code>13b9</code>。<code>13</code>是日期<code>13</code>号，和我们的消费终端位置。<code>b004</code>是<code>04b0</code>换算过来就是<code>1200</code>精确少数点后两位就是<code>12.00</code>块就是我这次消费的金额。在后面<code>0605</code>类似，最后<code>6a7b</code>那里和<code>6aee</code>不同是为了让整个行的异或和校验为<code>00</code>。</p>
+<p>　　这有点类似于一个<strong>密码校验</strong>，不能让人随便改数，当然这个算法我现在通过<strong>多次数据对比</strong>发现了，所以随便改数也就没事了。可以根据实际情况，<strong>多次取值</strong>，一般都可以推算出结构，然后算出来滴。</p>
+<p>　　<br>4.<strong>复制、改值</strong></p>
+<p>　　先说复制，直接把另一个复制软件打开，将uid卡放在上面，dump文件对应好，就直接成功了。没什么技巧，一般都能看懂，注意一点一定要是UID卡，否则会因为0扇区写入不成功出错。</p>
+<p>　　改值，用<strong>PCSC Mifare</strong>。</p>
+<p>　　打开软件，初始化，放上卡片。点击加载秘钥，把从dump文件里要修改的扇区KeyA记住，输入进去。密钥存储编号默认就行。</p>
+<p><img src="http://i.imgur.com/uCTIL2Q.jpg" alt=""></p>
+<p>　　点击扇区认证，我是要修改2扇区所以打2，密钥选A</p>
+<p><img src="http://i.imgur.com/avAbUjS.jpg" alt=""></p>
+<p>　　如果你前两步没有出问题，那么会显示认证成功！紧接着点读取扇区就会显示这个扇区的数据。</p>
+<p><img src="http://i.imgur.com/ajrs9hJ.jpg" alt=""></p>
+<p>　　点击二进制写扇区将数据<code>9B 07 00 69 15 B9 0B 01 40 06 4B 00 06 05 6A 3A</code>写进去，去掉空格（由于这个里有两个块都存值，所以我勾选两个，一次更改完）<br><img src="http://i.imgur.com/0QjoPzz.jpg" alt=""></p>
+<p>　　完事点击二进制读扇区会发现数据已经更改，后一次我是又写回来了，改饭卡<strong>绝对作死</strong>啊！</p>
+<p><img src="http://i.imgur.com/S96X9nw.jpg" alt=""></p>
+<p>　　通过<strong>PCSC</strong>可以修改密钥，自行探索即可。</p>
+<div class="note danger"><p>注意：经测试发现这个软件只能在xp下好使，所以我把它放进xp虚拟机中运行，应该是软件不兼容后期维护也差着了的缘故。还有如果打不开记得安装framework 2.0框架 </p></div>
+
+　　5.**全扇区加密破解**
+
+　　当然上面的方法只适用于非全扇区加密的小打小闹，现在好多公司都是防复制卡，就是全扇区加密。但是通过侦听方式还是可以实现的。这部分比较复杂，自行百度就行，我说的也都大同小异。
+
+　　pm3的工具比较贵，廉价方案是用侦听卡，前提要有ACR122U读卡器。简单原理就是通过侦听两次通信，得出一个KeyA，相当于有一个扇区已知，再进行破解。这部分内容可自行探索。
+<br>
+<div class="note info"><h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3></div>
+<p>　　花了几个小时，终于整理完了这篇文章也算是有始有终吧。未来估计用到很少，可能就是自己电梯卡用用而已。大四上学期，临近毕业人的心态也有变化。细细想来这算是一个很宝贵的经历。感谢百度，感谢我的室友，感谢我女朋友桐。</p>
+<p>　　2017年6月12日11:08:24:毕业后又整理了一次这个文章，重新提交到博客上。以此纪念我的一段大学Geek时光，纪念当时为了与一个编程兴奋到彻夜未眠的自己。</p>
+<p>　　希望这篇文章能对你有帮助。</p>
+<p>更新历史：</p>
+<p>version 1.0</p>
+<p>2016/10/16 星期日 22:12:50 </p>
+<p>version 1.1</p>
+<p>2017年6月12日09:47:48</p>
+<p>version 1.3</p>
+<p>2017年6月14日15:24:56</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://arnoforst.github.io/2017/06/08/Hello Arno , hello world/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -575,7 +903,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-count">22</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -692,7 +1020,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
@@ -704,7 +1032,7 @@
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="站点总字数">54k</span>
+    <span title="站点总字数">55k</span>
   
 
   
@@ -713,7 +1041,7 @@
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="站点阅读时长">1:48</span>
+    <span title="站点阅读时长">1:49</span>
   
 </div>
 
@@ -1209,6 +1537,8 @@
 
   
   
+    
+      
     
       
     

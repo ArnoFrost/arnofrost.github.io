@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[为macOS开启局域网ss]]></title>
+    <url>%2F2019%2F01%2F15%2F%E4%B8%BAmacOS%E5%BC%80%E5%90%AF%E5%B1%80%E5%9F%9F%E7%BD%91ss%2F</url>
+    <content type="text"><![CDATA[version 0.0.1 1. 通过 brew 安装 privoxybrew install privoxy 安装后查看安装目录 brew privoxy list 打开目录并编辑config文件 open /usr/local/etc/privoxy/config 2. 添加需要映射的端口本地ss端口forward-socks5t / 127.0.0.1:1086 .(注意要有默认的点) 转发的端口 listen-address 0.0.0.0:6666 3. 运行privoxysudo /usr/local/Cellar/privoxy/3.0.26/sbin/privoxy /usr/local/etc/privoxy/config 4. 添加开机启动将变量添加到 .bash_profile 中: export PATH=$PATH:/usr/local/Cellar/privoxy/3.0.26/sbin/ 新建一个文本文档, 将如下添加后, 修改后缀名为.sh # 添加开机启动:ln -sfv /usr/local/opt/privoxy/*.plist ~/Library/LaunchAgents# 开启 Privoxy:launchctl load ~/Library/LaunchAgents/homebrew.mxcl.privoxy.plist# 如果不需要用 launchctl 就直接运行:privoxy /usr/local/etc/privoxy/config 在终端运行 : eg: sh test.sh 5. 查看是否已经开启netstat -na | grep 6666 如上, 已经成功监听 6. 更新说明: 版本 时间 说明 version 0.0.1 2019年01月15日16:10:55 初版]]></content>
+      <tags>
+        <tag>Geek</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[git日常(二)----常用git 命令]]></title>
     <url>%2F2018%2F11%2F01%2Fgit%E6%97%A5%E5%B8%B8-%E4%BA%8C-git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%2F</url>
     <content type="text"><![CDATA[version 0.0.2 1. 日志类 显示每次更新的文件修改统计信息 git log --stat 显示最近两次提交 git log -p -2 根据自定义格式过滤日志 git log --pretty=format:&quot;%h - %an, %ar : %s&quot; 使用ASCII表示简单git图 git log --pretty=format:&quot;%h %s&quot; --graph 显示最近一周的提交 git log --since=1.weeks 显示指定作者的提交 git log --author=xuxin 显示指定区间段的提交 git log --author=xuxin --since=&quot;2018-04-01&quot; --before=&quot;2018-10-01&quot; 显示提交但未合并的信息 git log --pretty=&quot;%h - %s&quot; --author=xuxin --since=&quot;2018-04-01&quot; \ --before=&quot;2018-10-08&quot; --no-merges -- t/ 2. 检索类 根据commit信息搜索提交 git log -g --grep=&quot;KEYWORD&quot;git log --all --grep=&#39;KEYWORD&#39; 查找有关的关键字 git log --all --pretty=\&quot;format:%Cgreen%H %Cblue%s\n%b%Creset\&quot; --name-status --grep KEYWORD 根据CommitID查看所属分支 git branch -a --contains CommitID 3. 操作类 (未使用add)放弃本地所有更改 git checkout . 撤销特定文件 (注意-- ) git checkout -- filepathname (已经使用add)放弃本地所有更改 git reset --hard HEAD^ 回退到任意版本 git reset --hard CommitID 修改错误的提交 git commit --amend 查看某人提交的代码 git log --author=&quot;xuxin&quot; --pretty=tformat: --numstat | awk &#39;{ add += $1; subs += $2; loc += $1 - $2 } END { printf &quot;added lines: %s, removed lines: %s, total lines: %s\n&quot;, add, subs, loc }&#39; - 统计每个人提交的代码 git log --format=&#39;%aN&#39; | sort -u | while read name; do echo -en &quot;$name\t&quot;; git log --author=&quot;$name&quot; --pretty=tformat: --numstat | awk &#39;{ add += $1; subs += $2; loc += $1 - $2 } END { printf &quot;added lines: %s, removed lines: %s, total lines: %s\n&quot;, add, subs, loc }&#39; -; done 查看提交者 前五名 git log --pretty=&#39;%aN&#39; | sort | uniq -c | sort -k1 -n -r | head -n 5 4. 注: 添加到全局变量中的代码(注意author修改) git config --global alias.lm &quot;log --no-merges --color --date=format:&#39;%Y-%m-%d %H:%M:%S&#39; --author=&#39;xuxin&#39; --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Cblue %s %Cgreen(%cd) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit&quot; git config --global alias.lms &quot;log --no-merges --color --stat --date=format:&#39;%Y-%m-%d %H:%M:%S&#39; --author=&#39;xuxin&#39; --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Cblue %s %Cgreen(%cd) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit&quot; git config --global alias.ls &quot;log --no-merges --color --graph --date=format:&#39;%Y-%m-%d %H:%M:%S&#39; --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Cblue %s %Cgreen(%cd) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit&quot; git config --global alias.lss &quot;log --no-merges --color --stat --graph --date=format:&#39;%Y-%m-%d %H:%M:%S&#39; --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Cblue %s %Cgreen(%cd) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit&quot; git config --global alias.find &quot;log --all --pretty=\&quot;format:%Cred%cd\n%Cgreen%H %Cblue%s\n%b%Creset\&quot; --name-status --date=format:&#39;%Y-%m-%d %H:%M:%S&#39; --grep&quot; gitconfig中代码: [alias] lm = log --no-merges --color --date=format:&#39;%Y-%m-%d %H:%M:%S&#39; --author=&#39;xuxin&#39; --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Cblue %s %Cgreen(%cd) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit find = log --all --pretty=\&quot;format:%Cred%cd\n%Cgreen%H %Cblue%s\n%b%Creset\&quot; --name-status --date=format:&#39;%Y-%m-%d %H:%M:%S&#39; --grep lss = log --no-merges --color --stat --graph --date=format:&#39;%Y-%m-%d %H:%M:%S&#39; --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Cblue %s %Cgreen(%cd) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit lms = log --no-merges --color --stat --date=format:&#39;%Y-%m-%d %H:%M:%S&#39; --author=&#39;xuxin&#39; --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Cblue %s %Cgreen(%cd) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit ls = log --no-merges --color --graph --date=format:&#39;%Y-%m-%d %H:%M:%S&#39; --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Cblue %s %Cgreen(%cd) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit 4.2 参考: git 查看提交历史 git log命令全解析 git 放弃本地修改 git代码行统计命令集 4.3 更新说明: 版本 时间 说明 version 0.0.1 2018年10月09日15:45:06 初版 version 0.0.2 2018年10月24日15:51:51 添加代码统计命令]]></content>
@@ -106,21 +114,21 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[AndroidStudio 工程jar包重复引入报错]]></title>
-    <url>%2F2017%2F10%2F27%2FAndroidStudio%20%E5%B7%A5%E7%A8%8Bjar%E5%8C%85%E9%87%8D%E5%A4%8D%E5%BC%95%E5%85%A5%E6%8A%A5%E9%94%99%2F</url>
-    <content type="text"><![CDATA[app:transformClassesWithJarMergingForDebug 工程中，如果我们叫A，要引用的两个三方库分别叫B和C。 其中B包含了若干小jar包，比如其中有一个叫d，C中也包含了同样的jar包d。 那么我们直接应用这两个库的时候，编译过程会报错 1Execution failed for task &apos;:app:transformClassesWithJarMergingForDebug&apos;. 那么我们只需要在其中库中「去掉」jar包的引用，或者说过滤掉。 可以切换到「Project」视图， 查看比较两者间有什么库是一样的名字。这里我举了个例子： 在MANIFEST.MF文件中,找到要过滤的包名: io.reactivex.java 在gradle文件中，引用工程后面添加过滤的包名。这里我将rx有关的都过滤了，（使用的是AS3.0有了新的关键字implementation具体看这里） 123456compile(&apos;cn.bmob.android:bmob-sdk:3.5.5&apos;) &#123; exclude group: &apos;io.reactivex&apos;&#125;compile(&apos;com.kymjs.rxvolley:rxvolley:1.1.4&apos;) &#123; exclude group: &apos;io.reactivex&apos;&#125; 重新编译一下，就可以正常运行了。]]></content>
-      <tags>
-        <tag>Android</tag>
-        <tag>三方集成</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[百度地图集成的小问题]]></title>
     <url>%2F2017%2F10%2F27%2F%E7%99%BE%E5%BA%A6%E5%9C%B0%E5%9B%BE%E9%9B%86%E6%88%90%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98%2F</url>
     <content type="text"><![CDATA[模拟器运行时候JS不加载或白屏 之前用百度地图的时候都是直接Copy过来其他项目的地方，因为好业务逻辑相同，也简单了不少。但是偶然在运行中发现了这样一个问题。我用的是SDK 25（7.1）的模拟器，在我点击跳转到页面的时候显示了空白，同时我的日志输出了这样一段： 1chromium: [ERROR:interface_registry.cc(104)] Failed to locate a binder for interface: autofill::mojom::PasswordManagerDriver 上网查阅资料里好多人说的是权限没获取到，又或是服务器资源不好。但这个页面短暂空白后，又出现了地图列表，看起来似乎是JS没有加载。可是我的代码里已经有了这些东西： 1234webView.getSettings().setJavaScriptEnabled(true);webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);webView.getSettings().setDomStorageEnabled(true);webView.getSettings().setLoadsImagesAutomatically(true); 这个时候还是Stack Overflow上能看出些门道， 同时我注意到还有另外一条信息： 1Unrecognized GLES max version string in extensions: ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_dma_v1 由于是使用虚拟机，我意识到可能还有显示渲染的不兼容。 然后我试着找了一个x86版本的虚拟机安装上去，画面又显示回来了。 目前在Stack Overflow上没有找到什么能解决的办法。 无法在AndroidManifest.xml中获取com.baidu.android.lbs.API_KEY的值 按照文档上的说明，我在AndroidManifest文件中配置meta-data应该是可以的，但是读取不到，后来发现原来key 不应该是api_key而是com.baidu.lbsapi.API_KEY，这个问题还是要细心注意一下。]]></content>
       <categories>
         <category>开发</category>
       </categories>
+      <tags>
+        <tag>Android</tag>
+        <tag>三方集成</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[AndroidStudio 工程jar包重复引入报错]]></title>
+    <url>%2F2017%2F10%2F27%2FAndroidStudio%20%E5%B7%A5%E7%A8%8Bjar%E5%8C%85%E9%87%8D%E5%A4%8D%E5%BC%95%E5%85%A5%E6%8A%A5%E9%94%99%2F</url>
+    <content type="text"><![CDATA[app:transformClassesWithJarMergingForDebug 工程中，如果我们叫A，要引用的两个三方库分别叫B和C。 其中B包含了若干小jar包，比如其中有一个叫d，C中也包含了同样的jar包d。 那么我们直接应用这两个库的时候，编译过程会报错 1Execution failed for task &apos;:app:transformClassesWithJarMergingForDebug&apos;. 那么我们只需要在其中库中「去掉」jar包的引用，或者说过滤掉。 可以切换到「Project」视图， 查看比较两者间有什么库是一样的名字。这里我举了个例子： 在MANIFEST.MF文件中,找到要过滤的包名: io.reactivex.java 在gradle文件中，引用工程后面添加过滤的包名。这里我将rx有关的都过滤了，（使用的是AS3.0有了新的关键字implementation具体看这里） 123456compile(&apos;cn.bmob.android:bmob-sdk:3.5.5&apos;) &#123; exclude group: &apos;io.reactivex&apos;&#125;compile(&apos;com.kymjs.rxvolley:rxvolley:1.1.4&apos;) &#123; exclude group: &apos;io.reactivex&apos;&#125; 重新编译一下，就可以正常运行了。]]></content>
       <tags>
         <tag>Android</tag>
         <tag>三方集成</tag>
