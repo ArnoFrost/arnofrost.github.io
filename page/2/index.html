@@ -348,6 +348,226 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://arnoforst.github.io/2017/11/07/IntentService/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Arno Frost">
+      <meta itemprop="description" content="Life should be so">
+      <meta itemprop="image" content="/images/ArnoImage.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fox Hound">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/11/07/IntentService/" itemprop="url">
+                  IntentService
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-11-07 12:34:52" itemprop="dateCreated datePublished" datetime="2017-11-07T12:34:52+08:00">2017-11-07</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-05-11 16:39:10" itemprop="dateModified" datetime="2018-05-11T16:39:10+08:00">2018-05-11</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/开发/" itemprop="url" rel="index"><span itemprop="name">开发</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">4.1k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">8 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="IntentService"><a href="#IntentService" class="headerlink" title="IntentService"></a>IntentService</h1><h1 id="1-IntentService是什么"><a href="#1-IntentService是什么" class="headerlink" title="1. IntentService是什么"></a>1. IntentService是什么</h1><h2 id="1-1-特殊的Service"><a href="#1-1-特殊的Service" class="headerlink" title="1.1 特殊的Service"></a>1.1 特殊的Service</h2><p>//继承了Service,可以执行<strong>高优先级</strong>的任务, 封装了HandlerThread和Handler</p>
+<ul>
+<li>本质上是一种特殊的Service, 继承自Service并且本身就是一个抽象类</li>
+<li>它的内部通过HandlerThread 和 Handler 实现异步操作</li>
+</ul>
+<blockquote>
+<p>是继承并处理<strong>异步同步请求</strong>的一个类, 在IntentService内有一个工作线程来处理耗时操作, 启动IntentService的方式和启动传统的Service一样, 同时, 当任务执行完后, IntentService 会自动停止, 而不需要我们手动去控制stopSelf(), 另外, 可以启动IntentService多次, 而每一个耗时操作都会以工作队列的方式在IntentService的onHandlerIntent回调方法中执行, 并且 , 每次只会执行一个工作线程, 执行完第一个再执行第二个;(<strong>串行</strong>)</p>
+</blockquote>
+<h2 id="2-IntentService使用方法"><a href="#2-IntentService使用方法" class="headerlink" title="2. IntentService使用方法"></a>2. IntentService使用方法</h2><h3 id="2-1-必须实现两个方法"><a href="#2-1-必须实现两个方法" class="headerlink" title="2.1 必须实现两个方法"></a>2.1 必须实现两个方法</h3><p>(创建IntentService时, 只需要实现onHandleIntent和构造方法, onHandleIntent为异步方法, 可以执行耗时操作)</p>
+<p>写一个类继承IntentService</p>
+<p>构造方法: 传入线程名称<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public IntentService(String name) &#123;</span><br><span class="line">    super();</span><br><span class="line">    mName = name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>onHandleIntent(): 进行Itent的耗时操作 后intent里携带信息, 并startService(intent),<br>最后MyIntentService.setUpdate(this);</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@WorkerThread</span><br><span class="line">protected abstract void onHandleIntent(@Nullable Intent intent)</span><br></pre></td></tr></table></figure>
+<h2 id="3-IntentService源码解析"><a href="#3-IntentService源码解析" class="headerlink" title="3. IntentService源码解析"></a>3. IntentService源码解析</h2><h3 id="3-1-onCreate"><a href="#3-1-onCreate" class="headerlink" title="3.1 onCreate()"></a>3.1 onCreate()</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">    public void onCreate() &#123;</span><br><span class="line">        // TODO: It would be nice to have an option to hold a partial wakelock</span><br><span class="line">        // during processing, and to have a static startService(Context, Intent)</span><br><span class="line">        // method that would launch the service &amp; hand off a wakelock.</span><br><span class="line"></span><br><span class="line">        super.onCreate();</span><br><span class="line">        HandlerThread thread = new HandlerThread(&quot;IntentService[&quot; + mName + &quot;]&quot;);// 创建了HandlerThread来进行异步消息传递</span><br><span class="line">        thread.start();</span><br><span class="line"></span><br><span class="line">        mServiceLooper = thread.getLooper();// 传递的是HandlerThread的loop对象;</span><br><span class="line">// (由于looper 对象和 HandlerThread绑定,而HandlerThread又是一个异步线程,把HandlerThread 持有的 looper 传递给 ServiceHandler</span><br><span class="line">这样ServiceHandler就变成了处理异步线程的执行类)</span><br><span class="line">        mServiceHandler = new ServiceHandler(mServiceLooper);// 一个继承了Handler的Handler</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>intentService启动后还会调用onStartCommand();</p>
+<h3 id="3-2-onStartCommand"><a href="#3-2-onStartCommand" class="headerlink" title="3.2 onStartCommand():"></a>3.2 onStartCommand():</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">     * You should not override this method for your IntentService. Instead,</span><br><span class="line">     * override &#123;@link #onHandleIntent&#125;, which the system calls when the IntentService</span><br><span class="line">     * receives a start request.</span><br><span class="line">     * @see android.app.Service#onStartCommand</span><br><span class="line">     */</span><br><span class="line">    @Override</span><br><span class="line">    public int onStartCommand(@Nullable Intent intent, int flags, int startId) &#123;</span><br><span class="line">        onStart(intent, startId);//实际操作都在onStart</span><br><span class="line">        return mRedelivery ? START_REDELIVER_INTENT : START_NOT_STICKY;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-4-onStart"><a href="#3-4-onStart" class="headerlink" title="3.4 onStart():"></a>3.4 onStart():</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">    public void onStart(@Nullable Intent intent, int startId) &#123;</span><br><span class="line">        Message msg = mServiceHandler.obtainMessage();</span><br><span class="line">        msg.arg1 = startId;</span><br><span class="line">        msg.obj = intent;</span><br><span class="line">        mServiceHandler.sendMessage(msg);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-5-ServiceHandler类"><a href="#3-5-ServiceHandler类" class="headerlink" title="3.5 ServiceHandler类:"></a>3.5 ServiceHandler类:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">private final class ServiceHandler extends Handler &#123;</span><br><span class="line">        public ServiceHandler(Looper looper) &#123;</span><br><span class="line">            super(looper);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void handleMessage(Message msg) &#123;</span><br><span class="line">            onHandleIntent((Intent)msg.obj);</span><br><span class="line">            stopSelf(msg.arg1);// 如果没有参数会立即停止, 如果有参数会等待所有消息都处理完之后才会终止任务</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>onHandleIntent: 是一个抽象方法, 在创建IntentService时一定要实现该方法(异步方法)<br>如果执行完会立刻销毁, 当有多个服务时会明确到执行完最后一个服务才会销毁;<br>stopSelf加参数;</p>
+<p><strong>(Service里不能做耗时操作, 而IntentService可以执行耗时操作)</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">     * This method is invoked on the worker thread with a request to process.</span><br><span class="line">     * Only one Intent is processed at a time, but the processing happens on a</span><br><span class="line">     * worker thread that runs independently from other application logic.</span><br><span class="line">     * So, if this code takes a long time, it will hold up other requests to</span><br><span class="line">     * the same IntentService, but it will not hold up anything else.</span><br><span class="line">     * When all requests have been handled, the IntentService stops itself,</span><br><span class="line">     * so you should not call &#123;@link #stopSelf&#125;.</span><br><span class="line">     *</span><br><span class="line">     * @param intent The value passed to &#123;@link</span><br><span class="line">     *               android.content.Context#startService(Intent)&#125;.</span><br><span class="line">     *               This may be null if the service is being restarted after</span><br><span class="line">     *               its process has gone away; see</span><br><span class="line">     *               &#123;@link android.app.Service#onStartCommand&#125;</span><br><span class="line">     *               for details.</span><br><span class="line">     */</span><br><span class="line">    @WorkerThread</span><br><span class="line">    protected abstract void onHandleIntent(@Nullable Intent intent);</span><br></pre></td></tr></table></figure>
+<p>本质上就是一个封装了HandlerThread 和 handler的异步框架</p>
+<p>每次去实现时一定实现onHandleIntent()在里面进行耗时操作, 会按照顺序执行</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://arnoforst.github.io/2017/11/07/AsyncTask/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -3144,327 +3364,6 @@ esac
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://arnoforst.github.io/2017/06/12/安卓开发常用软件/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Arno Frost">
-      <meta itemprop="description" content="Life should be so">
-      <meta itemprop="image" content="/images/ArnoImage.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Fox Hound">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/12/安卓开发常用软件/" itemprop="url">
-                  安卓开发常用软件
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2017-06-12 10:36:10" itemprop="dateCreated datePublished" datetime="2017-06-12T10:36:10+08:00">2017-06-12</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-05-11 16:37:52" itemprop="dateModified" datetime="2018-05-11T16:37:52+08:00">2018-05-11</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技巧/" itemprop="url" rel="index"><span itemprop="name">技巧</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-symbolscount">
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">本文字数：</span>
-                
-                <span title="本文字数">893</span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">2 分钟</span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <div class="note primary"><h3 id="系统工具类"><a href="#系统工具类" class="headerlink" title="系统工具类"></a>系统工具类</h3><p>基石软件</p></div>    
-<blockquote>
-<p><a href="http://www.160.com/" target="_blank" rel="noopener">驱动人生软件</a></p>
-</blockquote>
-<blockquote>
-<p><a href="http://guanjia.qq.com/?ADTAG=media.buy.baidu.DNGJSEM" target="_blank" rel="noopener">电脑管家</a></p>
-</blockquote>
-<blockquote>
-<p><a href="http://www.nvidia.cn/Download/index.aspx?lang=cn" title="NVIDIA" target="_blank" rel="noopener">NVIDIA</a></p>
-</blockquote>
-<blockquote>
-<p><a href="http://pinyin.sogou.com/" target="_blank" rel="noopener">搜狗输入法</a></p>
-</blockquote>
-<blockquote>
-<p><a href="http://www.google.cn/chrome/browser/desktop/index.html" target="_blank" rel="noopener">Chrome</a></p>
-</blockquote>
-<blockquote>
-<p><strong>Chorme常用插件:</strong></p>
-</blockquote>
-<ul>
-<li>TamperMonkey</li>
-<li>穹顶穿越</li>
-<li>Smooth Key Scroll</li>
-<li>小番茄</li>
-</ul>
-<blockquote>
-<p><a href="https://github.com/oldj/SwitchHosts" target="_blank" rel="noopener">SwitchHosts</a></p>
-</blockquote>
-<blockquote>
-<p><a href="https://raw.githubusercontent.com/racaljk/hosts/master/hosts" target="_blank" rel="noopener">hosts文件下载</a></p>
-</blockquote>
-<div class="note primary"><h3 id="开发工具类"><a href="#开发工具类" class="headerlink" title="开发工具类"></a>开发工具类</h3><p>开发必要支持</p></div>
-<blockquote>
-<p><a href="https://developer.android.com/studio/index.html" target="_blank" rel="noopener">Android Studio</a></p>
-</blockquote>
-<blockquote>
-<p><a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html" target="_blank" rel="noopener">JDK</a></p>
-</blockquote>
-<blockquote>
-<p><a href="http://www.eclipse.org/downloads/" target="_blank" rel="noopener">Eclipse</a></p>
-</blockquote>
-<blockquote>
-<p><a href="http://download.csdn.net/detail/liu_tao/9257815#comment" target="_blank" rel="noopener">ADT23.0.7</a></p>
-</blockquote>
-<blockquote>
-<p><a href="http://www.myeclipsecn.com/" target="_blank" rel="noopener">Myeclipse</a></p>
-</blockquote>
-<blockquote>
-<p><a href="http://download.csdn.net/detail/zxc406924714/4382091" target="_blank" rel="noopener">Sqlite Expert</a></p>
-</blockquote>
-<blockquote>
-<p><a href="http://pan.baidu.com/s/1i3vEHb3" target="_blank" rel="noopener">ApkToolKit</a></p>
-</blockquote>
-<blockquote>
-<p><a href="http://www.52pojie.cn/forum.php?mod=viewthread&amp;tid=405618&amp;page=1" target="_blank" rel="noopener">VMware破解版</a></p>
-</blockquote>
-<blockquote>
-<p><a href="http://www.mysql.com/downloads/" target="_blank" rel="noopener">MySQL</a></p>
-</blockquote>
-<blockquote>
-<p><a href="https://tomcat.apache.org/" target="_blank" rel="noopener">Tomcat</a></p>
-</blockquote>
-<blockquote>
-<p><a href="https://developers.google.com/android/images" target="_blank" rel="noopener">Android镜像</a></p>
-</blockquote>
-<blockquote>
-<p><a href="http://www.wugfresh.com/nrt/" target="_blank" rel="noopener">Nexus toolkit</a></p>
-</blockquote>
-<div class="note primary"><h3 id="文字处理类"><a href="#文字处理类" class="headerlink" title="文字处理类"></a>文字处理类</h3><p>文字编辑所需</p></div>
-<blockquote>
-<p><a href="http://www.xiumu.org/note/sublime-text-3.shtml" target="_blank" rel="noopener">Sublime Text3 破解</a></p>
-</blockquote>
-<blockquote>
-<p><a href="http://www.jb51.net/softs/277559.html" target="_blank" rel="noopener">Ultracompare</a></p>
-</blockquote>
-<blockquote>
-<p><a href="http://markdownpad.com/" target="_blank" rel="noopener">MarkdownPad</a></p>
-</blockquote>
-<blockquote>
-<p><a href="http://markdownpad.com/download/awesomium_v1.6.6_sdk_win.exe" target="_blank" rel="noopener">Awesomium 1.6.6 SDK</a></p>
-</blockquote>
-<blockquote>
-<p>邮箱:<a href="mailto:**Soar360@live.com" target="_blank" rel="noopener">**Soar360@live.com</a>**</p>
-</blockquote>
-<blockquote>
-<p>授权秘钥:</p>
-</blockquote>
-<pre><code>GBPduHjWfJU1mZqcPM3BikjYKF6xKhlKIys3i1MU2eJHqWGImDHzWdD6xhMNLGVpbP2M5SN6bnxn2
-kSE8qHqNY5QaaRxmO3YSMHxlv2EYpjdwLcPwfeTG7kUdnhKE0vVy4RidP6Y2wZ0q74f47fzsZo45J
-E2hfQBFi2O9Jldjp1mW8HUpTtLA2a5/sQytXJUQl/QKO0jUQY4pa5CCx20sV1ClOTZtAGngSOJtIOFXK599sBr5aIEFyH0K7H4BoNMiiDMnxt1rD8Vb/ikJd
-hGMMQr0R4B+L3nWU97eaVPTRKfWGDE8/eAgKzpGwrQQoDh+nzX1xoVQ8NAuH+s4UcSeQ==
-</code></pre><div class="note primary"><h3 id="常用软件类"><a href="#常用软件类" class="headerlink" title="常用软件类"></a>常用软件类</h3><p>功能扩展</p></div>
-<blockquote>
-<p><a href="http://www.getwox.com/" target="_blank" rel="noopener">wox</a></p>
-</blockquote>
-<blockquote>
-<p><a href="https://sourceforge.net/projects/ccseer/" target="_blank" rel="noopener">seer官网下载</a></p>
-</blockquote>
-<blockquote>
-<p><a href="https://justgetflux.com/" target="_blank" rel="noopener">flux</a></p>
-</blockquote>
-<blockquote>
-<p><a href="http://mofang.ruanmei.com/" target="_blank" rel="noopener">魔方</a></p>
-</blockquote>
-<blockquote>
-<p><a href="http://www.mochiwang.com/" target="_blank" rel="noopener">小黑屋云写作软件</a></p>
-</blockquote>
-<blockquote>
-<p><a href="http://www.51dzt.com/" target="_blank" rel="noopener">金山打字通</a></p>
-</blockquote>
-<blockquote>
-<p><a href="http://pic.2345.com/" target="_blank" rel="noopener">2345软件</a></p>
-</blockquote>
-<blockquote>
-<p><a href="http://haozip.2345.com/" target="_blank" rel="noopener">好压</a></p>
-</blockquote>
-<blockquote>
-<p><a href="http://www.voidtools.com/" target="_blank" rel="noopener">Everything</a></p>
-</blockquote>
-<blockquote>
-<p><a href="https://www.yinxiang.com/download/" target="_blank" rel="noopener">印象笔记</a></p>
-</blockquote>
-<p><strong>整理:</strong> ArnoFrost</p>
-<p><strong>版本:</strong>v1.2    2017年6月14日15:04:39</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -3516,7 +3415,7 @@ hGMMQr0R4B+L3nWU97eaVPTRKfWGDE8/eAgKzpGwrQQoDh+nzX1xoVQ8NAuH+s4UcSeQ==
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-count">23</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -3645,7 +3544,7 @@ hGMMQr0R4B+L3nWU97eaVPTRKfWGDE8/eAgKzpGwrQQoDh+nzX1xoVQ8NAuH+s4UcSeQ==
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="站点总字数">55k</span>
+    <span title="站点总字数">81k</span>
   
 
   
@@ -3654,7 +3553,7 @@ hGMMQr0R4B+L3nWU97eaVPTRKfWGDE8/eAgKzpGwrQQoDh+nzX1xoVQ8NAuH+s4UcSeQ==
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="站点阅读时长">1:49</span>
+    <span title="站点阅读时长">2:42</span>
   
 </div>
 
