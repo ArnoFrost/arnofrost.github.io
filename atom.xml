@@ -333,6 +333,31 @@
   </entry>
   
   <entry>
+    <title>AndroidStudio 工程jar包重复引入报错</title>
+    <link href="https://arnoforst.github.io/2017/10/27/AndroidStudio%20%E5%B7%A5%E7%A8%8Bjar%E5%8C%85%E9%87%8D%E5%A4%8D%E5%BC%95%E5%85%A5%E6%8A%A5%E9%94%99/"/>
+    <id>https://arnoforst.github.io/2017/10/27/AndroidStudio 工程jar包重复引入报错/</id>
+    <published>2017-10-27T03:17:24.000Z</published>
+    <updated>2017-10-28T03:25:42.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="app-transformClassesWithJarMergingForDebug"><a href="#app-transformClassesWithJarMergingForDebug" class="headerlink" title="app:transformClassesWithJarMergingForDebug"></a>app:transformClassesWithJarMergingForDebug</h2><hr><p>工程中，如果我们叫A，要引用的两个三方库分别叫B和C。</p><p>其中B包含了若干小jar包，比如其中有一个叫d，C中也包含了同样的jar包d。</p><p>那么我们直接应用这两个库的时候，编译过程会报错</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Execution failed for task &apos;:app:transformClassesWithJarMergingForDebug&apos;.</span><br></pre></td></tr></table></figure><p>那么我们只需要在其中库中「去掉」jar包的引用，或者说过滤掉。</p><p>可以切换到「Project」视图， 查看比较两者间有什么库是一样的名字。这里我举了个例子：</p><p><img src="https://i.imgur.com/grwZaIA.png" alt="rxjava包冲突"></p><p>在MANIFEST.MF文件中,找到要过滤的包名: <strong>io.reactivex.java</strong></p><p><img src="https://i.imgur.com/QhKFots.png" alt="Bundle-SymbolicName的字段"></p><p>在gradle文件中，引用工程后面添加过滤的包名。这里我将rx有关的都过滤了，（使用的是AS3.0有了新的关键字implementation<a href="https://stackoverflow.com/questions/44493378/whats-the-difference-between-implementation-and-compile-in-gradle" target="_blank" rel="noopener">具体看这里</a>）</p><p><img src="https://i.imgur.com/IIMN7Rv.png" alt="添加group"></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">compile(&apos;cn.bmob.android:bmob-sdk:3.5.5&apos;) &#123;</span><br><span class="line">    exclude group: &apos;io.reactivex&apos;</span><br><span class="line">&#125;</span><br><span class="line">compile(&apos;com.kymjs.rxvolley:rxvolley:1.1.4&apos;) &#123;</span><br><span class="line">    exclude group: &apos;io.reactivex&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>重新编译一下，就可以正常运行了。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;app-transformClassesWithJarMergingForDebug&quot;&gt;&lt;a href=&quot;#app-transformClassesWithJarMergingForDebug&quot; class=&quot;headerlink&quot; title=&quot;app:tran
+      
+    
+    </summary>
+    
+    
+      <category term="Android" scheme="https://arnoforst.github.io/tags/Android/"/>
+    
+      <category term="三方集成" scheme="https://arnoforst.github.io/tags/%E4%B8%89%E6%96%B9%E9%9B%86%E6%88%90/"/>
+    
+  </entry>
+  
+  <entry>
     <title>百度地图集成的小问题</title>
     <link href="https://arnoforst.github.io/2017/10/27/%E7%99%BE%E5%BA%A6%E5%9C%B0%E5%9B%BE%E9%9B%86%E6%88%90%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98/"/>
     <id>https://arnoforst.github.io/2017/10/27/百度地图集成的小问题/</id>
@@ -352,31 +377,6 @@
     </summary>
     
       <category term="开发" scheme="https://arnoforst.github.io/categories/%E5%BC%80%E5%8F%91/"/>
-    
-    
-      <category term="Android" scheme="https://arnoforst.github.io/tags/Android/"/>
-    
-      <category term="三方集成" scheme="https://arnoforst.github.io/tags/%E4%B8%89%E6%96%B9%E9%9B%86%E6%88%90/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>AndroidStudio 工程jar包重复引入报错</title>
-    <link href="https://arnoforst.github.io/2017/10/27/AndroidStudio%20%E5%B7%A5%E7%A8%8Bjar%E5%8C%85%E9%87%8D%E5%A4%8D%E5%BC%95%E5%85%A5%E6%8A%A5%E9%94%99/"/>
-    <id>https://arnoforst.github.io/2017/10/27/AndroidStudio 工程jar包重复引入报错/</id>
-    <published>2017-10-27T03:17:24.000Z</published>
-    <updated>2017-10-28T03:25:42.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="app-transformClassesWithJarMergingForDebug"><a href="#app-transformClassesWithJarMergingForDebug" class="headerlink" title="app:transformClassesWithJarMergingForDebug"></a>app:transformClassesWithJarMergingForDebug</h2><hr><p>工程中，如果我们叫A，要引用的两个三方库分别叫B和C。</p><p>其中B包含了若干小jar包，比如其中有一个叫d，C中也包含了同样的jar包d。</p><p>那么我们直接应用这两个库的时候，编译过程会报错</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Execution failed for task &apos;:app:transformClassesWithJarMergingForDebug&apos;.</span><br></pre></td></tr></table></figure><p>那么我们只需要在其中库中「去掉」jar包的引用，或者说过滤掉。</p><p>可以切换到「Project」视图， 查看比较两者间有什么库是一样的名字。这里我举了个例子：</p><p><img src="https://i.imgur.com/grwZaIA.png" alt="rxjava包冲突"></p><p>在MANIFEST.MF文件中,找到要过滤的包名: <strong>io.reactivex.java</strong></p><p><img src="https://i.imgur.com/QhKFots.png" alt="Bundle-SymbolicName的字段"></p><p>在gradle文件中，引用工程后面添加过滤的包名。这里我将rx有关的都过滤了，（使用的是AS3.0有了新的关键字implementation<a href="https://stackoverflow.com/questions/44493378/whats-the-difference-between-implementation-and-compile-in-gradle" target="_blank" rel="noopener">具体看这里</a>）</p><p><img src="https://i.imgur.com/IIMN7Rv.png" alt="添加group"></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">compile(&apos;cn.bmob.android:bmob-sdk:3.5.5&apos;) &#123;</span><br><span class="line">    exclude group: &apos;io.reactivex&apos;</span><br><span class="line">&#125;</span><br><span class="line">compile(&apos;com.kymjs.rxvolley:rxvolley:1.1.4&apos;) &#123;</span><br><span class="line">    exclude group: &apos;io.reactivex&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>重新编译一下，就可以正常运行了。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;app-transformClassesWithJarMergingForDebug&quot;&gt;&lt;a href=&quot;#app-transformClassesWithJarMergingForDebug&quot; class=&quot;headerlink&quot; title=&quot;app:tran
-      
-    
-    </summary>
     
     
       <category term="Android" scheme="https://arnoforst.github.io/tags/Android/"/>
