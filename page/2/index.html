@@ -965,7 +965,7 @@ protected void onPostExecute(Result result) {
 <p><img src="https://i.imgur.com/grwZaIA.png" alt="rxjava包冲突"></p>
 <p>在MANIFEST.MF文件中,找到要过滤的包名: <strong>io.reactivex.java</strong></p>
 <p><img src="https://i.imgur.com/QhKFots.png" alt="Bundle-SymbolicName的字段"></p>
-<p>在gradle文件中，引用工程后面添加过滤的包名。这里我将rx有关的都过滤了，（使用的是AS3.0有了新的关键字implementation<a href="https://stackoverflow.com/questions/44493378/whats-the-difference-between-implementation-and-compile-in-gradle" target="_blank" rel="noopener">具体看这里</a>）</p>
+<p>在gradle文件中，引用工程后面添加过滤的包名。这里我将rx有关的都过滤了，（使用的是AS3.0有了新的关键字implementation<span class="exturl" data-url="aHR0cHM6Ly9zdGFja292ZXJmbG93LmNvbS9xdWVzdGlvbnMvNDQ0OTMzNzgvd2hhdHMtdGhlLWRpZmZlcmVuY2UtYmV0d2Vlbi1pbXBsZW1lbnRhdGlvbi1hbmQtY29tcGlsZS1pbi1ncmFkbGU=" title="https://stackoverflow.com/questions/44493378/whats-the-difference-between-implementation-and-compile-in-gradle">具体看这里<i class="fa fa-external-link"></i></span>）</p>
 <p><img src="https://i.imgur.com/IIMN7Rv.png" alt="添加group"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">compile(&apos;cn.bmob.android:bmob-sdk:3.5.5&apos;) &#123;</span><br><span class="line">    exclude group: &apos;io.reactivex&apos;</span><br><span class="line">&#125;</span><br><span class="line">compile(&apos;com.kymjs.rxvolley:rxvolley:1.1.4&apos;) &#123;</span><br><span class="line">    exclude group: &apos;io.reactivex&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>重新编译一下，就可以正常运行了。</p>
@@ -2567,7 +2567,7 @@ android:layout_height=&quot;300dp&quot;&gt;
 <p><img src="https://i.imgur.com/MQedmiO.png" alt="这是一个悲伤的故事"></p>
 <h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><hr>
 <p>然后我们需要用到SSH连接工具来登录我们的服务器。</p>
-<p>Mac和Linux下直接在终端中输入命令，连接后直接输入你的登录密码就可以直接连接。<br>在Windows系统下需要专门的客户端来SSH登录VPS。在<a href="http://www.netsarang.com/download/down_form.html?code=522&amp;utm_source=textarea.com&amp;utm_medium=textarea.com&amp;utm_campaign=article" target="_blank" rel="noopener">Xshell</a>官网下载。</p>
+<p>Mac和Linux下直接在终端中输入命令，连接后直接输入你的登录密码就可以直接连接。<br>在Windows系统下需要专门的客户端来SSH登录VPS。在<span class="exturl" data-url="aHR0cDovL3d3dy5uZXRzYXJhbmcuY29tL2Rvd25sb2FkL2Rvd25fZm9ybS5odG1sP2NvZGU9NTIyJmFtcDt1dG1fc291cmNlPXRleHRhcmVhLmNvbSZhbXA7dXRtX21lZGl1bT10ZXh0YXJlYS5jb20mYW1wO3V0bV9jYW1wYWlnbj1hcnRpY2xl" title="http://www.netsarang.com/download/down_form.html?code=522&amp;utm_source=textarea.com&amp;utm_medium=textarea.com&amp;utm_campaign=article">Xshell<i class="fa fa-external-link"></i></span>官网下载。</p>
 <pre><code>ssh root@your_VPS_ipAddress
 </code></pre><p><strong>安装Shadowsocks：</strong></p>
 <p>Debian / Ubuntu:</p>
@@ -2705,8 +2705,8 @@ esac
 <pre><code>sudo chkconfig shadowsocks on
 </code></pre><p>这样程序就会自动启动了。</p>
 <p>结合此处两个解决方案:</p>
-<p><a href="https://www.awaimai.com/439.html" target="_blank" rel="noopener">Linux将应用添加到service，并设置自动启动</a></p>
-<p><a href="https://stackoverflow.com/a/20680309/6835285" target="_blank" rel="noopener">How do I install chkconfig on Ubuntu?</a></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cuYXdhaW1haS5jb20vNDM5Lmh0bWw=" title="https://www.awaimai.com/439.html">Linux将应用添加到service，并设置自动启动<i class="fa fa-external-link"></i></span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9zdGFja292ZXJmbG93LmNvbS9hLzIwNjgwMzA5LzY4MzUyODU=" title="https://stackoverflow.com/a/20680309/6835285">How do I install chkconfig on Ubuntu?<i class="fa fa-external-link"></i></span></p>
 <hr>
 <blockquote>
 <h3 id="多用户配置"><a href="#多用户配置" class="headerlink" title="多用户配置"></a>多用户配置</h3></blockquote>
@@ -2726,10 +2726,10 @@ esac
 }
 </code></pre><p>这其中加密方式 我还是推荐rc4-md5的。或者他们说chacha20对移动端访问速度比较快。</p>
 <p>主要是AES加密太耗时。</p>
-<p>另附地址：<a href="http://calonye.com/22419.html" target="_blank" rel="noopener">多用户配置</a></p>
+<p>另附地址：<span class="exturl" data-url="aHR0cDovL2NhbG9ueWUuY29tLzIyNDE5Lmh0bWw=" title="http://calonye.com/22419.html">多用户配置<i class="fa fa-external-link"></i></span></p>
 <h2 id="结束"><a href="#结束" class="headerlink" title="结束:"></a>结束:</h2><hr>
 <p>经过这样我们可以暂时有一个小小的窗户，来继续访问官网的最新技术。</p>
-<p>扔给你个小软件<a href="https://sspai.com/post/38846" target="_blank" rel="noopener">HyperApp</a>~（撒花~φ(&gt;ω&lt;*) ）</p>
+<p>扔给你个小软件<span class="exturl" data-url="aHR0cHM6Ly9zc3BhaS5jb20vcG9zdC8zODg0Ng==" title="https://sspai.com/post/38846">HyperApp<i class="fa fa-external-link"></i></span>~（撒花~φ(&gt;ω&lt;*) ）</p>
 <p>至此，我们已经可以实现一个很理想的状态。但是能不能更好地让家里全局的设备，比如Chromecat也支持呢？下一篇我会介绍。</p>
 
           
@@ -2942,7 +2942,7 @@ esac
 </ol>
 </blockquote>
 <h2 id="How？"><a href="#How？" class="headerlink" title="How？"></a>How？</h2><hr>
-<p><a href="https://github.com/shadowsocksr-backup/shadowsocks-rss" target="_blank" rel="noopener">各平台位置</a></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3NoYWRvd3NvY2tzci1iYWNrdXAvc2hhZG93c29ja3MtcnNz" title="https://github.com/shadowsocksr-backup/shadowsocks-rss">各平台位置<i class="fa fa-external-link"></i></span></p>
 <blockquote>
 <p>（注： 这里的SS和SSR还是有区别的 不过本篇暂且不说。）<br>找到一个稳定的提供商，根据节点信息来填写后连接就好。而且二维码的加入更是降低了用户门槛，很多时候只需要点击客户端的扫描二维码就可以啦！</p>
 </blockquote>
@@ -2974,17 +2974,17 @@ esac
 <p><img src="https://i.imgur.com/F9WTFks.png" alt=""></p>
 <p>这里我用了一个好像不是最优不过也还好：</p>
 <blockquote>
-<p><a href="http://jiasd123.oss-cn-hangzhou.aliyuncs.com/list.txt" target="_blank" rel="noopener">http://jiasd123.oss-cn-hangzhou.aliyuncs.com/list.txt</a></p>
+<p><span class="exturl" data-url="aHR0cDovL2ppYXNkMTIzLm9zcy1jbi1oYW5nemhvdS5hbGl5dW5jcy5jb20vbGlzdC50eHQ=" title="http://jiasd123.oss-cn-hangzhou.aliyuncs.com/list.txt">http://jiasd123.oss-cn-hangzhou.aliyuncs.com/list.txt<i class="fa fa-external-link"></i></span></p>
 </blockquote>
 <p>同样我们可以自己通过JS编辑规则，来实现更高度的定制化。语法规则和具体，可以查阅这几个参考资料:</p>
 <ul>
-<li><a href="http://www.cnblogs.com/edward2013/p/5560836.html" target="_blank" rel="noopener">浅析PAC，教你动手修改你的PAC文件及user-rule文件实现自动代理</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/22166179?refer=barretlee" target="_blank" rel="noopener">详解代理自动配置 PAC-知乎专栏</a></li>
-<li><a href="http://blog.csdn.net/xundh/article/details/48193369" target="_blank" rel="noopener">PAC脚本语法（代理自动配置）</a></li>
+<li><span class="exturl" data-url="aHR0cDovL3d3dy5jbmJsb2dzLmNvbS9lZHdhcmQyMDEzL3AvNTU2MDgzNi5odG1s" title="http://www.cnblogs.com/edward2013/p/5560836.html">浅析PAC，教你动手修改你的PAC文件及user-rule文件实现自动代理<i class="fa fa-external-link"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly96aHVhbmxhbi56aGlodS5jb20vcC8yMjE2NjE3OT9yZWZlcj1iYXJyZXRsZWU=" title="https://zhuanlan.zhihu.com/p/22166179?refer=barretlee">详解代理自动配置 PAC-知乎专栏<i class="fa fa-external-link"></i></span></li>
+<li><span class="exturl" data-url="aHR0cDovL2Jsb2cuY3Nkbi5uZXQveHVuZGgvYXJ0aWNsZS9kZXRhaWxzLzQ4MTkzMzY5" title="http://blog.csdn.net/xundh/article/details/48193369">PAC脚本语法（代理自动配置）<i class="fa fa-external-link"></i></span></li>
 </ul>
 <p><img src="https://i.imgur.com/L4unCUQ.png" alt=""></p>
 <p>我们还可以通过软件来直接在Chrome上集成这种自动切换的插件。</p>
-<p>比如：<a href="https://switchyomega.com/" target="_blank" rel="noopener">proxy-switchyomega</a> </p>
+<p>比如：<span class="exturl" data-url="aHR0cHM6Ly9zd2l0Y2h5b21lZ2EuY29tLw==" title="https://switchyomega.com/">proxy-switchyomega<i class="fa fa-external-link"></i></span> </p>
 <p>跟着教程走一遍，你会发现PAC的神器之处。</p>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><hr>
 <p>祝下载不再缓慢，祝git把把顺畅。<br>当然我们只是走了第一步，还有很多可提升的空间，后续我会再写两篇。</p>
