@@ -1,14 +1,14 @@
 
 <!DOCTYPE html>
 <html lang="zh-CN" class="loading">
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>记一次折腾过程（二） - Fox Hound</title>
-    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="google" content="notranslate" />
+    <meta name="google" content="notranslate">
     <meta name="keywords" content="ArnoFrost,"> 
     <meta name="description" content="Life should be so, 第二次折腾:在稳定的使用一段时间后,有一天突然不能访问了。想到后台看一眼，没想到官网来了这样一段文字。
 
@@ -28,11 +28,10 @@ VPS：
               enable_page_level_ads: true
          });
     </script>
-    <script async custom-element="amp-auto-ads"
-        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    <script async custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
     </script>
 </head>
-
+</html>
 <body class="loading">
     <span id="config-title" style="display:none">Fox Hound</span>
     <div id="loader"></div>
@@ -69,30 +68,26 @@ VPS：
         </div>
         <div class="content markdown">
             <h2 id="第二次折腾"><a href="#第二次折腾" class="headerlink" title=" 第二次折腾:"></a> 第二次折腾:</h2><p>在稳定的使用一段时间后,有一天突然不能访问了。<br>想到后台看一眼，没想到官网来了这样一段文字。</p>
-<p><img src="https://i.imgur.com/6dteqRt.png" alt=""></p>
+<p><img src="https://i.imgur.com/6dteqRt.png" alt></p>
 <p>为了避免之前其他的提供商那句：“相会有时，后会无期”的话。我还是别等了。</p>
 <h2 id="VPS："><a href="#VPS：" class="headerlink" title="VPS："></a>VPS：</h2><hr>
-<p><img src="https://i.imgur.com/ZW9lkbz.png" alt=""></p>
+<p><img src="https://i.imgur.com/ZW9lkbz.png" alt></p>
 <p>其实之前没搞VPS是因为需要信用卡或者PayPal，当时还没有。不过现在终于有了，又重新找了找发现有的提供商付款选项里有个支付宝，马云爸爸还是厉害啊。（比特币笑而不语）</p>
-<p><img src="https://i.imgur.com/aaSERVz.png" alt=""></p>
+<p><img src="https://i.imgur.com/aaSERVz.png" alt></p>
 <p>VPS的选择也有很多，可以上知乎看一看。别着急，耐心的看一看你是否都需要那么多配置，你需要为你过剩的CPU，内存以及硬盘空间来买单的。当然，性能越好，可做的事情就越多。你可以搭个服务器，跑点PHP，远程下载balabala的。</p>
 <p>选择好你的服务器确定好系统后，我们可以开始了。（注：这里最好使用Linux 比Windows便宜很多而且Linux毕竟是专门干这种的，而且这里还有一个坑就是可能给你的IP也被*了，具体有没有Ping一下就行了，如果发生了咱态度诚恳点找一下客服给你换个IP解决）</p>
 <p><img src="https://i.imgur.com/MQedmiO.png" alt="这是一个悲伤的故事"></p>
 <h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><hr>
 <p>然后我们需要用到SSH连接工具来登录我们的服务器。</p>
-<p>Mac和Linux下直接在终端中输入命令，连接后直接输入你的登录密码就可以直接连接。<br>在Windows系统下需要专门的客户端来SSH登录VPS。在<span class="exturl" data-url="aHR0cDovL3d3dy5uZXRzYXJhbmcuY29tL2Rvd25sb2FkL2Rvd25fZm9ybS5odG1sP2NvZGU9NTIyJmFtcDt1dG1fc291cmNlPXRleHRhcmVhLmNvbSZhbXA7dXRtX21lZGl1bT10ZXh0YXJlYS5jb20mYW1wO3V0bV9jYW1wYWlnbj1hcnRpY2xl" title="http://www.netsarang.com/download/down_form.html?code=522&amp;utm_source=textarea.com&amp;utm_medium=textarea.com&amp;utm_campaign=article">Xshell<i class="fa fa-external-link"></i></span>官网下载。</p>
-<pre><code>ssh root@your_VPS_ipAddress
-</code></pre><p><strong>安装Shadowsocks：</strong></p>
+<p>Mac和Linux下直接在终端中输入命令，连接后直接输入你的登录密码就可以直接连接。<br>在Windows系统下需要专门的客户端来SSH登录VPS。在<a href="http://www.netsarang.com/download/down_form.html?code=522&utm_source=textarea.com&utm_medium=textarea.com&utm_campaign=article" target="_blank" rel="noopener">Xshell</a>官网下载。</p>
+<pre><code>ssh root@your_VPS_ipAddress</code></pre><p><strong>安装Shadowsocks：</strong></p>
 <p>Debian / Ubuntu:</p>
 <pre><code>apt-get install python-pip
-pip install shadowsocks
-</code></pre><p>CentOS:</p>
+pip install shadowsocks</code></pre><p>CentOS:</p>
 <pre><code>yum install python-setuptools &amp;&amp; easy_install pip
-pip install shadowsocks
-</code></pre><p><strong>配置文件：</strong></p>
+pip install shadowsocks</code></pre><p><strong>配置文件：</strong></p>
 <p>使用vim命令来编辑 /etc/shadowsocks.json</p>
-<pre><code>vim /etc/shadowsocks.json
-</code></pre><p>如果你不会用vim来保存和编辑的话，去用几分钟学习下简单的使用，这个神器还有有很多故事和强大之处的。</p>
+<pre><code>vim /etc/shadowsocks.json</code></pre><p>如果你不会用vim来保存和编辑的话，去用几分钟学习下简单的使用，这个神器还有有很多故事和强大之处的。</p>
 <pre><code>{
 &quot;server&quot;:&quot;my_server_ip&quot;,
 &quot;server_port&quot;:8388,
@@ -102,16 +97,14 @@ pip install shadowsocks
 &quot;timeout&quot;:300,
 &quot;method&quot;:&quot;aes-256-cfb&quot;,
 &quot;fast_open&quot;: false    
-}
-</code></pre><table>
+}</code></pre><table>
 <thead>
 <tr>
 <th>字段名</th>
 <th>意义</th>
 </tr>
 </thead>
-<tbody>
-<tr>
+<tbody><tr>
 <td>server</td>
 <td>你的服务器地址</td>
 </tr>
@@ -143,13 +136,11 @@ pip install shadowsocks
 <td>fast_open</td>
 <td>TCP快速开启 （true / false）</td>
 </tr>
-</tbody>
-</table>
+</tbody></table>
 <p>填写正确后我们保存并退出。</p>
 <p><strong>运行:</strong></p>
-<pre><code>ssserver -c /etc/shadowsocks.json
-</code></pre><p>如果一切配置顺利，你可以在你的终端看见端口正在启动，然后我们在客户端上按照之前的一样填写好我们的配置就可以了。这里的小细节，不要打错任何东西，否则两边不一致是无论如何都都建立不起来连接的。</p>
-<p><img src="https://i.imgur.com/RV10Sah.png" alt=""></p>
+<pre><code>ssserver -c /etc/shadowsocks.json</code></pre><p>如果一切配置顺利，你可以在你的终端看见端口正在启动，然后我们在客户端上按照之前的一样填写好我们的配置就可以了。这里的小细节，不要打错任何东西，否则两边不一致是无论如何都都建立不起来连接的。</p>
+<p><img src="https://i.imgur.com/RV10Sah.png" alt></p>
 <p>好了，我们又可以愉快的玩耍了~</p>
 <h2 id="又是彩蛋："><a href="#又是彩蛋：" class="headerlink" title="又是彩蛋："></a>又是彩蛋：</h2><hr>
 <p>没错，我们通过自己建立VPS有了一个自己的专属服务器连接，这个的速度和性能完全是根据我们选择去定制的。同时，我们会发现一个小弊端，那么就是我们如何让它一直活动，不能关闭后就不能用了，那也太坑了。</p>
@@ -173,8 +164,7 @@ pip install shadowsocks
 <hr>
 <p><strong>当然正统的方法是这样的：</strong></p>
 <p><strong>添加应用到service：</strong><br>创建脚本 <code>/etc/init.d/shadowsocks</code> 文件（其实也是 <code>/etc/rc.d/init.d/shadowsocks</code> 文件）</p>
-<pre><code>sudo vim /etc/init.d/shadowsocks
-</code></pre><p>添加以下内容：</p>
+<pre><code>sudo vim /etc/init.d/shadowsocks</code></pre><p>添加以下内容：</p>
 <pre><code>#!/bin/sh
 #
 # shadowsocks start/restart/stop shadowsocks
@@ -206,20 +196,16 @@ restart)
         echo &quot;Usage: $0 {start|restart|stop}&quot;
         exit 1
         ;;
-esac
-</code></pre><p><strong>然后增加这个文件的可执行权限：</strong></p>
-<pre><code>sudo chmod +x /etc/init.d/shadowsocks
-</code></pre><p><strong><br>这样就可以在 shell 中直接运行下面的命令开启程序了（重启和停止同理）：</strong></p>
-<pre><code>sudo service shadowsocks start
-</code></pre><blockquote>
+esac</code></pre><p><strong>然后增加这个文件的可执行权限：</strong></p>
+<pre><code>sudo chmod +x /etc/init.d/shadowsocks</code></pre><p>**<br>这样就可以在 shell 中直接运行下面的命令开启程序了（重启和停止同理）：**</p>
+<pre><code>sudo service shadowsocks start</code></pre><blockquote>
 <p>注意：<br>这里以root权限运行的，如果不想以root权限运行可以用 sudo -u {user} {command}。<br>如果不给脚本文件加上其他用户的可执行权限，不带参数运行 service shadowsocks 会提示 unrecognized service。</p>
 </blockquote>
 <p><strong>设置开机启动：</strong><br>在上面脚本没有问题（也就是保留了前面10行，并且语法正确）的情况下，通过下面的命令，就可以设置程序自动启动了</p>
-<pre><code>sudo chkconfig shadowsocks on
-</code></pre><p>这样程序就会自动启动了。</p>
+<pre><code>sudo chkconfig shadowsocks on</code></pre><p>这样程序就会自动启动了。</p>
 <p>结合此处两个解决方案:</p>
-<p><span class="exturl" data-url="aHR0cHM6Ly93d3cuYXdhaW1haS5jb20vNDM5Lmh0bWw=" title="https://www.awaimai.com/439.html">Linux将应用添加到service，并设置自动启动<i class="fa fa-external-link"></i></span></p>
-<p><span class="exturl" data-url="aHR0cHM6Ly9zdGFja292ZXJmbG93LmNvbS9hLzIwNjgwMzA5LzY4MzUyODU=" title="https://stackoverflow.com/a/20680309/6835285">How do I install chkconfig on Ubuntu?<i class="fa fa-external-link"></i></span></p>
+<p><a href="https://www.awaimai.com/439.html" target="_blank" rel="noopener">Linux将应用添加到service，并设置自动启动</a></p>
+<p><a href="https://stackoverflow.com/a/20680309/6835285" target="_blank" rel="noopener">How do I install chkconfig on Ubuntu?</a></p>
 <hr>
 <blockquote>
 <h3 id="多用户配置"><a href="#多用户配置" class="headerlink" title="多用户配置"></a>多用户配置</h3></blockquote>
@@ -236,13 +222,12 @@ esac
  &quot;timeout&quot;:300,  
  &quot;method&quot;:&quot;aes-256-cfb&quot;,  
  &quot;fast_open&quot;: false  
-}
-</code></pre><p>这其中加密方式 我还是推荐rc4-md5的。或者他们说chacha20对移动端访问速度比较快。</p>
+}</code></pre><p>这其中加密方式 我还是推荐rc4-md5的。或者他们说chacha20对移动端访问速度比较快。</p>
 <p>主要是AES加密太耗时。</p>
-<p>另附地址：<span class="exturl" data-url="aHR0cDovL2NhbG9ueWUuY29tLzIyNDE5Lmh0bWw=" title="http://calonye.com/22419.html">多用户配置<i class="fa fa-external-link"></i></span></p>
+<p>另附地址：<a href="http://calonye.com/22419.html" target="_blank" rel="noopener">多用户配置</a></p>
 <h2 id="结束"><a href="#结束" class="headerlink" title="结束:"></a>结束:</h2><hr>
 <p>经过这样我们可以暂时有一个小小的窗户，来继续访问官网的最新技术。</p>
-<p>扔给你个小软件<span class="exturl" data-url="aHR0cHM6Ly9zc3BhaS5jb20vcG9zdC8zODg0Ng==" title="https://sspai.com/post/38846">HyperApp<i class="fa fa-external-link"></i></span>~（撒花~φ(&gt;ω&lt;*) ）</p>
+<p>扔给你个小软件<a href="https://sspai.com/post/38846" target="_blank" rel="noopener">HyperApp</a><del>（撒花</del>φ(&gt;ω&lt;*) ）</p>
 <p>至此，我们已经可以实现一个很理想的状态。但是能不能更好地让家里全局的设备，比如Chromecat也支持呢？下一篇我会介绍。</p>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->

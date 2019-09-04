@@ -1,14 +1,14 @@
 
 <!DOCTYPE html>
 <html lang="zh-CN" class="loading">
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>IC卡破解教程 - Fox Hound</title>
-    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="google" content="notranslate" />
+    <meta name="google" content="notranslate">
     <meta name="keywords" content="ArnoFrost,"> 
     <meta name="description" content="Life should be so,前言　　我的学校并不是“211”,“985”之类的重点大学，学校的热水也不是免费。每学期补贴的20多块根本不够用，而且丢了之后也懒得去买，关键还是觉得热水 这个东西太奢侈。走过弯路，不过也算比较顺利,"> 
     <meta name="author" content="Arno Frost"> 
@@ -23,11 +23,10 @@
               enable_page_level_ads: true
          });
     </script>
-    <script async custom-element="amp-auto-ads"
-        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    <script async custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
     </script>
 </head>
-
+</html>
 <body class="loading">
     <span id="config-title" style="display:none">Fox Hound</span>
     <div id="loader"></div>
@@ -66,7 +65,7 @@
             <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>　　我的学校并不是“211”,“985”之类的重点大学，学校的热水也不是免费。每学期补贴的20多块根本不够用，而且丢了之后也<strong>懒得去买</strong>，关键还是觉得<strong>热水</strong> 这个东西<strong>太奢侈</strong>。走过弯路，不过也算比较顺利的解决了问题。后来我还自己编写了一个带GUI程序和安卓小DEMO软件，直到后来学校把设备都换成<strong>联网</strong>，并且实名制。免费水卡算是告一段落。</p>
 <p>　　好在升级设备前也把水卡钱充的足够多了，我不贪心够用就好，仅仅帮助我女朋友和室友在内的几个人而已。本文是把我理解的一些入门知识梳理开来，特此纪念一下这段大学时光。自学能力有限，不足之处望不吝指正。</p>
 <p>　　我把实现过程分成两个部分，可以先看<strong>原理简介</strong>，也可以直接看<strong>实现过程</strong>。<br><br></p>
-<h3 id="原理简介"><a href="#原理简介" class="headerlink" title="原理简介"></a>原理简介</h3><p>1.首先介绍一个概念，<span class="exturl" data-url="aHR0cDovL2JhaWtlLmJhaWR1LmNvbS9saW5rP3VybD03dEdQOFZEZEMzQUVPNVA3Ry0xT3pJZl95VUlkcHlRaHJLeU9rbkV0a3ZwMjVodFN0WlFFUHB5MURXRkdsY0RtcTFIb253RExGS2dsaF9xY1oyUVZQUWZ6MzYwaFdsa3Vaak1MeUp6MUtLSkROaWVIRExjdjFMdHRQTjJiQ3YzSGpSM0l0ekxnbmpQdllkZ1AxX1RpM3pHdGxxdXZQNmp2TjlLTDh0R1Z2RzU5UW1MeHd4TllLUGZ4Q1FFajQ4SE5jUTJIYkFZaE4yMTg0UVpkMlhPaXBx" title="http://baike.baidu.com/link?url=7tGP8VDdC3AEO5P7G-1OzIf_yUIdpyQhrKyOknEtkvp25htStZQEPpy1DWFGlcDmq1HonwDLFKglh_qcZ2QVPQfz360hWlkuZjMLyJz1KKJDNieHDLcv1LttPN2bCv3HjR3ItzLgnjPvYdgP1_Ti3zGtlquvP6jvN9KL8tGVvG59QmLxwxNYKPfxCQEj48HNcQ2HbAYhN2184QZd2XOipq">RFID<i class="fa fa-external-link"></i></span></p>
+<h3 id="原理简介"><a href="#原理简介" class="headerlink" title="原理简介"></a>原理简介</h3><p>1.首先介绍一个概念，<a href="http://baike.baidu.com/link?url=7tGP8VDdC3AEO5P7G-1OzIf_yUIdpyQhrKyOknEtkvp25htStZQEPpy1DWFGlcDmq1HonwDLFKglh_qcZ2QVPQfz360hWlkuZjMLyJz1KKJDNieHDLcv1LttPN2bCv3HjR3ItzLgnjPvYdgP1_Ti3zGtlquvP6jvN9KL8tGVvG59QmLxwxNYKPfxCQEj48HNcQ2HbAYhN2184QZd2XOipq" target="_blank" rel="noopener">RFID</a></p>
 <p><strong>射频识别</strong>，<em>RFID</em>（Radio Frequency Identification）技术，又称无线射频识别，是一种通信技术，可通过无线电讯号识别特定目标并读写相关数据，无需识别系统与特定目标之间建立机械或光学接触。 </p>
 <p>射频的话，一般是<em>微波</em>，1-100GHz，适用于短距离识别通信。<br>RFID读写器也分移动式的和固定式的，目前RFID技术应用很广，如：图书馆，门禁系统，食品安全溯源等。</p>
 <p>从概念上来讲，RFID类似于<em>条码扫描</em>，对于条码技术而言，它是将已编码的条形码附着于目标物并使用专用的扫描读写器利用光信号将信息由条形磁传送到扫描读写器；</p>
@@ -89,8 +88,7 @@
 <th>10 11 12 13 14 15</th>
 </tr>
 </thead>
-<tbody>
-<tr>
+<tbody><tr>
 <td>控制值</td>
 <td>FF FF FF FF FF FF</td>
 <td>07 08 69</td>
@@ -102,8 +100,7 @@
 <td>存储控制</td>
 <td>密码B（10~15字节）</td>
 </tr>
-</tbody>
-</table>
+</tbody></table>
 <p>4.<strong>控制属性：</strong></p>
 <p>每个扇区的用户密码和存取控制条件都是独立设置的，可以根据实际需要设定各自的密码及存取控制。</p>
 <p>在存取控制中，每个块都有三个控制位相对应，用以决定某数据块或控制块的读写条件，定义为：”CXxy”，见表1所示。 </p>
@@ -113,47 +110,13 @@
 <blockquote>
 <p><strong>表1：控制位定义”CXxy”</strong></p>
 </blockquote>
-<table>
-<thead>
-<tr>
-<th>块0</th>
-<th>C1x0</th>
-<th>C2x0</th>
-<th>C3x0</th>
-<th>用户数据块，(0区0块除外)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>块1</td>
-<td>C1x1</td>
-<td>C2x1</td>
-<td>C3x1</td>
-<td>用户数据块</td>
-</tr>
-<tr>
-<td>块2</td>
-<td>C1x2</td>
-<td>C2x2</td>
-<td>C3x2</td>
-<td>用户数据块</td>
-</tr>
-<tr>
-<td>块3</td>
-<td>C1x3</td>
-<td>C2x3</td>
-<td>C3x3</td>
-<td>密匙存取控制块</td>
-</tr>
-</tbody>
-</table>
+<p>块0|        C1x0|    C2x0|    C3x0|    用户数据块，(0区0块除外)<br>—|        — |    —-|    —-|<br>块1|        C1x1|    C2x1|    C3x1|    用户数据块<br>块2|        C1x2|    C2x2|    C3x2|    用户数据块<br>块3|        C1x3|    C2x3|    C3x3|    密匙存取控制块</p>
 <blockquote>
 <p><strong>表2:三个控制位在存取控制字节中的位置</strong>(注：” _b” 表示取反)</p>
 </blockquote>
 <table>
 <thead>
 <tr>
-<th></th>
 <th>位号</th>
 <th>bit 7</th>
 <th>6</th>
@@ -165,11 +128,8 @@
 <th>0</th>
 </tr>
 </thead>
-<tbody>
-<tr>
+<tbody><tr>
 <td><strong>字节号</strong></td>
-<td></td>
-<td></td>
 <td></td>
 <td></td>
 <td></td>
@@ -189,8 +149,6 @@
 <td>C1x3_b</td>
 <td>C1x2_b</td>
 <td>C1x1_b</td>
-<td>C1x0_b</td>
-<td></td>
 </tr>
 <tr>
 <td>字节7</td>
@@ -202,8 +160,6 @@
 <td>C3x3_b</td>
 <td>C3x2_b</td>
 <td>C3x1_b</td>
-<td>C3x0_b</td>
-<td></td>
 </tr>
 <tr>
 <td>字节8</td>
@@ -215,8 +171,6 @@
 <td>C2x3</td>
 <td>C2x2</td>
 <td>C2x1</td>
-<td>C2x0</td>
-<td></td>
 </tr>
 <tr>
 <td>字节9</td>
@@ -228,8 +182,6 @@
 <td>BX3</td>
 <td>BX2</td>
 <td>BX1</td>
-<td>BX0</td>
-<td></td>
 </tr>
 <tr>
 <td>所属块</td>
@@ -241,34 +193,33 @@
 <td>块3控制位</td>
 <td>块2控制位</td>
 <td>块1控制位</td>
-<td>块0控制位</td>
-<td></td>
 </tr>
-</tbody>
-</table>
-<p>关于更多细节知识，点击这里: <span class="exturl" data-url="aHR0cDovL3Bhbi5iYWlkdS5jb20vcy8xakhDZVZrVQ==" title="http://pan.baidu.com/s/1jHCeVkU">mifare卡的初值说明及使用方法<i class="fa fa-external-link"></i></span></p>
-<p><br></p>
-<h3 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h3><p>　　<br>1.<strong>分清卡的种类：</strong></p>
-<p>　　我们破解卡，首先要分清是什么卡。<span class="exturl" data-url="aHR0cDovL2JhaWtlLmJhaWR1LmNvbS9saW5rP3VybD03dEdQOFZEZEMzQUVPNVA3Ry0xT3pJZl95VUlkcHlRaHJLeU9rbkV0a3ZwMjVodFN0WlFFUHB5MURXRkdsY0RtcTFIb253RExGS2dsaF9xY1oyUVZQUWZ6MzYwaFdsa3Vaak1MeUp6MUtLSkROaWVIRExjdjFMdHRQTjJiQ3YzSGpSM0l0ekxnbmpQdllkZ1AxX1RpM3pHdGxxdXZQNmp2TjlLTDh0R1Z2RzU5UW1MeHd4TllLUGZ4Q1FFajQ4SE5jUTJIYkFZaE4yMTg0UVpkMlhPaXBx" title="http://baike.baidu.com/link?url=7tGP8VDdC3AEO5P7G-1OzIf_yUIdpyQhrKyOknEtkvp25htStZQEPpy1DWFGlcDmq1HonwDLFKglh_qcZ2QVPQfz360hWlkuZjMLyJz1KKJDNieHDLcv1LttPN2bCv3HjR3ItzLgnjPvYdgP1_Ti3zGtlquvP6jvN9KL8tGVvG59QmLxwxNYKPfxCQEj48HNcQ2HbAYhN2184QZd2XOipq">RFID<i class="fa fa-external-link"></i></span>里有很多种卡，IC卡现在最为常见。ID卡过去较为常见，逐渐被淘汰。现多数卡都是IC卡，M1类型的。为了帮助大家识别，介绍个简单方法。</p>
-<p><img src="http://i.imgur.com/iyB4fcR.jpg" alt=""><br><img src="http://i.imgur.com/UtzOH7q.jpg" alt=""><br><img src="http://i.imgur.com/qFHqPhB.jpg" alt=""></p>
+</tbody></table>
+<p>关于更多细节知识，点击这里: <a href="http://pan.baidu.com/s/1jHCeVkU" target="_blank" rel="noopener">mifare卡的初值说明及使用方法</a></p>
+<br>
+### 实现过程
+
+<p>　　<br>1.<strong>分清卡的种类：</strong></p>
+<p>　　我们破解卡，首先要分清是什么卡。<a href="http://baike.baidu.com/link?url=7tGP8VDdC3AEO5P7G-1OzIf_yUIdpyQhrKyOknEtkvp25htStZQEPpy1DWFGlcDmq1HonwDLFKglh_qcZ2QVPQfz360hWlkuZjMLyJz1KKJDNieHDLcv1LttPN2bCv3HjR3ItzLgnjPvYdgP1_Ti3zGtlquvP6jvN9KL8tGVvG59QmLxwxNYKPfxCQEj48HNcQ2HbAYhN2184QZd2XOipq" target="_blank" rel="noopener">RFID</a>里有很多种卡，IC卡现在最为常见。ID卡过去较为常见，逐渐被淘汰。现多数卡都是IC卡，M1类型的。为了帮助大家识别，介绍个简单方法。</p>
+<p><img src="http://i.imgur.com/iyB4fcR.jpg" alt><br><img src="http://i.imgur.com/UtzOH7q.jpg" alt><br><img src="http://i.imgur.com/qFHqPhB.jpg" alt></p>
 <p>　　<br>2.<strong>破解原理：</strong></p>
 <p>IC卡的特点是由16个扇区存储数据（<strong>0~15</strong>，不是16，0扇区是第一个），0扇区用来存储卡号，所以机器上<strong>直接能读取到卡号</strong>。每个扇区的数据有４块，即0~3。前三个用于存储数据，最后一个块用来存放KeyA和KeyB。先不用管有什么区别，只要记住这个就是破解一个扇区的关键就好。 </p>
-<p>　　紧接着如果我们有了<strong>KeyA</strong>就可以更改相应扇区的块里面的值。（这样听起来是不是简单多了？）<br>　　<br><img src="http://i.imgur.com/7xU2e5p.jpg" alt=""></p>
+<p>　　紧接着如果我们有了<strong>KeyA</strong>就可以更改相应扇区的块里面的值。（这样听起来是不是简单多了？）<br>　　<br><img src="http://i.imgur.com/7xU2e5p.jpg" alt></p>
 <p>　　被标为<strong>蓝色的就是KeyA</strong>，后面跟着的ff07 8069是默认控制位，先不用理会，后面的6efd 32e1 1f59就是KeyB。只要我们获得到这个，就可以随意更改其他三个块里面的数据。（其实第四个块，块3也能更改，后面会提到，一般不需要因为你改了，机器不识别也没用0.0）细心的你可能发现这KeyA和KeyB不TM一样嘛！本来应该不一样，这里它俩一样更是降低了安全系数，同时为以后我们穷举破解减少了时间。</p>
 <p>　　这是一个卡<strong>0扇区</strong>的数据，第一行为0块，卡号就是存在这里。</p>
 <p>　　也是识别一张唯一卡的标志，<strong>它是不会被更改的</strong>，就是说你即使知道KeyA也更改不了这个扇区里面的值。这样做的目的当然是有的，就是说如果以后出了问题通过日志记录会知道是哪张卡。</p>
-<p><img src="http://i.imgur.com/UctsbM0.jpg" alt=""></p>
+<p><img src="http://i.imgur.com/UctsbM0.jpg" alt></p>
 <p>　　<br>3.<strong>破解过程：</strong></p>
 <p>　　说了这么多知道了原理，现在终于开始操作了。</p>
 <p>　　连接上ACR122U读卡器到电脑，运行M1卡服务程序。</p>
 <p>　　程序会自动识别出读卡器，初次安装可能会自动安装驱动，稍等一下就行。直到读卡器的灯亮起红色，这时候如果程序没识别读卡器重启一次程序就行。</p>
-<p><img src="http://i.imgur.com/TfMmApC.jpg" alt=""></p>
+<p><img src="http://i.imgur.com/TfMmApC.jpg" alt></p>
 <p>　　这个时候已经识别出读卡器，将需要破解的卡放在上面，读卡器的灯会变成绿色，并会有一声“滴”表示已经检测到卡片。点击开始破解，进入穷举。</p>
 <p>　　等待破解，这个过程看卡加密扇区多少和密码强度有关，只要不是全扇区加密耐心等待一会儿就好。极个别情况，我试过会长时间无响应，再试一次就好。破解完成后读卡器会闪一下，并有一声“滴”。</p>
 <p>　　在软件根目录下会按日期生成dump文件，用ultra edit 或者sublime text之类的编辑软件就能直接打开，看见里面的数据。</p>
-<p><img src="http://i.imgur.com/1eePs6m.png" alt=""></p>
+<p><img src="http://i.imgur.com/1eePs6m.png" alt></p>
 <p>　　接下来的范畴就是<strong>改数据</strong>，我两次打水后的金额一定不相同。以此找出数据区，推荐使用ultra compare这个软件。省着自己人工找了。</p>
-<p><img src="http://i.imgur.com/QjZBq1S.jpg" alt=""></p>
+<p><img src="http://i.imgur.com/QjZBq1S.jpg" alt></p>
 <p>　　我比较懒，没拿以前的水卡做对比，这里放了一张我饭卡的。<strong>饭卡联网大家不要动啊！</strong>联网的服务器有数据!<strong>切记！切记！切记！重要的事情说三遍！</strong></p>
 <p>　　我上次卡里有<code>35.47</code>块16进制是<code>0ddb</code>，它存储的是<code>db0d</code>，这里不难看出。下一次消费<code>12</code>，所以是<code>23.47</code>块16进制是<code>092b</code></p>
 <p>　　在后面的<code>0069</code>没弄清，不过每次都不变动，再后面的<code>13b9</code>。<code>13</code>是日期<code>13</code>号，和我们的消费终端位置。<code>b004</code>是<code>04b0</code>换算过来就是<code>1200</code>精确少数点后两位就是<code>12.00</code>块就是我这次消费的金额。在后面<code>0605</code>类似，最后<code>6a7b</code>那里和<code>6aee</code>不同是为了让整个行的异或和校验为<code>00</code>。</p>
@@ -277,14 +228,14 @@
 <p>　　先说复制，直接把另一个复制软件打开，将uid卡放在上面，dump文件对应好，就直接成功了。没什么技巧，一般都能看懂，注意一点一定要是UID卡，否则会因为0扇区写入不成功出错。</p>
 <p>　　改值，用<strong>PCSC Mifare</strong>。</p>
 <p>　　打开软件，初始化，放上卡片。点击加载秘钥，把从dump文件里要修改的扇区KeyA记住，输入进去。密钥存储编号默认就行。</p>
-<p><img src="http://i.imgur.com/uCTIL2Q.jpg" alt=""></p>
+<p><img src="http://i.imgur.com/uCTIL2Q.jpg" alt></p>
 <p>　　点击扇区认证，我是要修改2扇区所以打2，密钥选A</p>
-<p><img src="http://i.imgur.com/avAbUjS.jpg" alt=""></p>
+<p><img src="http://i.imgur.com/avAbUjS.jpg" alt></p>
 <p>　　如果你前两步没有出问题，那么会显示认证成功！紧接着点读取扇区就会显示这个扇区的数据。</p>
-<p><img src="http://i.imgur.com/ajrs9hJ.jpg" alt=""></p>
-<p>　　点击二进制写扇区将数据<code>9B 07 00 69 15 B9 0B 01 40 06 4B 00 06 05 6A 3A</code>写进去，去掉空格（由于这个里有两个块都存值，所以我勾选两个，一次更改完）<br><img src="http://i.imgur.com/0QjoPzz.jpg" alt=""></p>
+<p><img src="http://i.imgur.com/ajrs9hJ.jpg" alt></p>
+<p>　　点击二进制写扇区将数据<code>9B 07 00 69 15 B9 0B 01 40 06 4B 00 06 05 6A 3A</code>写进去，去掉空格（由于这个里有两个块都存值，所以我勾选两个，一次更改完）<br><img src="http://i.imgur.com/0QjoPzz.jpg" alt></p>
 <p>　　完事点击二进制读扇区会发现数据已经更改，后一次我是又写回来了，改饭卡<strong>绝对作死</strong>啊！</p>
-<p><img src="http://i.imgur.com/S96X9nw.jpg" alt=""></p>
+<p><img src="http://i.imgur.com/S96X9nw.jpg" alt></p>
 <p>　　通过<strong>PCSC</strong>可以修改密钥，自行探索即可。</p>
 <p>注意：经测试发现这个软件只能在xp下好使，所以我把它放进xp虚拟机中运行，应该是软件不兼容后期维护也差着了的缘故。还有如果打不开记得安装framework 2.0框架 </p>
 <p>　　5.<strong>全扇区加密破解</strong></p>
@@ -344,7 +295,7 @@
     </div>
     
         <div class='side'>
-            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#原理简介"><span class="toc-number">2.</span> <span class="toc-text">原理简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现过程"><span class="toc-number">3.</span> <span class="toc-text">实现过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结语"><span class="toc-number">4.</span> <span class="toc-text">结语</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#原理简介"><span class="toc-number">2.</span> <span class="toc-text">原理简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结语"><span class="toc-number">3.</span> <span class="toc-text">结语</span></a></li></ol>
         </div>
     
 </div>

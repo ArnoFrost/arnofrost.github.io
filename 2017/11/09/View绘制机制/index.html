@@ -1,14 +1,14 @@
 
 <!DOCTYPE html>
 <html lang="zh-CN" class="loading">
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>View绘制机制 - Fox Hound</title>
-    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="google" content="notranslate" />
+    <meta name="google" content="notranslate">
     <meta name="keywords" content="ArnoFrost,"> 
     <meta name="description" content="Life should be so,View的绘制机制1. view树的绘制流程(当Activity接收到用户触摸焦点的时候, 会被请求去绘制布局;请求是由安卓Framework层去处理绘制,从根节点去对布局进行测量和绘制ViewRo,"> 
     <meta name="author" content="Arno Frost"> 
@@ -23,11 +23,10 @@
               enable_page_level_ads: true
          });
     </script>
-    <script async custom-element="amp-auto-ads"
-        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    <script async custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
     </script>
 </head>
-
+</html>
 <body class="loading">
     <span id="config-title" style="display:none">Fox Hound</span>
     <div id="loader"></div>
@@ -64,14 +63,13 @@
         </div>
         <div class="content markdown">
             <h1 id="View的绘制机制"><a href="#View的绘制机制" class="headerlink" title="View的绘制机制"></a>View的绘制机制</h1><h2 id="1-view树的绘制流程"><a href="#1-view树的绘制流程" class="headerlink" title="1. view树的绘制流程"></a>1. view树的绘制流程</h2><p>(当Activity接收到用户触摸焦点的时候, 会被请求去绘制布局;请求是由安卓Framework层去处理绘制,从根节点去对布局进行测量和绘制ViewRoot类中)</p>
-<pre><code>measure -&gt; layout -&gt; draw
-</code></pre><p>measure: 是否重新计算视图大小; </p>
+<pre><code>measure -&gt; layout -&gt; draw</code></pre><p>measure: 是否重新计算视图大小; </p>
 <blockquote>
 <p>(递归)view 会对所有子元素进行测量, 测量过程从父的ViewGroup传递到子View里面, 经过子元素的递归, 测量好所有子元素的长度, 再进行递归, 反复之后就完成了ViewGroup的测量;</p>
 </blockquote>
 <p>layout: 是否需要重新安置视图位置;</p>
 <p>draw: 是否需要重绘;</p>
-<h2 id="2-measure"><a href="#2-measure" class="headerlink" title="2. measure"></a>2. measure</h2><h3 id="2-1-ViewGroup-LayoutParams"><a href="#2-1-ViewGroup-LayoutParams" class="headerlink" title="2.1 ViewGroup.LayoutParams:"></a>2.1 ViewGroup.LayoutParams:</h3><p><img src="https://i.imgur.com/ex5kK7D.png" alt=""></p>
+<h2 id="2-measure"><a href="#2-measure" class="headerlink" title="2. measure"></a>2. measure</h2><h3 id="2-1-ViewGroup-LayoutParams"><a href="#2-1-ViewGroup-LayoutParams" class="headerlink" title="2.1 ViewGroup.LayoutParams:"></a>2.1 ViewGroup.LayoutParams:</h3><p><img src="https://i.imgur.com/ex5kK7D.png" alt></p>
 <p>用来指定视图的高度和宽度</p>
 <h3 id="2-2-MeasureSpec-测量规格"><a href="#2-2-MeasureSpec-测量规格" class="headerlink" title="2.2 MeasureSpec(测量规格):"></a>2.2 MeasureSpec(测量规格):</h3><p>32位int值 , 最高两位表示SpecMode是模式占位符, 后面30位表示测量规格的大小;</p>
 <blockquote>
@@ -85,8 +83,7 @@
 <th>实际数值</th>
 </tr>
 </thead>
-<tbody>
-<tr>
+<tbody><tr>
 <td>UNSPECIFIED</td>
 <td>00</td>
 <td>000000000000000000001111011000</td>
@@ -101,18 +98,18 @@
 <td>10</td>
 <td>000000000000000000001111011000</td>
 </tr>
-</tbody>
-</table>
+</tbody></table>
 <pre><code>UNSPECIFIED: 不确定, 父控件不会对子控件有任何约束, 只要小于手机屏幕宽和高;
 
 EXACTLY: 父容器会对子视图确定一个大小, 无论子视图有多大, 都必须限定在父容器给定的范围内;
 
-AT_MOST : 父容器为所有子视图指定一个最大的尺寸, 子视图所有的大小都必须在这个范围内;
-</code></pre><h3 id="2-3-measure-重要的回调方法"><a href="#2-3-measure-重要的回调方法" class="headerlink" title="2.3 measure 重要的回调方法:"></a>2.3 measure 重要的回调方法:</h3><p>measure(): 调用onMeasure();<br>树遍历所有子结点;</p>
+AT_MOST : 父容器为所有子视图指定一个最大的尺寸, 子视图所有的大小都必须在这个范围内;</code></pre><h3 id="2-3-measure-重要的回调方法"><a href="#2-3-measure-重要的回调方法" class="headerlink" title="2.3 measure 重要的回调方法:"></a>2.3 measure 重要的回调方法:</h3><p>measure(): 调用onMeasure();<br>树遍历所有子结点;</p>
 <p>onMeasure(): 将所有测量的规格传递给setMeasuredDimension();</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onMeasure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line"><span class="comment">// setMeasuredDimension是用来通知测量结束的, 必须调用</span></span><br><span class="line">    setMeasuredDimension(getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec),</span><br><span class="line">            getDefaultSize(getSuggestedMinimumHeight(), heightMeasureSpec));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>setMeasuredDimension(): 完成整个测测量过程;</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * &lt;p&gt;This method must be called by &#123;<span class="doctag">@link</span> #onMeasure(int, int)&#125; to store the</span></span><br><span class="line"><span class="comment">     * measured width and measured height. Failing to do so will trigger an</span></span><br><span class="line"><span class="comment">     * exception at measurement time.&lt;/p&gt;</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> measuredWidth The measured width of this view.  May be a complex</span></span><br><span class="line"><span class="comment">     * bit mask as defined by &#123;<span class="doctag">@link</span> #MEASURED_SIZE_MASK&#125; and</span></span><br><span class="line"><span class="comment">     * &#123;<span class="doctag">@link</span> #MEASURED_STATE_TOO_SMALL&#125;.</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> measuredHeight The measured height of this view.  May be a complex</span></span><br><span class="line"><span class="comment">     * bit mask as defined by &#123;<span class="doctag">@link</span> #MEASURED_SIZE_MASK&#125; and</span></span><br><span class="line"><span class="comment">     * &#123;<span class="doctag">@link</span> #MEASURED_STATE_TOO_SMALL&#125;.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">setMeasuredDimension</span><span class="params">(<span class="keyword">int</span> measuredWidth, <span class="keyword">int</span> measuredHeight)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">boolean</span> optical = isLayoutModeOptical(<span class="keyword">this</span>);</span><br><span class="line">        <span class="keyword">if</span> (optical != isLayoutModeOptical(mParent)) &#123;</span><br><span class="line">            Insets insets = getOpticalInsets();</span><br><span class="line">            <span class="keyword">int</span> opticalWidth  = insets.left + insets.right;</span><br><span class="line">            <span class="keyword">int</span> opticalHeight = insets.top  + insets.bottom;</span><br><span class="line"></span><br><span class="line">            measuredWidth  += optical ? opticalWidth  : -opticalWidth;</span><br><span class="line">            measuredHeight += optical ? opticalHeight : -opticalHeight;</span><br><span class="line">        &#125;</span><br><span class="line">        setMeasuredDimensionRaw(measuredWidth, measuredHeight);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
 <blockquote>
 <p>注: 如果父视图发现子视图传递的大小可能不对时候, 会再次请求子视图进行测量, 如果给定的数值超过了规定大小或者太小, 父视图会赋值给AT_MOST 或者 EXACTLY的形式,再次对子视图进行测量</p>
 </blockquote>
@@ -120,11 +117,10 @@ AT_MOST : 父容器为所有子视图指定一个最大的尺寸, 子视图所�
 <p>layout(): 调用onLayout();</p>
 <p>onLayout(): 一定要实现;<br>可以去分析LinearLayout中的实现;</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Called from layout when this view should</span></span><br><span class="line"><span class="comment">    * assign a size and position to each of its children.</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * Derived classes with children should override</span></span><br><span class="line"><span class="comment">    * this method and call layout on each of</span></span><br><span class="line"><span class="comment">    * their children.</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> changed This is a new size or position for this view</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> left Left position, relative to parent</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> top Top position, relative to parent</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> right Right position, relative to parent</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> bottom Bottom position, relative to parent</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onLayout</span><span class="params">(<span class="keyword">boolean</span> changed, <span class="keyword">int</span> left, <span class="keyword">int</span> top, <span class="keyword">int</span> right, <span class="keyword">int</span> bottom)</span> </span>&#123;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
 <p>是一个树形结构, 依次从ViewGroup进行位置摆放</p>
 <h2 id="4-draw"><a href="#4-draw" class="headerlink" title="4. draw"></a>4. draw</h2><p>两个比较容易混淆的回调方法:</p>
-<h3 id="4-1-invalidate-请求安卓系统"><a href="#4-1-invalidate-请求安卓系统" class="headerlink" title="4.1 invalidate(): 请求安卓系统;"></a>4.1 invalidate(): 请求安卓系统;</h3><pre><code>如果视图大小没有发生变化, 则不会调用layout放置过程;
-</code></pre><h3 id="4-2-requestLayout-当布局方向变化-尺寸变化就回去调用"><a href="#4-2-requestLayout-当布局方向变化-尺寸变化就回去调用" class="headerlink" title="4.2 requestLayout(): 当布局方向变化, 尺寸变化就回去调用;"></a>4.2 requestLayout(): 当布局方向变化, 尺寸变化就回去调用;</h3><pre><code>会触发measure, layout过程, 但不会调用draw方法
-</code></pre>
+<h3 id="4-1-invalidate-请求安卓系统"><a href="#4-1-invalidate-请求安卓系统" class="headerlink" title="4.1 invalidate(): 请求安卓系统;"></a>4.1 invalidate(): 请求安卓系统;</h3><pre><code>如果视图大小没有发生变化, 则不会调用layout放置过程;</code></pre><h3 id="4-2-requestLayout-当布局方向变化-尺寸变化就回去调用"><a href="#4-2-requestLayout-当布局方向变化-尺寸变化就回去调用" class="headerlink" title="4.2 requestLayout(): 当布局方向变化, 尺寸变化就回去调用;"></a>4.2 requestLayout(): 当布局方向变化, 尺寸变化就回去调用;</h3><pre><code>会触发measure, layout过程, 但不会调用draw方法</code></pre>
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
                 <source type="audio/mpeg" src="">

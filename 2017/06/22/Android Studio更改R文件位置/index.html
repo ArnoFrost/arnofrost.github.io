@@ -1,14 +1,14 @@
 
 <!DOCTYPE html>
 <html lang="zh-CN" class="loading">
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Android Studio更改R文件位置 - Fox Hound</title>
-    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="google" content="notranslate" />
+    <meta name="google" content="notranslate">
     <meta name="keywords" content="ArnoFrost,"> 
     <meta name="description" content="Life should be so, 前言AndroidStudio（以下简称AS）内置了多种强大的快捷操作，最近项目需要在另一个项目基础上更改，替换包名是个麻烦的工作。安卓程序中的R文件改名的各种坑，导致找不到文件的错误。
 后来发现,"> 
@@ -24,11 +24,10 @@
               enable_page_level_ads: true
          });
     </script>
-    <script async custom-element="amp-auto-ads"
-        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    <script async custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
     </script>
 </head>
-
+</html>
 <body class="loading">
     <span id="config-title" style="display:none">Fox Hound</span>
     <div id="loader"></div>
@@ -69,28 +68,28 @@
 <h2 id="步骤一"><a href="#步骤一" class="headerlink" title="步骤一"></a>步骤一</h2><ul>
 <li>视图切换为<code>Project</code>或者<code>Android</code>，方便查找文件。</li>
 </ul>
-<p><img src="http://i.imgur.com/s9ARji6.png" alt=""></p>
+<p><img src="http://i.imgur.com/s9ARji6.png" alt></p>
 <p>以Android视图为例：</p>
 <ul>
 <li>找到AndroidManifest文件，找到package中的包名并选中</li>
 </ul>
-<p><img src="http://i.imgur.com/nZvPIT3.png" alt=""></p>
+<p><img src="http://i.imgur.com/nZvPIT3.png" alt></p>
 <ul>
 <li>右键<br><code>Refactor</code> -&gt; <code>Rename</code> 或者快捷键<code>shift</code> + <code>F6</code></li>
 </ul>
-<p><img src="http://i.imgur.com/ksnKdvK.png" alt=""></p>
+<p><img src="http://i.imgur.com/ksnKdvK.png" alt></p>
 <ul>
 <li>点击<code>RenamePackage</code>，然后输入所需的R文件名字，点击<code>Refactor</code> 过程可能会有点卡顿，等待画面加载完毕。<br>（过程中出现的重命名都用<code>Do Refactor</code>）</li>
 </ul>
-<p><img src="http://i.imgur.com/O0eniLK.png" alt=""></p>
+<p><img src="http://i.imgur.com/O0eniLK.png" alt></p>
 <h2 id="步骤二"><a href="#步骤二" class="headerlink" title="步骤二"></a>步骤二</h2><ul>
 <li>打开对应Module的build.gradle文件,更改相应的applicationId即可。</li>
 </ul>
-<p><img src="http://i.imgur.com/dKAGhzw.png" alt=""></p>
+<p><img src="http://i.imgur.com/dKAGhzw.png" alt></p>
 <ul>
 <li>然后点击<code>Build</code> -&gt; <code>Rebuild Project</code>等待Build完成</li>
 </ul>
-<p><img src="http://i.imgur.com/kq155GY.png" alt=""></p>
+<p><img src="http://i.imgur.com/kq155GY.png" alt></p>
 <ul>
 <li>这时候会发现包名及R文件已经更改。</li>
 </ul>

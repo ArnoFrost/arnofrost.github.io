@@ -1,14 +1,14 @@
 
 <!DOCTYPE html>
 <html lang="zh-CN" class="loading">
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>VPS快速部署手册 - Fox Hound</title>
-    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="google" content="notranslate" />
+    <meta name="google" content="notranslate">
     <meta name="keywords" content="ArnoFrost,"> 
     <meta name="description" content="Life should be so,VPS快速部署手册
 version 0.1基础配置2018年1月10日17:40:33
@@ -30,11 +30,10 @@ version 0.2添加了本地化,以及部分说明2018年1月12日14:51:29
               enable_page_level_ads: true
          });
     </script>
-    <script async custom-element="amp-auto-ads"
-        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    <script async custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
     </script>
 </head>
-
+</html>
 <body class="loading">
     <span id="config-title" style="display:none">Fox Hound</span>
     <div id="loader"></div>
@@ -85,28 +84,18 @@ version 0.2添加了本地化,以及部分说明2018年1月12日14:51:29
 <p><strong>环境 Ubuntu 16.04.3 LTS</strong></p>
 </blockquote>
 <p>更新软件源</p>
-<pre><code>apt-get update
-</code></pre><p>安装python pip</p>
-<pre><code>apt-get install python-pip
-</code></pre><p>升级pip</p>
-<pre><code>pip install --upgrade pip
-</code></pre><p>安装中文语言包</p>
-<pre><code>apt-get install language-pack-zh-hant
-</code></pre><blockquote>
+<pre><code>apt-get update</code></pre><p>安装python pip</p>
+<pre><code>apt-get install python-pip</code></pre><p>升级pip</p>
+<pre><code>pip install --upgrade pip</code></pre><p>安装中文语言包</p>
+<pre><code>apt-get install language-pack-zh-hant</code></pre><blockquote>
 <h3 id="1-2-安装SSR"><a href="#1-2-安装SSR" class="headerlink" title="1.2 安装SSR"></a>1.2 安装SSR</h3></blockquote>
 <p>安装SSR</p>
-<pre><code>pip install shadowsocks
-</code></pre><p>配置ss json文件(参考1.3)</p>
-<pre><code>vim /etc/shadowsocks.json
-</code></pre><p>使用screen开启服务</p>
-<pre><code>screen -S ssr
-</code></pre><p>开启ss服务</p>
-<pre><code>ssserver -c /etc/shadowsocks.json
-</code></pre><p>返回</p>
-<pre><code>C -a-d
-</code></pre><p>重新连接开启ssr服务的screen</p>
-<pre><code>screen -r ssr
-</code></pre><blockquote>
+<pre><code>pip install shadowsocks</code></pre><p>配置ss json文件(参考1.3)</p>
+<pre><code>vim /etc/shadowsocks.json</code></pre><p>使用screen开启服务</p>
+<pre><code>screen -S ssr</code></pre><p>开启ss服务</p>
+<pre><code>ssserver -c /etc/shadowsocks.json</code></pre><p>返回</p>
+<pre><code>C -a-d</code></pre><p>重新连接开启ssr服务的screen</p>
+<pre><code>screen -r ssr</code></pre><blockquote>
 <h3 id="1-3-ssr配置文件"><a href="#1-3-ssr配置文件" class="headerlink" title="1.3 ssr配置文件"></a>1.3 ssr配置文件</h3></blockquote>
 <pre><code>    {
     &quot;server&quot;:&quot;服务器外网ip&quot;, //&quot;server&quot;:&quot;198.96.88.112&quot;,
@@ -123,17 +112,13 @@ version 0.2添加了本地化,以及部分说明2018年1月12日14:51:29
     &quot;obfs&quot;: &quot;plain&quot;,
     &quot;obfs_param&quot;: &quot;&quot;,
     &quot;workers&quot;: 1
-}
-</code></pre><h2 id="2-NextCloud安装"><a href="#2-NextCloud安装" class="headerlink" title="2. NextCloud安装"></a>2. NextCloud安装</h2><blockquote>
+}</code></pre><h2 id="2-NextCloud安装"><a href="#2-NextCloud安装" class="headerlink" title="2. NextCloud安装"></a>2. NextCloud安装</h2><blockquote>
 <p>2.1 基础软件安装</p>
 </blockquote>
 <p>Apache 安装</p>
-<pre><code>sudo apt-get install apache2
-</code></pre><p>MySQL 安装</p>
-<pre><code>sudo apt-get install mysql-server mysql-client
-</code></pre><p>PHP 安装</p>
-<pre><code>sudo apt-get install phpmyadmin
-</code></pre><blockquote>
+<pre><code>sudo apt-get install apache2</code></pre><p>MySQL 安装</p>
+<pre><code>sudo apt-get install mysql-server mysql-client</code></pre><p>PHP 安装</p>
+<pre><code>sudo apt-get install phpmyadmin</code></pre><blockquote>
 <p>2.2 安装Nextcloud</p>
 </blockquote>
 <pre><code>//下载文件
@@ -146,70 +131,47 @@ unzip nextcloud-12.0.4.zip
 //将文件拷贝至服务器目录
 cp -r nextcloud /var/www/html/
 
-//修改nextcloud权限
-</code></pre><blockquote>
+//修改nextcloud权限</code></pre><blockquote>
 <p>2.3 启用额外插件</p>
 </blockquote>
 <p>重新启动模块</p>
 <pre><code>sudo a2enmod rewrite
-sudo a2enmod headers
-</code></pre><p>zip模块</p>
-<pre><code>apt-get install php-zip
-</code></pre><p>curl模块</p>
-<pre><code>apt-get install php-curl
-</code></pre><p>修改php.ini文件</p>
-<pre><code>vim /etc/php/7.0/apache2/php.ini
-</code></pre><p>修改以下内容</p>
+sudo a2enmod headers</code></pre><p>zip模块</p>
+<pre><code>apt-get install php-zip</code></pre><p>curl模块</p>
+<pre><code>apt-get install php-curl</code></pre><p>修改php.ini文件</p>
+<pre><code>vim /etc/php/7.0/apache2/php.ini</code></pre><p>修改以下内容</p>
 <pre><code>;extension=php_mbstring.dll ==&gt;
-extension=php_mbstring.dll
-</code></pre><p>修改apache2.conf文件</p>
-<pre><code>vim /etc/apache2/apache2.conf
-</code></pre><p>修改以下内容</p>
+extension=php_mbstring.dll</code></pre><p>修改apache2.conf文件</p>
+<pre><code>vim /etc/apache2/apache2.conf</code></pre><p>修改以下内容</p>
 <pre><code>&lt;Directory /var/www/&gt;
 Options Indexes FollowSymLinks
 AllowOverride None ==&gt; AllowOverride All
 Require all granted
-&lt;/Directory&gt;
-</code></pre><p>重启Apache</p>
-<pre><code>/etc/init.d/apache2 restart
-</code></pre><blockquote>
+&lt;/Directory&gt;</code></pre><p>重启Apache</p>
+<pre><code>/etc/init.d/apache2 restart</code></pre><blockquote>
 <p>2.4 配置文件位置</p>
 </blockquote>
 <p>Apache2配置文件</p>
-<pre><code>vim /etc/apache2/apache2.conf
-</code></pre><p>php配置文件路径</p>
-<pre><code>vim /etc/php/7.0/apache2/php.ini
-</code></pre><p>apache2启动</p>
+<pre><code>vim /etc/apache2/apache2.conf</code></pre><p>php配置文件路径</p>
+<pre><code>vim /etc/php/7.0/apache2/php.ini</code></pre><p>apache2启动</p>
 <pre><code>/etc/init.d/apache2 start
 /etc/init.d/apache2 restart
-/etc/init.d/apache2 stop
-</code></pre><p>移除文件 </p>
-<pre><code>rm -rf /var/www/html/nextcloud/
-</code></pre><h2 id="3-本地化Ubuntu"><a href="#3-本地化Ubuntu" class="headerlink" title="3.本地化Ubuntu"></a>3.本地化Ubuntu</h2><h3 id="3-1-安装中文支持及语言包"><a href="#3-1-安装中文支持及语言包" class="headerlink" title="3.1 安装中文支持及语言包"></a>3.1 安装中文支持及语言包</h3><p>安装中文语言包</p>
-<pre><code>apt-get install language-pack-zh-hant language-pack-zh-hans
-</code></pre><p>配置相关环境变量：</p>
-<pre><code>vim /etc/environment
-</code></pre><p>在文件中增加语言和编码的设置：</p>
+/etc/init.d/apache2 stop</code></pre><p>移除文件 </p>
+<pre><code>rm -rf /var/www/html/nextcloud/</code></pre><h2 id="3-本地化Ubuntu"><a href="#3-本地化Ubuntu" class="headerlink" title="3.本地化Ubuntu"></a>3.本地化Ubuntu</h2><h3 id="3-1-安装中文支持及语言包"><a href="#3-1-安装中文支持及语言包" class="headerlink" title="3.1 安装中文支持及语言包"></a>3.1 安装中文支持及语言包</h3><p>安装中文语言包</p>
+<pre><code>apt-get install language-pack-zh-hant language-pack-zh-hans</code></pre><p>配置相关环境变量：</p>
+<pre><code>vim /etc/environment</code></pre><p>在文件中增加语言和编码的设置：</p>
+<pre><code>LANG=&quot;zh_CN.UTF-8&quot;
+LANGUAGE=&quot;zh_CN:zh:en_US:en&quot;</code></pre><p>如:</p>
 <pre><code>LANG=&quot;zh_CN.UTF-8&quot;
 LANGUAGE=&quot;zh_CN:zh:en_US:en&quot;
-</code></pre><p>如:</p>
-<pre><code>LANG=&quot;zh_CN.UTF-8&quot;
-LANGUAGE=&quot;zh_CN:zh:en_US:en&quot;
-PATH=&quot;/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games&quot;
-</code></pre><p>重新设置本地配置：</p>
-<pre><code>dpkg-reconfigure locales
-</code></pre><h3 id="3-2-更改时区"><a href="#3-2-更改时区" class="headerlink" title="3.2 更改时区"></a>3.2 更改时区</h3><p>选择时区</p>
-<pre><code>tzselect
-</code></pre><p>复制文件到/etc目录下</p>
-<pre><code>sudo cp /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime
-</code></pre><p>如改为中国北京时间,直接输入以下(重新连接会消失)</p>
-<pre><code>TZ=&apos;Asia/Beijing&apos;; export TZ
-</code></pre><p>配置时间文件(重新连接不会消失)</p>
+PATH=&quot;/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games&quot;</code></pre><p>重新设置本地配置：</p>
+<pre><code>dpkg-reconfigure locales</code></pre><h3 id="3-2-更改时区"><a href="#3-2-更改时区" class="headerlink" title="3.2 更改时区"></a>3.2 更改时区</h3><p>选择时区</p>
+<pre><code>tzselect</code></pre><p>复制文件到/etc目录下</p>
+<pre><code>sudo cp /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime</code></pre><p>如改为中国北京时间,直接输入以下(重新连接会消失)</p>
+<pre><code>TZ=&apos;Asia/Beijing&apos;; export TZ</code></pre><p>配置时间文件(重新连接不会消失)</p>
 <pre><code>//选择Asia - Shanghai
-dpkg-reconfigure tzdata
-</code></pre><p>重启VPS</p>
-<pre><code>reboot
-</code></pre>
+dpkg-reconfigure tzdata</code></pre><p>重启VPS</p>
+<pre><code>reboot</code></pre>
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
                 <source type="audio/mpeg" src="">

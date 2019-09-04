@@ -1,14 +1,14 @@
 
 <!DOCTYPE html>
 <html lang="zh-CN" class="loading">
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>记一次折腾过程（一） - Fox Hound</title>
-    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="google" content="notranslate" />
+    <meta name="google" content="notranslate">
     <meta name="keywords" content="ArnoFrost,"> 
     <meta name="description" content="Life should be so, 写在前面:做安卓的都知道，安卓是归谷歌的。谷歌很多最新的好玩儿有趣的功能，第一时间对移动端的支持大部分也都是在安卓上。身为平常娱乐，有些东西可有可无，也就作罢。但是身为一名开发者，你经常要了解最新,"> 
     <meta name="author" content="Arno Frost"> 
@@ -23,11 +23,10 @@
               enable_page_level_ads: true
          });
     </script>
-    <script async custom-element="amp-auto-ads"
-        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    <script async custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
     </script>
 </head>
-
+</html>
 <body class="loading">
     <span id="config-title" style="display:none">Fox Hound</span>
     <div id="loader"></div>
@@ -83,7 +82,7 @@
 <p>最简单的人们听过最多的也就是VPN，这个简单粗暴和正常软件的使用没什么太大难度。很多时候我们只是使用了一个服务商提供的已经设置好的「工具」，来直接使用，多数的直接就是提供商自己的出的软件，定制化不是很高。理论上和SS速度不应该差距太多，但是实际使用中稳定性，速度体验都有很大折扣。当然在企业里VPN这种东西还是很方便的，你可以远程访问内网环境来提交你的文件管理日常等。</p>
 <p>我选择的是Shadowsocks，简称SS。</p>
 <p>简单理解的话，Shadowsocks是将以前通过SSH创建的Socks5协议拆开成Server端和client端，下面这个原理图能简单介绍其翻墙原理，基本上和利用SSH tunnel大致类似：</p>
-<p><img src="https://i.imgur.com/6ZDVSNr.png" alt=""></p>
+<p><img src="https://i.imgur.com/6ZDVSNr.png" alt></p>
 <blockquote>
 <ol>
 <li>PC客户端（即你的电脑）发出请求基于Socks5协议跟SS-Local端进行通讯，由于这个SS-Local一般是本机或路由器等局域网的其他机器，不经过GFW，所以解决GFW通过特征分析进行干扰的问题。</li>
@@ -92,15 +91,15 @@
 </ol>
 </blockquote>
 <h2 id="How？"><a href="#How？" class="headerlink" title="How？"></a>How？</h2><hr>
-<p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3NoYWRvd3NvY2tzci1iYWNrdXAvc2hhZG93c29ja3MtcnNz" title="https://github.com/shadowsocksr-backup/shadowsocks-rss">各平台位置<i class="fa fa-external-link"></i></span></p>
+<p><a href="https://github.com/shadowsocksr-backup/shadowsocks-rss" target="_blank" rel="noopener">各平台位置</a></p>
 <blockquote>
 <p>（注： 这里的SS和SSR还是有区别的 不过本篇暂且不说。）<br>找到一个稳定的提供商，根据节点信息来填写后连接就好。而且二维码的加入更是降低了用户门槛，很多时候只需要点击客户端的扫描二维码就可以啦！</p>
 </blockquote>
-<p><img src="https://i.imgur.com/09eRspU.png" alt=""></p>
+<p><img src="https://i.imgur.com/09eRspU.png" alt></p>
 <p>你可以在小伙伴的客户端或者提供商页面找到二维码，其实就是包含我所填入的这些信息的一段内容。</p>
-<p><img src="https://i.imgur.com/CzREqdg.png" alt=""></p>
+<p><img src="https://i.imgur.com/CzREqdg.png" alt></p>
 <p>然后我们直接点击扫描屏幕上的二维码就会拿到识别信息了。如果没有的话，手动填写即可。（这里mac客户端是SS那么没有混淆和协议选项的情况下先不写。或者有的使用的是启动参数，-O -o等）</p>
-<p><img src="https://i.imgur.com/EhZ1piC.png" alt=""></p>
+<p><img src="https://i.imgur.com/EhZ1piC.png" alt></p>
 <p>最后我们可以选择服务器来切换不同的节点，同样可以开启全局。也可在需要时开启。</p>
 <p>然后我们就可以愉快的看着我们gradle下载文件的速度变快了不少。</p>
 <h2 id="当然还有彩蛋"><a href="#当然还有彩蛋" class="headerlink" title="当然还有彩蛋"></a>当然还有彩蛋</h2><p>这是折腾过程的第一部分，没有什么复杂的东西，如果你要是动手实现的话，估计几分钟十几分钟就能搞定。当然我们们可以做的还远不止这些。</p>
@@ -111,9 +110,9 @@
 <li>全局代理虽然简单暴力，让你直接达到直连的效果。但是你会发现会有很多弊端：访问国内网站时候我们仍然会走这个代理模式，这就导致了速度变慢，而且很多提供商每个月的流量也都有限。虽然正常使用下流量基本够用，但是也是浪费了不必要的资源。</li>
 </ol>
 <p>在运行客户端后我们开始，选择设置中为局域网开启代理。</p>
-<p><img src="https://i.imgur.com/a2cbV80.png" alt=""></p>
+<p><img src="https://i.imgur.com/a2cbV80.png" alt></p>
 <p>然后在网易云音乐里的设置里找到下载，填写好本地地址和端口，点击测试发现代理可用，然后重启软件，发现每日推荐又活过来了。</p>
-<p><img src="https://i.imgur.com/yeLt6ag.png" alt=""></p>
+<p><img src="https://i.imgur.com/yeLt6ag.png" alt></p>
 <p>以此类推，你会发现好多软件都可以这样设置代理。达到节约流量和不影响你日常的网速效果。</p>
 <blockquote>
 <h2 id="更灵活的配置方式-PAC"><a href="#更灵活的配置方式-PAC" class="headerlink" title="更灵活的配置方式 PAC"></a>更灵活的配置方式 PAC</h2></blockquote>
@@ -121,20 +120,20 @@
 <p>代理自动配置（英语：Proxy auto-config，简称PAC）是一种网页浏览器技术，用于定义浏览器该如何自动选择适当的代理服务器来访问一个网址。<br>一个PAC文件包含一个JavaScript形式的函数“FindProxyForURL(url, host)”。这个函数返回一个包含一个或多个访问规则的字符串。用户代理根据这些规则适用一个特定的代理器或者直接访问。当一个代理服务器无法响应的时候，多个访问规则提供了其他的后备访问方法。浏览器在访问其他页面以前，首先访问这个PAC文件。PAC文件中的URL可能是手工配置的，也可能是是通过网页的网络代理自动发现协议（WPAD）自动配置的。</p>
 </blockquote>
 <p>简单来说就是国内走国内，国外走代理。<br>你可以在客户端找到这个选项，我们可以设置国内不走这个节点，国外自动走代理。</p>
-<p><img src="https://i.imgur.com/F9WTFks.png" alt=""></p>
+<p><img src="https://i.imgur.com/F9WTFks.png" alt></p>
 <p>这里我用了一个好像不是最优不过也还好：</p>
 <blockquote>
-<p><span class="exturl" data-url="aHR0cDovL2ppYXNkMTIzLm9zcy1jbi1oYW5nemhvdS5hbGl5dW5jcy5jb20vbGlzdC50eHQ=" title="http://jiasd123.oss-cn-hangzhou.aliyuncs.com/list.txt">http://jiasd123.oss-cn-hangzhou.aliyuncs.com/list.txt<i class="fa fa-external-link"></i></span></p>
+<p><a href="http://jiasd123.oss-cn-hangzhou.aliyuncs.com/list.txt" target="_blank" rel="noopener">http://jiasd123.oss-cn-hangzhou.aliyuncs.com/list.txt</a></p>
 </blockquote>
 <p>同样我们可以自己通过JS编辑规则，来实现更高度的定制化。语法规则和具体，可以查阅这几个参考资料:</p>
 <ul>
-<li><span class="exturl" data-url="aHR0cDovL3d3dy5jbmJsb2dzLmNvbS9lZHdhcmQyMDEzL3AvNTU2MDgzNi5odG1s" title="http://www.cnblogs.com/edward2013/p/5560836.html">浅析PAC，教你动手修改你的PAC文件及user-rule文件实现自动代理<i class="fa fa-external-link"></i></span></li>
-<li><span class="exturl" data-url="aHR0cHM6Ly96aHVhbmxhbi56aGlodS5jb20vcC8yMjE2NjE3OT9yZWZlcj1iYXJyZXRsZWU=" title="https://zhuanlan.zhihu.com/p/22166179?refer=barretlee">详解代理自动配置 PAC-知乎专栏<i class="fa fa-external-link"></i></span></li>
-<li><span class="exturl" data-url="aHR0cDovL2Jsb2cuY3Nkbi5uZXQveHVuZGgvYXJ0aWNsZS9kZXRhaWxzLzQ4MTkzMzY5" title="http://blog.csdn.net/xundh/article/details/48193369">PAC脚本语法（代理自动配置）<i class="fa fa-external-link"></i></span></li>
+<li><a href="http://www.cnblogs.com/edward2013/p/5560836.html" target="_blank" rel="noopener">浅析PAC，教你动手修改你的PAC文件及user-rule文件实现自动代理</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/22166179?refer=barretlee" target="_blank" rel="noopener">详解代理自动配置 PAC-知乎专栏</a></li>
+<li><a href="http://blog.csdn.net/xundh/article/details/48193369" target="_blank" rel="noopener">PAC脚本语法（代理自动配置）</a></li>
 </ul>
-<p><img src="https://i.imgur.com/L4unCUQ.png" alt=""></p>
+<p><img src="https://i.imgur.com/L4unCUQ.png" alt></p>
 <p>我们还可以通过软件来直接在Chrome上集成这种自动切换的插件。</p>
-<p>比如：<span class="exturl" data-url="aHR0cHM6Ly9zd2l0Y2h5b21lZ2EuY29tLw==" title="https://switchyomega.com/">proxy-switchyomega<i class="fa fa-external-link"></i></span> </p>
+<p>比如：<a href="https://switchyomega.com/" target="_blank" rel="noopener">proxy-switchyomega</a> </p>
 <p>跟着教程走一遍，你会发现PAC的神器之处。</p>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><hr>
 <p>祝下载不再缓慢，祝git把把顺畅。<br>当然我们只是走了第一步，还有很多可提升的空间，后续我会再写两篇。</p>

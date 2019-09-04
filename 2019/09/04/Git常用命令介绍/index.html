@@ -1,14 +1,14 @@
 
 <!DOCTYPE html>
 <html lang="zh-CN" class="loading">
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Git常用命令介绍 - Fox Hound</title>
-    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="google" content="notranslate" />
+    <meta name="google" content="notranslate">
     <meta name="keywords" content="ArnoFrost,"> 
     <meta name="description" content="Life should be so,Git 常用命令介绍版本：v0.2
 [TOC]
@@ -21,9 +21,8 @@ rebase
 
 
 
-
 特点
-自动创建一个新的commit,如果合并的时候遇到冲,"> 
+自动创建一个新的commit,如果合并的时候遇到冲突,"> 
     <meta name="author" content="Arno Frost"> 
     <link rel="alternative" href="atom.xml" title="Fox Hound" type="application/atom+xml"> 
     <link rel="icon" href="/img/favicon.png"> 
@@ -36,11 +35,10 @@ rebase
               enable_page_level_ads: true
          });
     </script>
-    <script async custom-element="amp-auto-ads"
-        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    <script async custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
     </script>
 </head>
-
+</html>
 <body class="loading">
     <span id="config-title" style="display:none">Fox Hound</span>
     <div id="loader"></div>
@@ -81,29 +79,27 @@ rebase
 <h2 id="1-merge-amp-rebase"><a href="#1-merge-amp-rebase" class="headerlink" title="1. merge &amp; rebase"></a>1. merge &amp; rebase</h2><table>
 <thead>
 <tr>
-<th style="text-align:center">说明/方式</th>
-<th style="text-align:center">merge</th>
-<th style="text-align:center">rebase</th>
+<th align="center">说明/方式</th>
+<th align="center">merge</th>
+<th align="center">rebase</th>
 </tr>
 </thead>
-<tbody>
-<tr>
-<td style="text-align:center">特点</td>
-<td style="text-align:center">自动创建一个新的commit,如果合并的时候遇到冲突，仅需要修改后重新commit</td>
-<td style="text-align:center">会合并之前的commit历史</td>
+<tbody><tr>
+<td align="center">特点</td>
+<td align="center">自动创建一个新的commit,如果合并的时候遇到冲突，仅需要修改后重新commit</td>
+<td align="center">会合并之前的commit历史</td>
 </tr>
 <tr>
-<td style="text-align:center">优点</td>
-<td style="text-align:center">记录了真实的commit情况，包括每个分支的详情</td>
-<td style="text-align:center">得到更简洁的项目历史，去掉了merge commit</td>
+<td align="center">优点</td>
+<td align="center">记录了真实的commit情况，包括每个分支的详情</td>
+<td align="center">得到更简洁的项目历史，去掉了merge commit</td>
 </tr>
 <tr>
-<td style="text-align:center">缺点</td>
-<td style="text-align:center">因为每次merge会自动产生一个merge commit，所以在使用一些git 的GUI tools，特别是commit比较频繁时，看到分支很杂乱。</td>
-<td style="text-align:center">如果合并出现代码问题不容易定位，因为re-write了history</td>
+<td align="center">缺点</td>
+<td align="center">因为每次merge会自动产生一个merge commit，所以在使用一些git 的GUI tools，特别是commit比较频繁时，看到分支很杂乱。</td>
+<td align="center">如果合并出现代码问题不容易定位，因为re-write了history</td>
 </tr>
-</tbody>
-</table>
+</tbody></table>
 <p>合并时如果出现冲突需要按照如下步骤解决：</p>
 <ul>
 <li>修改冲突部分</li>
@@ -111,7 +107,7 @@ rebase
 <li>git rebase –continue/skip</li>
 <li>不要在git add 之后习惯性的执行 git commit命令</li>
 </ul>
-<p><span class="exturl" data-url="aHR0cDovL2dpdGJvb2subGl1aHVpOTk4LmNvbS80XzIuaHRtbA==" title="http://gitbook.liuhui998.com/4_2.html">GitBook- rebase&amp;merge<i class="fa fa-external-link"></i></span></p>
+<p><a href="http://gitbook.liuhui998.com/4_2.html" target="_blank" rel="noopener">GitBook- rebase&amp;merge</a></p>
 <h2 id="2-rebase-常见功能"><a href="#2-rebase-常见功能" class="headerlink" title="2. rebase 常见功能"></a>2. rebase 常见功能</h2><p><strong>梳理分支（合并提交，调整顺序，剔除等）</strong></p>
 <h3 id="git-pull-–rebase"><a href="#git-pull-–rebase" class="headerlink" title="git pull –rebase"></a>git pull –rebase</h3><blockquote>
 <p>当我们从远程拉代码的时候如果使用：git pull –rebase，则会以rebase的方式进行更新，而不是默认的merge。</p>
@@ -125,41 +121,42 @@ rebase
 <li><code>s</code>：保留这个commit的修改，但是把它合并到前一个commit中。</li>
 <li><code>d</code>：删除commit</li>
 </ul>
-<h3 id="不要在远程推送分支使用rebase操作"><a href="#不要在远程推送分支使用rebase操作" class="headerlink" title="不要在远程推送分支使用rebase操作"></a>不要在远程推送分支使用rebase操作</h3><p><span class="exturl" data-url="aHR0cHM6Ly9oZWxsb2ZyYW5rLmdpdGh1Yi5pby8yMDE4LzA0LzI3L0dpdC1SZWJhc2UtJUU5JUJCJTg0JUU5JTg3JTkxJUU2JUIzJTk1JUU1JTg4JTk5JUU5JTk3JUFFJUU5JUEyJTk4Lw==" title="https://hellofrank.github.io/2018/04/27/Git-Rebase-%E9%BB%84%E9%87%91%E6%B3%95%E5%88%99%E9%97%AE%E9%A2%98/">Git Rebase 黄金法则问题<i class="fa fa-external-link"></i></span></p>
+<h3 id="不要在远程推送分支使用rebase操作"><a href="#不要在远程推送分支使用rebase操作" class="headerlink" title="不要在远程推送分支使用rebase操作"></a>不要在远程推送分支使用rebase操作</h3><p><a href="https://hellofrank.github.io/2018/04/27/Git-Rebase-%E9%BB%84%E9%87%91%E6%B3%95%E5%88%99%E9%97%AE%E9%A2%98/" target="_blank" rel="noopener">Git Rebase 黄金法则问题</a></p>
 <h2 id="3-patch-amp-cherry-pick"><a href="#3-patch-amp-cherry-pick" class="headerlink" title="3. patch &amp; cherry-pick"></a>3. patch &amp; cherry-pick</h2><h3 id="patch-和diff-的区别"><a href="#patch-和diff-的区别" class="headerlink" title="patch 和diff 的区别"></a>patch 和diff 的区别</h3><p>Git 提供了两种补丁方案，一是用git diff生成的UNIX标准补丁.diff文件，二是git format-patch生成的Git专用.patch 文件。<br><strong>.diff文件只是记录文件改变的内容，不带有commit记录信息,多个commit可以合并成一个diff文件。</strong><br><strong>.patch文件带有记录文件改变的内容，也带有commit记录信息,每个commit对应一个patch文件。</strong></p>
-<p><span class="exturl" data-url="aHR0cHM6Ly9qdWVqaW4uaW0vcG9zdC81YjU4NTE5NzZmYjlhMDRmODQ0YWQwZjQ=" title="https://juejin.im/post/5b5851976fb9a04f844ad0f4">Git 打补丁– patch 和 diff 的使用<i class="fa fa-external-link"></i></span></p>
+<p><a href="https://juejin.im/post/5b5851976fb9a04f844ad0f4" target="_blank" rel="noopener">Git 打补丁– patch 和 diff 的使用</a></p>
 <h3 id="cherry-pick"><a href="#cherry-pick" class="headerlink" title="cherry-pick"></a>cherry-pick</h3><ul>
 <li><p><code>git cherry-pick [--edit] [-n] [-m parent-number] [-s] [-x] [--ff]  [-S[&lt;keyid&gt;]] &lt;commit&gt;...</code></p>
 </li>
 <li><p><code>git cherry-pick &lt;commitId&gt;...</code></p>
 </li>
 </ul>
-<p><span class="exturl" data-url="aHR0cHM6Ly9sZWFybmdpdGJyYW5jaGluZy5qcy5vcmcvP05PREVNTw==" title="https://learngitbranching.js.org/?NODEMO">git 沙盒模式<i class="fa fa-external-link"></i></span></p>
+<p><a href="https://learngitbranching.js.org/?NODEMO" target="_blank" rel="noopener">git 沙盒模式</a></p>
 <h2 id="杂项"><a href="#杂项" class="headerlink" title="杂项"></a>杂项</h2><h3 id="git-submodule"><a href="#git-submodule" class="headerlink" title="git submodule"></a>git submodule</h3><p>初始化<br><code>git submodule init</code><br>添加子仓库<br><code>git submodule add ssh://git@139.219.128.51:5837/zhengrong/CRBluetoothCore_android.git</code><br>更新子仓库<br><code>git submodule foreach git pull</code></p>
-<p><span class="exturl" data-url="aHR0cHM6Ly9zZWdtZW50ZmF1bHQuY29tL2EvMTE5MDAwMDAwMzA3NjAyOA==" title="https://segmentfault.com/a/1190000003076028">使用Git Submodule管理子模块<i class="fa fa-external-link"></i></span></p>
-<h3 id="提交规范"><a href="#提交规范" class="headerlink" title="提交规范"></a>提交规范</h3><p> <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FuZ3VsYXIvYW5ndWxhci5qcy9ibG9iL21hc3Rlci9ERVZFTE9QRVJTLm1kIy1naXQtY29tbWl0LWd1aWRlbGluZXM=" title="https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines">Angular 团队的规范<i class="fa fa-external-link"></i></span></p>
+<p><a href="https://segmentfault.com/a/1190000003076028" target="_blank" rel="noopener">使用Git Submodule管理子模块</a></p>
+<h3 id="提交规范"><a href="#提交规范" class="headerlink" title="提交规范"></a>提交规范</h3><p> <a href="https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines" target="_blank" rel="noopener">Angular 团队的规范</a></p>
 <ul>
 <li>标题行: 必填, 描述主要修改类型和内容</li>
 <li>主题内容: 描述为什么修改, 做了什么样的修改, 以及开发的思路等等</li>
 <li>页脚注释: 放 Breaking Changes 或 Closed Issues</li>
 </ul>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">type</span>&gt;</span>(<span class="tag">&lt;<span class="name">scope</span>&gt;</span>): <span class="tag">&lt;<span class="name">subject</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">BLANK</span> <span class="attr">LINE</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">BLANK</span> <span class="attr">LINE</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">footer</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <ul>
-<li><span class="exturl" data-url="aHR0cHM6Ly9qdWVqaW4uaW0vcG9zdC81YjVkNTBiZDUxODgyNTFiM2U2NDZjNWM=" title="https://juejin.im/post/5b5d50bd5188251b3e646c5c">如何优雅地pull request<i class="fa fa-external-link"></i></span></li>
-<li><span class="exturl" data-url="aHR0cHM6Ly9qdWVqaW4uaW0vcG9zdC81YWZjNTI0MmYyNjVkYTBiN2Y0NGJlZTQ=" title="https://juejin.im/post/5afc5242f265da0b7f44bee4">优雅的提交你的 Git Commit Message<i class="fa fa-external-link"></i></span></li>
+<li><a href="https://juejin.im/post/5b5d50bd5188251b3e646c5c" target="_blank" rel="noopener">如何优雅地pull request</a></li>
+<li><a href="https://juejin.im/post/5afc5242f265da0b7f44bee4" target="_blank" rel="noopener">优雅的提交你的 Git Commit Message</a></li>
 </ul>
 <h3 id="辅助插件类"><a href="#辅助插件类" class="headerlink" title="辅助插件类"></a>辅助插件类</h3><ul>
 <li><p>.gitconfig</p>
 </li>
-<li><p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3RqL2dpdC1leHRyYXMvYmxvYi9tYXN0ZXIvQ29tbWFuZHMubWQ=" title="https://github.com/tj/git-extras/blob/master/Commands.md">GitHub:git-extras<i class="fa fa-external-link"></i></span></p>
+<li><p><a href="https://github.com/tj/git-extras/blob/master/Commands.md" target="_blank" rel="noopener">GitHub:git-extras</a></p>
 </li>
-<li><p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2dpdC1jaGdsb2cvZ2l0LWNoZ2xvZw==" title="https://github.com/git-chglog/git-chglog">Github:git-chglog<i class="fa fa-external-link"></i></span>:<br><code>git-chglog v1.10.8..v1.11.0 -&gt; CHANGELOG.md</code></p>
+<li><p><a href="https://github.com/git-chglog/git-chglog" target="_blank" rel="noopener">Github:git-chglog</a>:<br><code>git-chglog v1.10.8..v1.11.0 -&gt; CHANGELOG.md</code></p>
 </li>
 </ul>
-<p><img src="media/15675140130196/15675180354976.jpg" alt=""></p>
+<p><img src="media/15675140130196/15675180354976.jpg" alt></p>
 <p><img src="media/15675140130196/15675181851538.jpg" alt="-w1234"></p>
 <ul>
-<li><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2dpdGh1Yi9naXRpZ25vcmU=" title="https://github.com/github/gitignore">Github:gitignore<i class="fa fa-external-link"></i></span></li>
+<li><a href="https://github.com/github/gitignore" target="_blank" rel="noopener">Github:gitignore</a></li>
 </ul>
 <h2 id="更新日志："><a href="#更新日志：" class="headerlink" title="更新日志："></a>更新日志：</h2><table>
 <thead>
@@ -169,8 +166,7 @@ rebase
 <th>说明</th>
 </tr>
 </thead>
-<tbody>
-<tr>
+<tbody><tr>
 <td>version 0.1</td>
 <td>2019年09月03日21:32:43</td>
 <td>初版</td>
@@ -180,8 +176,7 @@ rebase
 <td>2019年09月04日12:34:34</td>
 <td>完善杂项介绍</td>
 </tr>
-</tbody>
-</table>
+</tbody></table>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
