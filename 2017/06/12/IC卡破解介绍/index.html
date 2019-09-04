@@ -66,7 +66,7 @@
             <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>　　我的学校并不是“211”,“985”之类的重点大学，学校的热水也不是免费。每学期补贴的20多块根本不够用，而且丢了之后也<strong>懒得去买</strong>，关键还是觉得<strong>热水</strong> 这个东西<strong>太奢侈</strong>。走过弯路，不过也算比较顺利的解决了问题。后来我还自己编写了一个带GUI程序和安卓小DEMO软件，直到后来学校把设备都换成<strong>联网</strong>，并且实名制。免费水卡算是告一段落。</p>
 <p>　　好在升级设备前也把水卡钱充的足够多了，我不贪心够用就好，仅仅帮助我女朋友和室友在内的几个人而已。本文是把我理解的一些入门知识梳理开来，特此纪念一下这段大学时光。自学能力有限，不足之处望不吝指正。</p>
 <p>　　我把实现过程分成两个部分，可以先看<strong>原理简介</strong>，也可以直接看<strong>实现过程</strong>。<br><br></p>
-<h3 id="原理简介"><a href="#原理简介" class="headerlink" title="原理简介"></a>原理简介</h3><p>1.首先介绍一个概念，<a href="http://baike.baidu.com/link?url=7tGP8VDdC3AEO5P7G-1OzIf_yUIdpyQhrKyOknEtkvp25htStZQEPpy1DWFGlcDmq1HonwDLFKglh_qcZ2QVPQfz360hWlkuZjMLyJz1KKJDNieHDLcv1LttPN2bCv3HjR3ItzLgnjPvYdgP1_Ti3zGtlquvP6jvN9KL8tGVvG59QmLxwxNYKPfxCQEj48HNcQ2HbAYhN2184QZd2XOipq" target="_blank" rel="noopener">RFID</a></p>
+<h3 id="原理简介"><a href="#原理简介" class="headerlink" title="原理简介"></a>原理简介</h3><p>1.首先介绍一个概念，<span class="exturl" data-url="aHR0cDovL2JhaWtlLmJhaWR1LmNvbS9saW5rP3VybD03dEdQOFZEZEMzQUVPNVA3Ry0xT3pJZl95VUlkcHlRaHJLeU9rbkV0a3ZwMjVodFN0WlFFUHB5MURXRkdsY0RtcTFIb253RExGS2dsaF9xY1oyUVZQUWZ6MzYwaFdsa3Vaak1MeUp6MUtLSkROaWVIRExjdjFMdHRQTjJiQ3YzSGpSM0l0ekxnbmpQdllkZ1AxX1RpM3pHdGxxdXZQNmp2TjlLTDh0R1Z2RzU5UW1MeHd4TllLUGZ4Q1FFajQ4SE5jUTJIYkFZaE4yMTg0UVpkMlhPaXBx" title="http://baike.baidu.com/link?url=7tGP8VDdC3AEO5P7G-1OzIf_yUIdpyQhrKyOknEtkvp25htStZQEPpy1DWFGlcDmq1HonwDLFKglh_qcZ2QVPQfz360hWlkuZjMLyJz1KKJDNieHDLcv1LttPN2bCv3HjR3ItzLgnjPvYdgP1_Ti3zGtlquvP6jvN9KL8tGVvG59QmLxwxNYKPfxCQEj48HNcQ2HbAYhN2184QZd2XOipq">RFID<i class="fa fa-external-link"></i></span></p>
 <p><strong>射频识别</strong>，<em>RFID</em>（Radio Frequency Identification）技术，又称无线射频识别，是一种通信技术，可通过无线电讯号识别特定目标并读写相关数据，无需识别系统与特定目标之间建立机械或光学接触。 </p>
 <p>射频的话，一般是<em>微波</em>，1-100GHz，适用于短距离识别通信。<br>RFID读写器也分移动式的和固定式的，目前RFID技术应用很广，如：图书馆，门禁系统，食品安全溯源等。</p>
 <p>从概念上来讲，RFID类似于<em>条码扫描</em>，对于条码技术而言，它是将已编码的条形码附着于目标物并使用专用的扫描读写器利用光信号将信息由条形磁传送到扫描读写器；</p>
@@ -246,10 +246,10 @@
 </tr>
 </tbody>
 </table>
-<p>关于更多细节知识，点击这里: <a href="http://pan.baidu.com/s/1jHCeVkU" target="_blank" rel="noopener">mifare卡的初值说明及使用方法</a></p>
+<p>关于更多细节知识，点击这里: <span class="exturl" data-url="aHR0cDovL3Bhbi5iYWlkdS5jb20vcy8xakhDZVZrVQ==" title="http://pan.baidu.com/s/1jHCeVkU">mifare卡的初值说明及使用方法<i class="fa fa-external-link"></i></span></p>
 <p><br></p>
 <h3 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h3><p>　　<br>1.<strong>分清卡的种类：</strong></p>
-<p>　　我们破解卡，首先要分清是什么卡。<a href="http://baike.baidu.com/link?url=7tGP8VDdC3AEO5P7G-1OzIf_yUIdpyQhrKyOknEtkvp25htStZQEPpy1DWFGlcDmq1HonwDLFKglh_qcZ2QVPQfz360hWlkuZjMLyJz1KKJDNieHDLcv1LttPN2bCv3HjR3ItzLgnjPvYdgP1_Ti3zGtlquvP6jvN9KL8tGVvG59QmLxwxNYKPfxCQEj48HNcQ2HbAYhN2184QZd2XOipq" target="_blank" rel="noopener">RFID</a>里有很多种卡，IC卡现在最为常见。ID卡过去较为常见，逐渐被淘汰。现多数卡都是IC卡，M1类型的。为了帮助大家识别，介绍个简单方法。</p>
+<p>　　我们破解卡，首先要分清是什么卡。<span class="exturl" data-url="aHR0cDovL2JhaWtlLmJhaWR1LmNvbS9saW5rP3VybD03dEdQOFZEZEMzQUVPNVA3Ry0xT3pJZl95VUlkcHlRaHJLeU9rbkV0a3ZwMjVodFN0WlFFUHB5MURXRkdsY0RtcTFIb253RExGS2dsaF9xY1oyUVZQUWZ6MzYwaFdsa3Vaak1MeUp6MUtLSkROaWVIRExjdjFMdHRQTjJiQ3YzSGpSM0l0ekxnbmpQdllkZ1AxX1RpM3pHdGxxdXZQNmp2TjlLTDh0R1Z2RzU5UW1MeHd4TllLUGZ4Q1FFajQ4SE5jUTJIYkFZaE4yMTg0UVpkMlhPaXBx" title="http://baike.baidu.com/link?url=7tGP8VDdC3AEO5P7G-1OzIf_yUIdpyQhrKyOknEtkvp25htStZQEPpy1DWFGlcDmq1HonwDLFKglh_qcZ2QVPQfz360hWlkuZjMLyJz1KKJDNieHDLcv1LttPN2bCv3HjR3ItzLgnjPvYdgP1_Ti3zGtlquvP6jvN9KL8tGVvG59QmLxwxNYKPfxCQEj48HNcQ2HbAYhN2184QZd2XOipq">RFID<i class="fa fa-external-link"></i></span>里有很多种卡，IC卡现在最为常见。ID卡过去较为常见，逐渐被淘汰。现多数卡都是IC卡，M1类型的。为了帮助大家识别，介绍个简单方法。</p>
 <p><img src="http://i.imgur.com/iyB4fcR.jpg" alt=""><br><img src="http://i.imgur.com/UtzOH7q.jpg" alt=""><br><img src="http://i.imgur.com/qFHqPhB.jpg" alt=""></p>
 <p>　　<br>2.<strong>破解原理：</strong></p>
 <p>IC卡的特点是由16个扇区存储数据（<strong>0~15</strong>，不是16，0扇区是第一个），0扇区用来存储卡号，所以机器上<strong>直接能读取到卡号</strong>。每个扇区的数据有４块，即0~3。前三个用于存储数据，最后一个块用来存放KeyA和KeyB。先不用管有什么区别，只要记住这个就是破解一个扇区的关键就好。 </p>
@@ -323,6 +323,8 @@
                         <li title='6' data-url='http://music.163.com/song/media/outer/url?id=28468136.mp3'></li>
                     
                         <li title='7' data-url='http://music.163.com/song/media/outer/url?id=27808360.mp3'></li>
+                    
+                        <li title='8' data-url='http://music.163.com/song/media/outer/url?id=723174.mp3'></li>
                     
                 </ul>
             

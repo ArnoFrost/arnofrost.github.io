@@ -65,80 +65,21 @@
         <div class="content markdown">
             <h2 id="ListView和RecyclerView中item中宽度不占满的一种可能"><a href="#ListView和RecyclerView中item中宽度不占满的一种可能" class="headerlink" title="ListView和RecyclerView中item中宽度不占满的一种可能"></a>ListView和RecyclerView中item中宽度不占满的一种可能</h2><p>公司里有个项目，用到一个简单的ListView，我在item里写了match_parent属性，但是在运行中却并没有占满一整行，就导致了布局有问题。</p>
 <p>在使用ListView的Adapter中,我们在getView方法里是这样的写的：</p>
-<pre><code>public View getView(int position, View convertView, ViewGroup parent) {   
-if (convertView == null) {  
-     convertView = inflate(R.layout.item_lv_test, null); 
-} 
-return convertView;
-}
-</code></pre><p>其中的第二个参数是放parent，通常情况下之前一直在用null，但是这次却行不通了。问题在其实还真就在于这个null上。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> View <span class="title">getView</span><span class="params">(<span class="keyword">int</span> position, View convertView, ViewGroup parent)</span> </span>&#123;   </span><br><span class="line">   <span class="keyword">if</span> (convertView == <span class="keyword">null</span>) &#123;  </span><br><span class="line">        convertView = inflate(R.layout.item_lv_test, <span class="keyword">null</span>); </span><br><span class="line">   &#125; </span><br><span class="line">   <span class="keyword">return</span> convertView;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中的第二个参数是放parent，通常情况下之前一直在用null，但是这次却行不通了。问题在其实还真就在于这个null上。</p>
 <p>点进去去看了下源码，发现inflate里还有一个方法。</p>
 <p><img src="https://i.imgur.com/fi1OiMk.png" alt=""></p>
 <p>查阅资料，发现了我代码的问题。</p>
-<h2 id="1-如果设置为null："><a href="#1-如果设置为null：" class="headerlink" title="1.如果设置为null："></a>1.如果设置为null：</h2><p>根布局设置的高度是不起作用的，即使根布局是一个控件，比如：</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-
-&lt;TextView 
-xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-android:layout_width=&quot;match_parent&quot;
-android:layout_height=&quot;200dp&quot;
-android:text=&quot;abc&quot; /&gt;
-</code></pre><p>这时200dp不起作用，而是根据里面的文字大小来决定item的高度,比如如下起作用:</p>
-<pre><code>&lt;TextView 
-xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-android:layout_width=&quot;match_parent&quot;
-android:layout_height=&quot;200dp&quot;
-android:text=&quot;abc&quot;
-android:textSize=&quot;200dp&quot; /&gt;
-</code></pre><p>根布局是一个layout的情况下，根布局的高度也不起作用，而是里面子控件的高度起作用，比如下面item的高度是100dp：</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-android:layout_width=&quot;match_parent&quot;
-android:layout_height=&quot;300dp&quot;&gt;
-
-    &lt;TextView
-        android:layout_width=&quot;match_parent&quot;
-        android:layout_height=&quot;100dp&quot;
-        android:text=&quot;abc&quot;/&gt;
-
-&lt;/RelativeLayout&gt;
-</code></pre><p>如果里面的内容设置为match_parent,效果跟第一个一样，根据文字大小来决定item高度，因为parent设置的高度没用，所以里面子空间match_parent也没用：</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-android:layout_width=&quot;match_parent&quot;
-android:layout_height=&quot;300dp&quot;&gt;
-    &lt;TextView
-        android:layout_width=&quot;match_parent&quot;
-        android:layout_height=&quot;match_parent&quot;
-        android:text=&quot;abc&quot;/&gt;
-
-&lt;/RelativeLayout&gt;
-</code></pre><h3 id="对传null总结："><a href="#对传null总结：" class="headerlink" title="对传null总结："></a>对传null总结：</h3><p>设置为null时，因为没有父亲，根布局的layout_height没有作用，子布局的layout_height为绝对值时有用，为相对值（match_parent,wrap_content）时没用，里面内容的高度决定了item的高度（根部局为普通空间时，控件内容决定item高度，根布局为layout时，子控件设置的绝对高度或子控件的内容决定item高度）</p>
+<h2 id="1-如果设置为null："><a href="#1-如果设置为null：" class="headerlink" title="1.如果设置为null："></a>1.如果设置为null：</h2><p>根布局设置的高度是不起作用的，即使根布局是一个控件，比如：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">TextView</span> </span></span><br><span class="line"><span class="tag"><span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag"><span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">   <span class="attr">android:layout_height</span>=<span class="string">"200dp"</span></span></span><br><span class="line"><span class="tag">   <span class="attr">android:text</span>=<span class="string">"abc"</span> /&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这时200dp不起作用，而是根据里面的文字大小来决定item的高度,比如如下起作用:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">TextView</span> </span></span><br><span class="line"><span class="tag"><span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag"><span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">   <span class="attr">android:layout_height</span>=<span class="string">"200dp"</span></span></span><br><span class="line"><span class="tag">   <span class="attr">android:text</span>=<span class="string">"abc"</span></span></span><br><span class="line"><span class="tag">   <span class="attr">android:textSize</span>=<span class="string">"200dp"</span> /&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>根布局是一个layout的情况下，根布局的高度也不起作用，而是里面子控件的高度起作用，比如下面item的高度是100dp：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">RelativeLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">   <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">   <span class="attr">android:layout_height</span>=<span class="string">"300dp"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   	<span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">       	<span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">       	<span class="attr">android:layout_height</span>=<span class="string">"100dp"</span></span></span><br><span class="line"><span class="tag">       	<span class="attr">android:text</span>=<span class="string">"abc"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>如果里面的内容设置为match_parent,效果跟第一个一样，根据文字大小来决定item高度，因为parent设置的高度没用，所以里面子空间match_parent也没用：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">RelativeLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">   <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">   <span class="attr">android:layout_height</span>=<span class="string">"300dp"</span>&gt;</span></span><br><span class="line">   	<span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">      	 <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">      	 <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">      	 <span class="attr">android:text</span>=<span class="string">"abc"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="对传null总结："><a href="#对传null总结：" class="headerlink" title="对传null总结："></a>对传null总结：</h3><p>设置为null时，因为没有父亲，根布局的layout_height没有作用，子布局的layout_height为绝对值时有用，为相对值（match_parent,wrap_content）时没用，里面内容的高度决定了item的高度（根部局为普通空间时，控件内容决定item高度，根布局为layout时，子控件设置的绝对高度或子控件的内容决定item高度）</p>
 <h2 id="2-如果传入三个参数"><a href="#2-如果传入三个参数" class="headerlink" title="2.如果传入三个参数"></a>2.如果传入三个参数</h2><p>如果parent设置为getview传入的parent（第三个参数false），则根布局设置的高度就有用了：</p>
 <p>比如上面第一个就是200dp了</p>
-<p>如果这时候，根部局设置为match_parent，则根据里面内容来适配，比如以下item高度跟上面第一个一样，为文字的高度：</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-    android:layout_width=&quot;match_parent&quot;
-    android:layout_height=&quot;match_parent&quot;&gt;
-    &lt;TextView
-        android:layout_width=&quot;match_parent&quot;
-        android:layout_height=&quot;match_parent&quot;
-        android:text=&quot;abc&quot;/&gt;
-
-&lt;/RelativeLayout&gt;
-</code></pre><p>以下高度变成了200dp:</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-    android:layout_width=&quot;match_parent&quot;
-    android:layout_height=&quot;match_parent&quot;&gt;
-    &lt;TextView
-        android:layout_width=&quot;match_parent&quot;
-        android:layout_height=&quot;200dp&quot;
-        android:text=&quot;abc&quot;/&gt;
-
-&lt;/RelativeLayout&gt;
-</code></pre><p>同样这个在RecyclerView中也是，总结起来是自己当初用的时候太过着急没仔细看看这个方法是什么用的。以此来记录这次小坑。</p>
+<p>如果这时候，根部局设置为match_parent，则根据里面内容来适配，比如以下item高度跟上面第一个一样，为文字的高度：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">RelativeLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">   	<span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">   	<span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>&gt;</span></span><br><span class="line">   	<span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">       	<span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">       	<span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">       	<span class="attr">android:text</span>=<span class="string">"abc"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>以下高度变成了200dp:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">RelativeLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">   	<span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">   	<span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>&gt;</span></span><br><span class="line">   	<span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">       	<span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">       	<span class="attr">android:layout_height</span>=<span class="string">"200dp"</span></span></span><br><span class="line"><span class="tag">       	<span class="attr">android:text</span>=<span class="string">"abc"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>同样这个在RecyclerView中也是，总结起来是自己当初用的时候太过着急没仔细看看这个方法是什么用的。以此来记录这次小坑。</p>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
@@ -162,6 +103,8 @@ android:layout_height=&quot;300dp&quot;&gt;
                         <li title='6' data-url='http://music.163.com/song/media/outer/url?id=28468136.mp3'></li>
                     
                         <li title='7' data-url='http://music.163.com/song/media/outer/url?id=27808360.mp3'></li>
+                    
+                        <li title='8' data-url='http://music.163.com/song/media/outer/url?id=723174.mp3'></li>
                     
                 </ul>
             

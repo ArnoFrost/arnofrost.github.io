@@ -66,9 +66,9 @@
         <div class="content markdown">
             <h2 id="模拟器运行时候JS不加载或白屏"><a href="#模拟器运行时候JS不加载或白屏" class="headerlink" title="模拟器运行时候JS不加载或白屏"></a>模拟器运行时候JS不加载或白屏</h2><hr>
 <p>之前用百度地图的时候都是直接Copy过来其他项目的地方，因为好业务逻辑相同，也简单了不少。但是偶然在运行中发现了这样一个问题。我用的是SDK 25（7.1）的模拟器，在我点击跳转到页面的时候显示了空白，同时我的日志输出了这样一段：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chromium: [ERROR:interface_registry.cc(104)] Failed to locate a binder for interface: autofill::mojom::PasswordManagerDriver</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chromium: [ERROR:interface_registry.cc(104)] Failed to locate a binder for interface: autofill::mojom::PasswordManagerDriver</span><br></pre></td></tr></table></figure>
 <p>上网查阅资料里好多人说的是权限没获取到，又或是服务器资源不好。但这个页面短暂空白后，又出现了地图列表，看起来似乎是JS没有加载。可是我的代码里已经有了这些东西：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">webView.getSettings().setJavaScriptEnabled(true);</span><br><span class="line">webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);</span><br><span class="line">webView.getSettings().setDomStorageEnabled(true);</span><br><span class="line">webView.getSettings().setLoadsImagesAutomatically(true);</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">webView.getSettings().setJavaScriptEnabled(<span class="keyword">true</span>);</span><br><span class="line">webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(<span class="keyword">true</span>);</span><br><span class="line">webView.getSettings().setDomStorageEnabled(<span class="keyword">true</span>);</span><br><span class="line">webView.getSettings().setLoadsImagesAutomatically(<span class="keyword">true</span>);</span><br></pre></td></tr></table></figure>
 <p>这个时候还是Stack Overflow上能看出些门道， 同时我注意到还有另外一条信息：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Unrecognized GLES max version string in extensions: ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_dma_v1</span><br></pre></td></tr></table></figure>
 <p>由于是使用虚拟机，我意识到可能还有显示渲染的不兼容。</p>
@@ -99,6 +99,8 @@
                         <li title='6' data-url='http://music.163.com/song/media/outer/url?id=28468136.mp3'></li>
                     
                         <li title='7' data-url='http://music.163.com/song/media/outer/url?id=27808360.mp3'></li>
+                    
+                        <li title='8' data-url='http://music.163.com/song/media/outer/url?id=723174.mp3'></li>
                     
                 </ul>
             
