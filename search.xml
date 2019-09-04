@@ -137,21 +137,21 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[AndroidStudio 工程jar包重复引入报错]]></title>
-    <url>%2F2017%2F10%2F27%2FAndroidStudio%20%E5%B7%A5%E7%A8%8Bjar%E5%8C%85%E9%87%8D%E5%A4%8D%E5%BC%95%E5%85%A5%E6%8A%A5%E9%94%99%2F</url>
-    <content type="text"><![CDATA[app:transformClassesWithJarMergingForDebug 工程中，如果我们叫A，要引用的两个三方库分别叫B和C。 其中B包含了若干小jar包，比如其中有一个叫d，C中也包含了同样的jar包d。 那么我们直接应用这两个库的时候，编译过程会报错 1Execution failed for task ':app:transformClassesWithJarMergingForDebug'. 那么我们只需要在其中库中「去掉」jar包的引用，或者说过滤掉。 可以切换到「Project」视图， 查看比较两者间有什么库是一样的名字。这里我举了个例子： 在MANIFEST.MF文件中,找到要过滤的包名: io.reactivex.java 在gradle文件中，引用工程后面添加过滤的包名。这里我将rx有关的都过滤了，（使用的是AS3.0有了新的关键字implementation具体看这里） 123456compile('cn.bmob.android:bmob-sdk:3.5.5') &#123; exclude group: 'io.reactivex'&#125;compile('com.kymjs.rxvolley:rxvolley:1.1.4') &#123; exclude group: 'io.reactivex'&#125; 重新编译一下，就可以正常运行了。]]></content>
-      <tags>
-        <tag>Android</tag>
-        <tag>三方集成</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[百度地图集成的小问题]]></title>
     <url>%2F2017%2F10%2F27%2F%E7%99%BE%E5%BA%A6%E5%9C%B0%E5%9B%BE%E9%9B%86%E6%88%90%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98%2F</url>
     <content type="text"><![CDATA[模拟器运行时候JS不加载或白屏 之前用百度地图的时候都是直接Copy过来其他项目的地方，因为好业务逻辑相同，也简单了不少。但是偶然在运行中发现了这样一个问题。我用的是SDK 25（7.1）的模拟器，在我点击跳转到页面的时候显示了空白，同时我的日志输出了这样一段： 1chromium: [ERROR:interface_registry.cc(104)] Failed to locate a binder for interface: autofill::mojom::PasswordManagerDriver 上网查阅资料里好多人说的是权限没获取到，又或是服务器资源不好。但这个页面短暂空白后，又出现了地图列表，看起来似乎是JS没有加载。可是我的代码里已经有了这些东西： 1234webView.getSettings().setJavaScriptEnabled(true);webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);webView.getSettings().setDomStorageEnabled(true);webView.getSettings().setLoadsImagesAutomatically(true); 这个时候还是Stack Overflow上能看出些门道， 同时我注意到还有另外一条信息： 1Unrecognized GLES max version string in extensions: ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_dma_v1 由于是使用虚拟机，我意识到可能还有显示渲染的不兼容。 然后我试着找了一个x86版本的虚拟机安装上去，画面又显示回来了。 目前在Stack Overflow上没有找到什么能解决的办法。 无法在AndroidManifest.xml中获取com.baidu.android.lbs.API_KEY的值 按照文档上的说明，我在AndroidManifest文件中配置meta-data应该是可以的，但是读取不到，后来发现原来key 不应该是api_key而是com.baidu.lbsapi.API_KEY，这个问题还是要细心注意一下。]]></content>
       <categories>
         <category>开发</category>
       </categories>
+      <tags>
+        <tag>Android</tag>
+        <tag>三方集成</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[AndroidStudio 工程jar包重复引入报错]]></title>
+    <url>%2F2017%2F10%2F27%2FAndroidStudio%20%E5%B7%A5%E7%A8%8Bjar%E5%8C%85%E9%87%8D%E5%A4%8D%E5%BC%95%E5%85%A5%E6%8A%A5%E9%94%99%2F</url>
+    <content type="text"><![CDATA[app:transformClassesWithJarMergingForDebug 工程中，如果我们叫A，要引用的两个三方库分别叫B和C。 其中B包含了若干小jar包，比如其中有一个叫d，C中也包含了同样的jar包d。 那么我们直接应用这两个库的时候，编译过程会报错 1Execution failed for task ':app:transformClassesWithJarMergingForDebug'. 那么我们只需要在其中库中「去掉」jar包的引用，或者说过滤掉。 可以切换到「Project」视图， 查看比较两者间有什么库是一样的名字。这里我举了个例子： 在MANIFEST.MF文件中,找到要过滤的包名: io.reactivex.java 在gradle文件中，引用工程后面添加过滤的包名。这里我将rx有关的都过滤了，（使用的是AS3.0有了新的关键字implementation具体看这里） 123456compile('cn.bmob.android:bmob-sdk:3.5.5') &#123; exclude group: 'io.reactivex'&#125;compile('com.kymjs.rxvolley:rxvolley:1.1.4') &#123; exclude group: 'io.reactivex'&#125; 重新编译一下，就可以正常运行了。]]></content>
       <tags>
         <tag>Android</tag>
         <tag>三方集成</tag>
@@ -214,17 +214,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[安卓开发常用软件]]></title>
-    <url>%2F2017%2F06%2F12%2F%E5%AE%89%E5%8D%93%E5%BC%80%E5%8F%91%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6%2F</url>
-    <content type="text"><![CDATA[系统工具类基石软件 驱动人生软件 电脑管家 NVIDIA 搜狗输入法 Chrome Chorme常用插件: TamperMonkey 穹顶穿越 Smooth Key Scroll 小番茄 SwitchHosts hosts文件下载 开发工具类开发必要支持 Android Studio JDK Eclipse ADT23.0.7 Myeclipse Sqlite Expert ApkToolKit VMware破解版 MySQL Tomcat Android镜像 Nexus toolkit 文字处理类文字编辑所需 Sublime Text3 破解 Ultracompare MarkdownPad Awesomium 1.6.6 SDK 邮箱:Soar360@live.com 授权秘钥: GBPduHjWfJU1mZqcPM3BikjYKF6xKhlKIys3i1MU2eJHqWGImDHzWdD6xhMNLGVpbP2M5SN6bnxn2 kSE8qHqNY5QaaRxmO3YSMHxlv2EYpjdwLcPwfeTG7kUdnhKE0vVy4RidP6Y2wZ0q74f47fzsZo45J E2hfQBFi2O9Jldjp1mW8HUpTtLA2a5/sQytXJUQl/QKO0jUQY4pa5CCx20sV1ClOTZtAGngSOJtIOFXK599sBr5aIEFyH0K7H4BoNMiiDMnxt1rD8Vb/ikJd hGMMQr0R4B+L3nWU97eaVPTRKfWGDE8/eAgKzpGwrQQoDh+nzX1xoVQ8NAuH+s4UcSeQ==常用软件类功能扩展 wox seer官网下载 flux 魔方 小黑屋云写作软件 金山打字通 2345软件 好压 Everything 印象笔记 整理: ArnoFrost 版本:v1.2 2017年6月14日15:04:39]]></content>
-      <categories>
-        <category>技巧</category>
-      </categories>
-      <tags>
-        <tag>Android</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[IC卡破解教程]]></title>
     <url>%2F2017%2F06%2F12%2FIC%E5%8D%A1%E7%A0%B4%E8%A7%A3%E4%BB%8B%E7%BB%8D%2F</url>
     <content type="text"><![CDATA[前言 我的学校并不是“211”,“985”之类的重点大学，学校的热水也不是免费。每学期补贴的20多块根本不够用，而且丢了之后也懒得去买，关键还是觉得热水 这个东西太奢侈。走过弯路，不过也算比较顺利的解决了问题。后来我还自己编写了一个带GUI程序和安卓小DEMO软件，直到后来学校把设备都换成联网，并且实名制。免费水卡算是告一段落。 好在升级设备前也把水卡钱充的足够多了，我不贪心够用就好，仅仅帮助我女朋友和室友在内的几个人而已。本文是把我理解的一些入门知识梳理开来，特此纪念一下这段大学时光。自学能力有限，不足之处望不吝指正。 我把实现过程分成两个部分，可以先看原理简介，也可以直接看实现过程。 原理简介1.首先介绍一个概念，RFID 射频识别，RFID（Radio Frequency Identification）技术，又称无线射频识别，是一种通信技术，可通过无线电讯号识别特定目标并读写相关数据，无需识别系统与特定目标之间建立机械或光学接触。 射频的话，一般是微波，1-100GHz，适用于短距离识别通信。RFID读写器也分移动式的和固定式的，目前RFID技术应用很广，如：图书馆，门禁系统，食品安全溯源等。 从概念上来讲，RFID类似于条码扫描，对于条码技术而言，它是将已编码的条形码附着于目标物并使用专用的扫描读写器利用光信号将信息由条形磁传送到扫描读写器； 而RFID则使用专用的RFID读写器及专门的可附着于目标物的RFID标签，利用频率信号将信息由RFID标签传送至RFID读写器。 从结构上讲RFID是一种简单的无线系统，只有两个基本器件，该系统用于控制、检测和跟踪物体。系统由一个询问器和很多应答器组成。 2.简单说下RFID工作原理: 卡片由一个卷绕天线和特定用途集成电路模块组成。 其中，模块由一个高速(106KB波特率)的RF接口。一个控制单元和一个8K位E2PROM组成。读写器向MF1卡发出一组固定频率(13.56MHZ)的电磁波， 卡片内有一个LC串联谐振电路，其频率与读写器发射的频率相同， 在电磁波的激励下，LC谐振电路产生共振，从而使谐振电容内有了电荷， 在这个电容的另一端，接有一个单向导通的电子泵，将电容内的电荷送到模块存储电容内储存， 当所积累的电荷达到2V以上时，此电容可作为电源向模块电路提供工作电压，将卡内数据发射出去或接收读写器的数据。 3.存储结构: 字节号 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 控制值 FF FF FF FF FF FF 07 08 69 FF FF FF FF FF FF 说明 密码A（0~5字节） 存储控制 密码B（10~15字节） 4.控制属性： 每个扇区的用户密码和存取控制条件都是独立设置的，可以根据实际需要设定各自的密码及存取控制。 在存取控制中，每个块都有三个控制位相对应，用以决定某数据块或控制块的读写条件，定义为：”CXxy”，见表1所示。 其中CX代表每块控制位号(C1～C3)，x代表某块所属扇区号(0～15)， y代表该扇区内某块号。例如C1x2 即为x扇区内块2的第1控制位，余此类推。 注：控制位的设置存放在存取控制字节中，见表2所示。 表1：控制位定义”CXxy” 块0| C1x0| C2x0| C3x0| 用户数据块，(0区0块除外)—| — | —-| —-|块1| C1x1| C2x1| C3x1| 用户数据块块2| C1x2| C2x2| C3x2| 用户数据块块3| C1x3| C2x3| C3x3| 密匙存取控制块 表2:三个控制位在存取控制字节中的位置(注：” _b” 表示取反) 位号 bit 7 6 5 4 3 2 1 0 字节号 字节6 C2x3_b C2x2_b C2x1_b C2x0_b C1x3_b C1x2_b C1x1_b 字节7 C1x3 C1x2 C1x1 C1x0 C3x3_b C3x2_b C3x1_b 字节8 C3x3 C3x2 C3x1 C3x0 C2x3 C2x2 C2x1 字节9 BX7 BX6 BX5 BX4 BX3 BX2 BX1 所属块 块3控制位 块2控制位 块1控制位 块0控制位 块3控制位 块2控制位 块1控制位 关于更多细节知识，点击这里: mifare卡的初值说明及使用方法 ### 实现过程 1.分清卡的种类： 我们破解卡，首先要分清是什么卡。RFID里有很多种卡，IC卡现在最为常见。ID卡过去较为常见，逐渐被淘汰。现多数卡都是IC卡，M1类型的。为了帮助大家识别，介绍个简单方法。 2.破解原理： IC卡的特点是由16个扇区存储数据（0~15，不是16，0扇区是第一个），0扇区用来存储卡号，所以机器上直接能读取到卡号。每个扇区的数据有４块，即0~3。前三个用于存储数据，最后一个块用来存放KeyA和KeyB。先不用管有什么区别，只要记住这个就是破解一个扇区的关键就好。 紧接着如果我们有了KeyA就可以更改相应扇区的块里面的值。（这样听起来是不是简单多了？） 被标为蓝色的就是KeyA，后面跟着的ff07 8069是默认控制位，先不用理会，后面的6efd 32e1 1f59就是KeyB。只要我们获得到这个，就可以随意更改其他三个块里面的数据。（其实第四个块，块3也能更改，后面会提到，一般不需要因为你改了，机器不识别也没用0.0）细心的你可能发现这KeyA和KeyB不TM一样嘛！本来应该不一样，这里它俩一样更是降低了安全系数，同时为以后我们穷举破解减少了时间。 这是一个卡0扇区的数据，第一行为0块，卡号就是存在这里。 也是识别一张唯一卡的标志，它是不会被更改的，就是说你即使知道KeyA也更改不了这个扇区里面的值。这样做的目的当然是有的，就是说如果以后出了问题通过日志记录会知道是哪张卡。 3.破解过程： 说了这么多知道了原理，现在终于开始操作了。 连接上ACR122U读卡器到电脑，运行M1卡服务程序。 程序会自动识别出读卡器，初次安装可能会自动安装驱动，稍等一下就行。直到读卡器的灯亮起红色，这时候如果程序没识别读卡器重启一次程序就行。 这个时候已经识别出读卡器，将需要破解的卡放在上面，读卡器的灯会变成绿色，并会有一声“滴”表示已经检测到卡片。点击开始破解，进入穷举。 等待破解，这个过程看卡加密扇区多少和密码强度有关，只要不是全扇区加密耐心等待一会儿就好。极个别情况，我试过会长时间无响应，再试一次就好。破解完成后读卡器会闪一下，并有一声“滴”。 在软件根目录下会按日期生成dump文件，用ultra edit 或者sublime text之类的编辑软件就能直接打开，看见里面的数据。 接下来的范畴就是改数据，我两次打水后的金额一定不相同。以此找出数据区，推荐使用ultra compare这个软件。省着自己人工找了。 我比较懒，没拿以前的水卡做对比，这里放了一张我饭卡的。饭卡联网大家不要动啊！联网的服务器有数据!切记！切记！切记！重要的事情说三遍！ 我上次卡里有35.47块16进制是0ddb，它存储的是db0d，这里不难看出。下一次消费12，所以是23.47块16进制是092b 在后面的0069没弄清，不过每次都不变动，再后面的13b9。13是日期13号，和我们的消费终端位置。b004是04b0换算过来就是1200精确少数点后两位就是12.00块就是我这次消费的金额。在后面0605类似，最后6a7b那里和6aee不同是为了让整个行的异或和校验为00。 这有点类似于一个密码校验，不能让人随便改数，当然这个算法我现在通过多次数据对比发现了，所以随便改数也就没事了。可以根据实际情况，多次取值，一般都可以推算出结构，然后算出来滴。 4.复制、改值 先说复制，直接把另一个复制软件打开，将uid卡放在上面，dump文件对应好，就直接成功了。没什么技巧，一般都能看懂，注意一点一定要是UID卡，否则会因为0扇区写入不成功出错。 改值，用PCSC Mifare。 打开软件，初始化，放上卡片。点击加载秘钥，把从dump文件里要修改的扇区KeyA记住，输入进去。密钥存储编号默认就行。 点击扇区认证，我是要修改2扇区所以打2，密钥选A 如果你前两步没有出问题，那么会显示认证成功！紧接着点读取扇区就会显示这个扇区的数据。 点击二进制写扇区将数据9B 07 00 69 15 B9 0B 01 40 06 4B 00 06 05 6A 3A写进去，去掉空格（由于这个里有两个块都存值，所以我勾选两个，一次更改完） 完事点击二进制读扇区会发现数据已经更改，后一次我是又写回来了，改饭卡绝对作死啊！ 通过PCSC可以修改密钥，自行探索即可。 注意：经测试发现这个软件只能在xp下好使，所以我把它放进xp虚拟机中运行，应该是软件不兼容后期维护也差着了的缘故。还有如果打不开记得安装framework 2.0框架 5.全扇区加密破解 当然上面的方法只适用于非全扇区加密的小打小闹，现在好多公司都是防复制卡，就是全扇区加密。但是通过侦听方式还是可以实现的。这部分比较复杂，自行百度就行，我说的也都大同小异。 pm3的工具比较贵，廉价方案是用侦听卡，前提要有ACR122U读卡器。简单原理就是通过侦听两次通信，得出一个KeyA，相当于有一个扇区已知，再进行破解。这部分内容可自行探索。 结语 花了几个小时，终于整理完了这篇文章也算是有始有终吧。未来估计用到很少，可能就是自己电梯卡用用而已。大四上学期，临近毕业人的心态也有变化。细细想来这算是一个很宝贵的经历。感谢百度，感谢我的室友，感谢我女朋友桐。 2017年6月12日11:08:24:毕业后又整理了一次这个文章，重新提交到博客上。以此纪念我的一段大学Geek时光，纪念当时为了与一个编程兴奋到彻夜未眠的自己。 希望这篇文章能对你有帮助。 更新历史： version 1.0 2016/10/16 星期日 22:12:50 version 1.1 2017年6月12日09:47:48 version 1.3 2017年6月14日15:24:56]]></content>
@@ -233,6 +222,17 @@
       </categories>
       <tags>
         <tag>Geek</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[安卓开发常用软件]]></title>
+    <url>%2F2017%2F06%2F12%2F%E5%AE%89%E5%8D%93%E5%BC%80%E5%8F%91%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6%2F</url>
+    <content type="text"><![CDATA[系统工具类基石软件 驱动人生软件 电脑管家 NVIDIA 搜狗输入法 Chrome Chorme常用插件: TamperMonkey 穹顶穿越 Smooth Key Scroll 小番茄 SwitchHosts hosts文件下载 开发工具类开发必要支持 Android Studio JDK Eclipse ADT23.0.7 Myeclipse Sqlite Expert ApkToolKit VMware破解版 MySQL Tomcat Android镜像 Nexus toolkit 文字处理类文字编辑所需 Sublime Text3 破解 Ultracompare MarkdownPad Awesomium 1.6.6 SDK 邮箱:Soar360@live.com 授权秘钥: GBPduHjWfJU1mZqcPM3BikjYKF6xKhlKIys3i1MU2eJHqWGImDHzWdD6xhMNLGVpbP2M5SN6bnxn2 kSE8qHqNY5QaaRxmO3YSMHxlv2EYpjdwLcPwfeTG7kUdnhKE0vVy4RidP6Y2wZ0q74f47fzsZo45J E2hfQBFi2O9Jldjp1mW8HUpTtLA2a5/sQytXJUQl/QKO0jUQY4pa5CCx20sV1ClOTZtAGngSOJtIOFXK599sBr5aIEFyH0K7H4BoNMiiDMnxt1rD8Vb/ikJd hGMMQr0R4B+L3nWU97eaVPTRKfWGDE8/eAgKzpGwrQQoDh+nzX1xoVQ8NAuH+s4UcSeQ==常用软件类功能扩展 wox seer官网下载 flux 魔方 小黑屋云写作软件 金山打字通 2345软件 好压 Everything 印象笔记 整理: ArnoFrost 版本:v1.2 2017年6月14日15:04:39]]></content>
+      <categories>
+        <category>技巧</category>
+      </categories>
+      <tags>
+        <tag>Android</tag>
       </tags>
   </entry>
   <entry>
