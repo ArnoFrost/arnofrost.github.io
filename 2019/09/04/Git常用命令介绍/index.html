@@ -10,19 +10,14 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="google" content="notranslate">
     <meta name="keywords" content="ArnoFrost,"> 
-    <meta name="description" content="Life should be so,Git 常用命令介绍版本：v0.2
+    <meta name="description" content="Life should be so,Git 常用命令介绍版本：v0.3
 [TOC]
-1. merge &amp;amp; rebase
-
-
-说明/方式
-merge
-rebase
-
-
-
-特点
-自动创建一个新的commit,如果合并的时候遇到冲突,"> 
+1. 基础说明git 介绍Git简介
+git 常见概念
+commit: 提交
+commitId: 提交对应的哈希值
+branch: 分支
+HEAD: ,"> 
     <meta name="author" content="Arno Frost"> 
     <link rel="alternative" href="atom.xml" title="Fox Hound" type="application/atom+xml"> 
     <link rel="icon" href="/img/favicon.png"> 
@@ -74,9 +69,71 @@ rebase
 
         </div>
         <div class="content markdown">
-            <h1 id="Git-常用命令介绍"><a href="#Git-常用命令介绍" class="headerlink" title="Git 常用命令介绍"></a>Git 常用命令介绍</h1><p>版本：<code>v0.2</code></p>
+            <h1 id="Git-常用命令介绍"><a href="#Git-常用命令介绍" class="headerlink" title="Git 常用命令介绍"></a>Git 常用命令介绍</h1><p>版本：<code>v0.3</code></p>
 <p>[TOC]</p>
-<h2 id="1-merge-amp-rebase"><a href="#1-merge-amp-rebase" class="headerlink" title="1. merge &amp; rebase"></a>1. merge &amp; rebase</h2><table>
+<h2 id="1-基础说明"><a href="#1-基础说明" class="headerlink" title="1. 基础说明"></a>1. 基础说明</h2><h3 id="git-介绍"><a href="#git-介绍" class="headerlink" title="git 介绍"></a>git 介绍</h3><p><a href="https://www.liaoxuefeng.com/wiki/896043488029600/896067008724000" target="_blank" rel="noopener">Git简介</a></p>
+<h3 id="git-常见概念"><a href="#git-常见概念" class="headerlink" title="git 常见概念"></a>git 常见概念</h3><ul>
+<li><code>commit</code>: 提交</li>
+<li><code>commitId</code>: 提交对应的哈希值</li>
+<li><code>branch</code>: 分支</li>
+<li><code>HEAD</code>: 头指针</li>
+<li><code>origin</code>: 远端</li>
+<li><code>conflict</code>：冲突</li>
+<li><code>merge</code>: 合并</li>
+<li><code>rebase</code>：变基</li>
+<li><code>fetch</code>: 更新</li>
+</ul>
+<h3 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h3><p><img src="media/15676511913048.jpg" alt></p>
+<p><strong>Git 可以大概分为三个区</strong><br>Git 本地数据管理，大概可以分为三个区，<code>工作区</code>,<code>暂存区</code>和<code>版本库</code>。</p>
+<ul>
+<li><p><code>工作区</code>（Working Directory）<br>是我们直接编辑的地方，例如 Android Studio 打开的项目，记事本打开的文本等，肉眼可见，直接操作。</p>
+</li>
+<li><p><code>暂存区</code>（Stage 或 Index）<br>数据暂时存放的区域，可在工作区和版本库之间进行数据的友好交流。</p>
+</li>
+<li><p><code>版本库</code>（commit History）<br>存放已经提交的数据，push 的时候，就是把这个区的数据 push 到远程仓库了。</p>
+<h3 id="add命令"><a href="#add命令" class="headerlink" title="add命令"></a>add命令</h3></li>
+<li><p><code>git add .</code>：他会监控工作区的状态树，使用它会把工作时的所有变化提交到暂存区，包括文件内容修改(modified)以及新文件(new)，但不包括被删除的文件。（当前目录与子目录）</p>
+</li>
+<li><p><code>git add -u</code>：他仅监控已经被add的文件（即tracked file），他会将被修改的文件提交到暂存区。add -u 不会提交新文件（untracked file）。（git add –update的缩写）</p>
+</li>
+<li><p><code>git add -A</code> ：是上面两个功能的合集（git add –all的缩写）（所有目录）</p>
+</li>
+</ul>
+<h3 id="gitignore"><a href="#gitignore" class="headerlink" title=".gitignore"></a>.gitignore</h3><ul>
+<li><a href="https://github.com/github/gitignore" target="_blank" rel="noopener">Github:gitignore</a></li>
+</ul>
+<h3 id="commit-checkout"><a href="#commit-checkout" class="headerlink" title="commit/checkout"></a>commit/checkout</h3><ul>
+<li>检出分支</li>
+<li>检出文件</li>
+<li>还原文件<h3 id="diff"><a href="#diff" class="headerlink" title="diff"></a>diff</h3><code>git diff [&lt;options&gt;] [&lt;commit&gt;] [--] [&lt;path&gt;...]</code><h3 id="reset"><a href="#reset" class="headerlink" title="reset"></a>reset</h3></li>
+<li><code>git reset</code> : 清空git add 的文件</li>
+<li><code>git reset HEAD</code>：默认mixed模式</li>
+</ul>
+<p><img src="media/15676535334343.jpg" alt></p>
+<h3 id="clone-amp-fetch-amp-pull"><a href="#clone-amp-fetch-amp-pull" class="headerlink" title="clone &amp; fetch &amp; pull"></a>clone &amp; fetch &amp; pull</h3><ul>
+<li><code>git clone [-b &lt;name&gt;] &lt;repository&gt; [&lt;directory&gt;]</code></li>
+<li><code>fetch</code>: </li>
+<li><code>pull</code>: fetch + merge</li>
+</ul>
+<h3 id="stash"><a href="#stash" class="headerlink" title="stash"></a>stash</h3><ul>
+<li><p><code>git stash save &quot;save message&quot;</code>  : 执行存储时，添加备注，方便查找，只有git stash 也要可以的，但查找时不方便识别。</p>
+</li>
+<li><p><code>git stash list</code>  ：查看stash了哪些存储</p>
+</li>
+<li><p><code>git stash show</code> ：显示做了哪些改动，默认show第一个存储,如果要显示其他存贮，后面加<code>stash@{$num}</code>，比如第二个 <code>git stash show stash@{1}</code></p>
+</li>
+<li><p><code>git stash show -p</code> : 显示第一个存储的改动，如果想显示其他存存储，命令：<code>git stash show  stash@{$num}  -p</code> ，比如第二个：<code>git stash show  stash@{1}  -p</code></p>
+</li>
+<li><p><code>git stash apply</code> :应用某个存储,但不会把存储从存储列表中删除，默认使用第一个存储,即stash@{0}，如果要使用其他个，<code>git stash apply stash@{$num}</code> ， 比如第二个：<code>git stash apply stash@{1}</code></p>
+</li>
+<li><p><code>git stash pop</code> ：命令恢复之前缓存的工作目录，将缓存堆栈中的对应stash删除，并将对应修改应用到当前的工作目录下,默认为第一个stash,即stash@{0}，如果要应用并删除其他stash，命令：git stash pop stash@{$num} ，比如应用并删除第二个：git stash pop stash@{1}</p>
+</li>
+<li><p><code>git stash drop stash@{$num}</code> ：丢弃stash@{$num}存储，从列表中删除这个存储</p>
+</li>
+<li><p><code>git stash clear</code> ：删除所有缓存的stash</p>
+</li>
+</ul>
+<h2 id="2-merge-amp-rebase"><a href="#2-merge-amp-rebase" class="headerlink" title="2. merge &amp; rebase"></a>2. merge &amp; rebase</h2><table>
 <thead>
 <tr>
 <th align="center">说明/方式</th>
@@ -108,7 +165,7 @@ rebase
 <li>不要在git add 之后习惯性的执行 git commit命令</li>
 </ul>
 <p><a href="http://gitbook.liuhui998.com/4_2.html" target="_blank" rel="noopener">GitBook- rebase&amp;merge</a></p>
-<h2 id="2-rebase-常见功能"><a href="#2-rebase-常见功能" class="headerlink" title="2. rebase 常见功能"></a>2. rebase 常见功能</h2><p><strong>梳理分支（合并提交，调整顺序，剔除等）</strong></p>
+<h2 id="3-rebase-常见功能"><a href="#3-rebase-常见功能" class="headerlink" title="3. rebase 常见功能"></a>3. rebase 常见功能</h2><p><strong>梳理分支（合并提交，调整顺序，剔除等）</strong></p>
 <h3 id="git-pull-–rebase"><a href="#git-pull-–rebase" class="headerlink" title="git pull –rebase"></a>git pull –rebase</h3><blockquote>
 <p>当我们从远程拉代码的时候如果使用：git pull –rebase，则会以rebase的方式进行更新，而不是默认的merge。</p>
 </blockquote>
@@ -122,7 +179,7 @@ rebase
 <li><code>d</code>：删除commit</li>
 </ul>
 <h3 id="不要在远程推送分支使用rebase操作"><a href="#不要在远程推送分支使用rebase操作" class="headerlink" title="不要在远程推送分支使用rebase操作"></a>不要在远程推送分支使用rebase操作</h3><p><a href="https://hellofrank.github.io/2018/04/27/Git-Rebase-%E9%BB%84%E9%87%91%E6%B3%95%E5%88%99%E9%97%AE%E9%A2%98/" target="_blank" rel="noopener">Git Rebase 黄金法则问题</a></p>
-<h2 id="3-patch-amp-cherry-pick"><a href="#3-patch-amp-cherry-pick" class="headerlink" title="3. patch &amp; cherry-pick"></a>3. patch &amp; cherry-pick</h2><h3 id="patch-和diff-的区别"><a href="#patch-和diff-的区别" class="headerlink" title="patch 和diff 的区别"></a>patch 和diff 的区别</h3><p>Git 提供了两种补丁方案，一是用git diff生成的UNIX标准补丁.diff文件，二是git format-patch生成的Git专用.patch 文件。<br><strong>.diff文件只是记录文件改变的内容，不带有commit记录信息,多个commit可以合并成一个diff文件。</strong><br><strong>.patch文件带有记录文件改变的内容，也带有commit记录信息,每个commit对应一个patch文件。</strong></p>
+<h2 id="4-patch-amp-cherry-pick"><a href="#4-patch-amp-cherry-pick" class="headerlink" title="4. patch &amp; cherry-pick"></a>4. patch &amp; cherry-pick</h2><h3 id="patch-和diff-的区别"><a href="#patch-和diff-的区别" class="headerlink" title="patch 和diff 的区别"></a>patch 和diff 的区别</h3><p>Git 提供了两种补丁方案，一是用git diff生成的UNIX标准补丁.diff文件，二是git format-patch生成的Git专用.patch 文件。<br><strong>.diff文件只是记录文件改变的内容，不带有commit记录信息,多个commit可以合并成一个diff文件。</strong><br><strong>.patch文件带有记录文件改变的内容，也带有commit记录信息,每个commit对应一个patch文件。</strong></p>
 <p><a href="https://juejin.im/post/5b5851976fb9a04f844ad0f4" target="_blank" rel="noopener">Git 打补丁– patch 和 diff 的使用</a></p>
 <h3 id="cherry-pick"><a href="#cherry-pick" class="headerlink" title="cherry-pick"></a>cherry-pick</h3><ul>
 <li><p><code>git cherry-pick [--edit] [-n] [-m parent-number] [-s] [-x] [--ff]  [-S[&lt;keyid&gt;]] &lt;commit&gt;...</code></p>
@@ -131,7 +188,11 @@ rebase
 </li>
 </ul>
 <p><a href="https://learngitbranching.js.org/?NODEMO" target="_blank" rel="noopener">git 沙盒模式</a></p>
-<h2 id="杂项"><a href="#杂项" class="headerlink" title="杂项"></a>杂项</h2><h3 id="git-submodule"><a href="#git-submodule" class="headerlink" title="git submodule"></a>git submodule</h3><p>初始化<br><code>git submodule init</code><br>添加子仓库<br><code>git submodule add ssh://git@139.219.128.51:5837/zhengrong/CRBluetoothCore_android.git</code><br>更新子仓库<br><code>git submodule foreach git pull</code></p>
+<h2 id="5-杂项"><a href="#5-杂项" class="headerlink" title="5. 杂项"></a>5. 杂项</h2><h3 id="协同工作流程"><a href="#协同工作流程" class="headerlink" title="协同工作流程"></a>协同工作流程</h3><p><img src="media/15676536737667.jpg" alt></p>
+<p><a href="http://www.fwhyy.com/2018/06/Use-the-Merge-Request-working-mode-in-GitLab-in-the-team/" target="_blank" rel="noopener">在团队中使用GitLab中的Merge Request工作模式</a></p>
+<p><a href="https://github.com/xirong/my-git/blob/master/git-workflow-tutorial.md" target="_blank" rel="noopener">Git工作流指南 - GitHub</a></p>
+<h3 id="revert"><a href="#revert" class="headerlink" title="revert"></a>revert</h3><p><code>git revert &lt;commitId&gt;</code></p>
+<h3 id="git-submodule"><a href="#git-submodule" class="headerlink" title="git submodule"></a>git submodule</h3><p>初始化<br><code>git submodule init</code><br>添加子仓库<br><code>git submodule add ssh://git@139.219.128.51:5837/zhengrong/CRBluetoothCore_android.git</code><br>更新子仓库<br><code>git submodule foreach git pull</code></p>
 <p><a href="https://segmentfault.com/a/1190000003076028" target="_blank" rel="noopener">使用Git Submodule管理子模块</a></p>
 <h3 id="提交规范"><a href="#提交规范" class="headerlink" title="提交规范"></a>提交规范</h3><p> <a href="https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines" target="_blank" rel="noopener">Angular 团队的规范</a></p>
 <ul>
@@ -153,11 +214,9 @@ rebase
 <li><p><a href="https://github.com/git-chglog/git-chglog" target="_blank" rel="noopener">Github:git-chglog</a>:<br><code>git-chglog v1.10.8..v1.11.0 -&gt; CHANGELOG.md</code></p>
 </li>
 </ul>
-<p><img src="media/changlog.jpg" alt="changlog"><br><img src="media/git%20log.jpg" alt="git log"></p>
-<ul>
-<li><a href="https://github.com/github/gitignore" target="_blank" rel="noopener">Github:gitignore</a></li>
-</ul>
-<h2 id="更新日志："><a href="#更新日志：" class="headerlink" title="更新日志："></a>更新日志：</h2><table>
+<p><img src="media/git%20log.jpg" alt="git log"></p>
+<p><img src="media/changlog.jpg" alt="changlog"></p>
+<h2 id="6-更新日志："><a href="#6-更新日志：" class="headerlink" title="6. 更新日志："></a>6. 更新日志：</h2><table>
 <thead>
 <tr>
 <th>版本</th>
@@ -174,6 +233,11 @@ rebase
 <td>version 0.2</td>
 <td>2019年09月04日12:34:34</td>
 <td>完善杂项介绍</td>
+</tr>
+<tr>
+<td>version 0.3</td>
+<td>2019年09月05日10:36:54</td>
+<td>添加基础说明，添加部分杂项</td>
 </tr>
 </tbody></table>
 
@@ -220,7 +284,7 @@ rebase
     </div>
     
         <div class='side'>
-            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Git-常用命令介绍"><span class="toc-number">1.</span> <span class="toc-text">Git 常用命令介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-merge-amp-rebase"><span class="toc-number">1.1.</span> <span class="toc-text">1. merge &amp; rebase</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-rebase-常见功能"><span class="toc-number">1.2.</span> <span class="toc-text">2. rebase 常见功能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#git-pull-–rebase"><span class="toc-number">1.2.1.</span> <span class="toc-text">git pull –rebase</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git-rebase-–interactive"><span class="toc-number">1.2.2.</span> <span class="toc-text">git rebase –interactive</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#不要在远程推送分支使用rebase操作"><span class="toc-number">1.2.3.</span> <span class="toc-text">不要在远程推送分支使用rebase操作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-patch-amp-cherry-pick"><span class="toc-number">1.3.</span> <span class="toc-text">3. patch &amp; cherry-pick</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#patch-和diff-的区别"><span class="toc-number">1.3.1.</span> <span class="toc-text">patch 和diff 的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cherry-pick"><span class="toc-number">1.3.2.</span> <span class="toc-text">cherry-pick</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#杂项"><span class="toc-number">1.4.</span> <span class="toc-text">杂项</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#git-submodule"><span class="toc-number">1.4.1.</span> <span class="toc-text">git submodule</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#提交规范"><span class="toc-number">1.4.2.</span> <span class="toc-text">提交规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#辅助插件类"><span class="toc-number">1.4.3.</span> <span class="toc-text">辅助插件类</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更新日志："><span class="toc-number">1.5.</span> <span class="toc-text">更新日志：</span></a></li></ol></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Git-常用命令介绍"><span class="toc-number">1.</span> <span class="toc-text">Git 常用命令介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-基础说明"><span class="toc-number">1.1.</span> <span class="toc-text">1. 基础说明</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#git-介绍"><span class="toc-number">1.1.1.</span> <span class="toc-text">git 介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git-常见概念"><span class="toc-number">1.1.2.</span> <span class="toc-text">git 常见概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#工作流程"><span class="toc-number">1.1.3.</span> <span class="toc-text">工作流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#add命令"><span class="toc-number">1.1.4.</span> <span class="toc-text">add命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#gitignore"><span class="toc-number">1.1.5.</span> <span class="toc-text">.gitignore</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#commit-checkout"><span class="toc-number">1.1.6.</span> <span class="toc-text">commit/checkout</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#diff"><span class="toc-number">1.1.7.</span> <span class="toc-text">diff</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#reset"><span class="toc-number">1.1.8.</span> <span class="toc-text">reset</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#clone-amp-fetch-amp-pull"><span class="toc-number">1.1.9.</span> <span class="toc-text">clone &amp; fetch &amp; pull</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#stash"><span class="toc-number">1.1.10.</span> <span class="toc-text">stash</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-merge-amp-rebase"><span class="toc-number">1.2.</span> <span class="toc-text">2. merge &amp; rebase</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-rebase-常见功能"><span class="toc-number">1.3.</span> <span class="toc-text">3. rebase 常见功能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#git-pull-–rebase"><span class="toc-number">1.3.1.</span> <span class="toc-text">git pull –rebase</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git-rebase-–interactive"><span class="toc-number">1.3.2.</span> <span class="toc-text">git rebase –interactive</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#不要在远程推送分支使用rebase操作"><span class="toc-number">1.3.3.</span> <span class="toc-text">不要在远程推送分支使用rebase操作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-patch-amp-cherry-pick"><span class="toc-number">1.4.</span> <span class="toc-text">4. patch &amp; cherry-pick</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#patch-和diff-的区别"><span class="toc-number">1.4.1.</span> <span class="toc-text">patch 和diff 的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cherry-pick"><span class="toc-number">1.4.2.</span> <span class="toc-text">cherry-pick</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-杂项"><span class="toc-number">1.5.</span> <span class="toc-text">5. 杂项</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#协同工作流程"><span class="toc-number">1.5.1.</span> <span class="toc-text">协同工作流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#revert"><span class="toc-number">1.5.2.</span> <span class="toc-text">revert</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git-submodule"><span class="toc-number">1.5.3.</span> <span class="toc-text">git submodule</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#提交规范"><span class="toc-number">1.5.4.</span> <span class="toc-text">提交规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#辅助插件类"><span class="toc-number">1.5.5.</span> <span class="toc-text">辅助插件类</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-更新日志："><span class="toc-number">1.6.</span> <span class="toc-text">6. 更新日志：</span></a></li></ol></li></ol>
         </div>
     
 </div>
