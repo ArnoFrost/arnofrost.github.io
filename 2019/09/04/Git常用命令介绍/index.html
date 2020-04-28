@@ -179,7 +179,8 @@ HEAD: ,">
 <li><code>d</code>：删除commit</li>
 </ul>
 <h3 id="不要在远程推送分支使用rebase操作"><a href="#不要在远程推送分支使用rebase操作" class="headerlink" title="不要在远程推送分支使用rebase操作"></a>不要在远程推送分支使用rebase操作</h3><p><a href="https://hellofrank.github.io/2018/04/27/Git-Rebase-%E9%BB%84%E9%87%91%E6%B3%95%E5%88%99%E9%97%AE%E9%A2%98/" target="_blank" rel="noopener">Git Rebase 黄金法则问题</a></p>
-<h2 id="4-patch-amp-cherry-pick"><a href="#4-patch-amp-cherry-pick" class="headerlink" title="4. patch &amp; cherry-pick"></a>4. patch &amp; cherry-pick</h2><h3 id="patch-和diff-的区别"><a href="#patch-和diff-的区别" class="headerlink" title="patch 和diff 的区别"></a>patch 和diff 的区别</h3><p>Git 提供了两种补丁方案，一是用git diff生成的UNIX标准补丁.diff文件，二是git format-patch生成的Git专用.patch 文件。<br><strong>.diff文件只是记录文件改变的内容，不带有commit记录信息,多个commit可以合并成一个diff文件。</strong><br><strong>.patch文件带有记录文件改变的内容，也带有commit记录信息,每个commit对应一个patch文件。</strong></p>
+<h2 id="4-patch-amp-cherry-pick"><a href="#4-patch-amp-cherry-pick" class="headerlink" title="4. patch &amp; cherry-pick"></a>4. patch &amp; cherry-pick</h2><h3 id="patch-和diff-的区别"><a href="#patch-和diff-的区别" class="headerlink" title="patch 和diff 的区别"></a>patch 和diff 的区别</h3><p><a href="https://blog.csdn.net/liuhaomatou/article/details/54410361" target="_blank" rel="noopener">如何使用git 生成patch 和打入patch</a></p>
+<p>Git 提供了两种补丁方案，一是用git diff生成的UNIX标准补丁.diff文件，二是git format-patch生成的Git专用.patch 文件。<br><strong>.diff文件只是记录文件改变的内容，不带有commit记录信息,多个commit可以合并成一个diff文件。</strong><br><strong>.patch文件带有记录文件改变的内容，也带有commit记录信息,每个commit对应一个patch文件。</strong></p>
 <p><a href="https://juejin.im/post/5b5851976fb9a04f844ad0f4" target="_blank" rel="noopener">Git 打补丁– patch 和 diff 的使用</a></p>
 <h3 id="cherry-pick"><a href="#cherry-pick" class="headerlink" title="cherry-pick"></a>cherry-pick</h3><ul>
 <li><p><code>git cherry-pick [--edit] [-n] [-m parent-number] [-s] [-x] [--ff]  [-S[&lt;keyid&gt;]] &lt;commit&gt;...</code></p>
