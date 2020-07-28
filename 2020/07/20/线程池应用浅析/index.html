@@ -33,7 +33,7 @@ version 0.1[TOC]
     <script async custom-element="amp-auto-ads"
         src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
     </script>
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body class="loading">
     <span id="config-title" style="display:none">Fox Hound</span>
@@ -117,7 +117,7 @@ version 0.1[TOC]
 <h3 id="分析："><a href="#分析：" class="headerlink" title="分析："></a>分析：</h3><p>对于任务队列影响线程池的表现：</p>
 <p>我们可以看到，线程池的创建运行不光是要指定核心与线程数，同样更要结合所使用的<strong>任务队列</strong>特性去区别对待。</p>
 <ul>
-<li>如果采用<strong>无界的阻塞队列</strong>比如 <code>LinkedBlockingQueue</code> ，因为<strong>没有大小限制</strong>，队列中可以不断的添加任务，然后一直都是最小核心线程的数量来做事情。换句话说就是最多只能<strong>按照最小线程数量来创建</strong>，而线程池的maxsize被忽略了。这也可以很好地解释<code>newFixedThreadPool</code>的为什么直接将核心数与最大数设置为同一个值，以此来保证并发控制。但由于这种特殊无界的特性，需要关注到是否合理使用防止OOM的发生。（比如<code>OkHttp</code>中，虽然也是创建的<code>newCacheThreadPool</code> 但外部的任务安排还是通过<code>Dispatcher</code>来调度管理分配的避免同时创建过多。）比如<code>OkHttp</code>中，虽然也是创建的<code>newCacheThreadPool</code> 但外部的任务安排还是通过<code>Dispatcher</code>来调度管理分配的避免同时创建过多。</li>
+<li>如果采用<strong>无界的阻塞队列</strong>比如 <code>LinkedBlockingQueue</code> ，因为<strong>没有大小限制</strong>，队列中可以不断的添加任务，然后一直都是最小核心线程的数量来做事情。换句话说就是最多只能<strong>按照最小线程数量来创建</strong>，而线程池的maxsize被忽略了。这也可以很好地解释<code>newFixedThreadPool</code>的为什么直接将核心数与最大数设置为同一个值，以此来保证并发控制。但由于这种特殊无界的特性，需要关注到是否合理使用防止OOM的发生。（比如<code>OkHttp</code>中，虽然也是创建的<code>newCacheThreadPool</code> 但外部的任务安排还是通过<code>Dispatcher</code>来调度管理分配的避免同时创建过多,默认是64个请求或者5个主机数以内）</li>
 <li>而如果采用一个<strong>有界的队列</strong>比如<code>ArrayBlockingQueue</code>，（假定一个线程池为最小3，最大6，任务队列大小为5）。当前三个任务加入时最小核心数3保持着运行，然后继续添加5个任务，这个时候在任务队列都<strong>可以容纳的前提下</strong>线程池仍旧<strong>不会开启新的线程</strong>，但当<strong>再添加任务时</strong>，这个时候<strong>才会开启</strong>新的工作线程，执行队列中的第一个任务，再将这个新的任务放入任务队列，直到超过最大线程数量后会抛出异常（假设这段时间内没有任何一个任务结束，保证都在运行任务）。这很好的体现了线程池对于多任务并行处理的控制作用，起到了一个<strong>节流阀</strong>的功效。</li>
 </ul>
 <h3 id="更新日志："><a href="#更新日志：" class="headerlink" title="更新日志："></a>更新日志：</h3><table>
