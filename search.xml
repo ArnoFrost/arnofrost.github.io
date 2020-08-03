@@ -360,7 +360,7 @@
   <entry>
     <title>ListView和RecyclerView中item中宽度不占满的一种可能</title>
     <url>/2017/10/25/ListView%E5%92%8CRecyclerView%E4%B8%ADitem%E4%B8%AD%E5%AE%BD%E5%BA%A6%E4%B8%8D%E5%8D%A0%E6%BB%A1%E7%9A%84%E4%B8%80%E7%A7%8D%E5%8F%AF%E8%83%BD/</url>
-    <content><![CDATA[<h2 id="ListView和RecyclerView中item中宽度不占满的一种可能"><a href="#ListView和RecyclerView中item中宽度不占满的一种可能" class="headerlink" title="ListView和RecyclerView中item中宽度不占满的一种可能"></a>ListView和RecyclerView中item中宽度不占满的一种可能</h2><p>公司里有个项目，用到一个简单的ListView，我在item里写了match_parent属性，但是在运行中却并没有占满一整行，就导致了布局有问题。</p>
+    <content><![CDATA[<h2 id="ListView和RecyclerView中item中宽度不占满的一种可能"><a href="#ListView和RecyclerView中item中宽度不占满的一种可能" class="headerlink" title="ListView和RecyclerView中item中宽度不占满的一种可能"></a>ListView和RecyclerView中item中宽度不占满的一种可能</h2><p>开发中遇到一个问题，用到一个简单的ListView，我在item里写了match_parent属性，但是在运行中却并没有占满一整行，就导致了布局有问题。</p>
 <p>在使用ListView的Adapter中,我们在getView方法里是这样的写的：</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> View <span class="title">getView</span><span class="params">(<span class="keyword">int</span> position, View convertView, ViewGroup parent)</span> </span>&#123;   </span><br><span class="line">   <span class="keyword">if</span> (convertView == <span class="keyword">null</span>) &#123;  </span><br><span class="line">        convertView = inflate(R.layout.item_lv_test, <span class="keyword">null</span>); </span><br><span class="line">   &#125; </span><br><span class="line">   <span class="keyword">return</span> convertView;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -2389,7 +2389,7 @@ esac</code></pre><p><strong>然后增加这个文件的可执行权限：</stron
 <blockquote>
 <h2 id="为软件设置代理"><a href="#为软件设置代理" class="headerlink" title="为软件设置代理"></a>为软件设置代理</h2></blockquote>
 <ol>
-<li>公司里大局域网屏蔽了一切和音视频相关的内容网站和信息，连网易云音乐都不让听。小伙伴们可着急了，音乐是动力啊有木有。 </li>
+<li>所在的地方大局域网屏蔽了一切和音视频相关的内容网站和信息，连网易云音乐都不让听。小伙伴们可着急了，音乐是动力啊有木有。 </li>
 <li>全局代理虽然简单暴力，让你直接达到直连的效果。但是你会发现会有很多弊端：访问国内网站时候我们仍然会走这个代理模式，这就导致了速度变慢，而且很多提供商每个月的流量也都有限。虽然正常使用下流量基本够用，但是也是浪费了不必要的资源。</li>
 </ol>
 <p>在运行客户端后我们开始，选择设置中为局域网开启代理。</p>
