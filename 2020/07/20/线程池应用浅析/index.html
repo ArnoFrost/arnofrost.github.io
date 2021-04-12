@@ -23,17 +23,7 @@ version 0.1[TOC]
     
 <link rel="stylesheet" href="/css/diaspora.css">
 
-	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({
-              google_ad_client: "ca-pub-8691406134231910",
-              enable_page_level_ads: true
-         });
-    </script>
-    <script async custom-element="amp-auto-ads"
-        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
-    </script>
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 <body class="loading">
     <span id="config-title" style="display:none">Fox Hound</span>
@@ -62,7 +52,7 @@ version 0.1[TOC]
         <div class="stuff">
             <span>七月 20, 2020</span>
             
-  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/java/" rel="tag">java</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E6%9C%BA%E5%88%B6/" rel="tag">机制</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a></li></ul>
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E6%9C%BA%E5%88%B6/" rel="tag">机制</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a></li></ul>
 
 
         </div>
@@ -202,7 +192,7 @@ version 0.1[TOC]
     </div>
     
         <div class='side'>
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#优点："><span class="toc-number">1.</span> <span class="toc-text">优点：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java线程池构造方法：（四部分）"><span class="toc-number">2.</span> <span class="toc-text">Java线程池构造方法：（四部分）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#种类："><span class="toc-number">3.</span> <span class="toc-text">种类：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#newCachedThreadPool：（特殊无界）"><span class="toc-number">3.1.</span> <span class="toc-text">newCachedThreadPool：（特殊无界）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#newFixedThreadPool：（无界）"><span class="toc-number">3.2.</span> <span class="toc-text">newFixedThreadPool：（无界）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#newSingleThreadExecutor"><span class="toc-number">3.3.</span> <span class="toc-text">newSingleThreadExecutor:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NewScheduledThreadPool"><span class="toc-number">3.4.</span> <span class="toc-text">NewScheduledThreadPool:</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#执行流程："><span class="toc-number">4.</span> <span class="toc-text">执行流程：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分析："><span class="toc-number">5.</span> <span class="toc-text">分析：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#更新日志："><span class="toc-number">6.</span> <span class="toc-text">更新日志：</span></a></li></ol>	
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E7%82%B9%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">优点：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%EF%BC%9A%EF%BC%88%E5%9B%9B%E9%83%A8%E5%88%86%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">Java线程池构造方法：（四部分）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A7%8D%E7%B1%BB%EF%BC%9A"><span class="toc-number">3.</span> <span class="toc-text">种类：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#newCachedThreadPool%EF%BC%9A%EF%BC%88%E7%89%B9%E6%AE%8A%E6%97%A0%E7%95%8C%EF%BC%89"><span class="toc-number">3.1.</span> <span class="toc-text">newCachedThreadPool：（特殊无界）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#newFixedThreadPool%EF%BC%9A%EF%BC%88%E6%97%A0%E7%95%8C%EF%BC%89"><span class="toc-number">3.2.</span> <span class="toc-text">newFixedThreadPool：（无界）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#newSingleThreadExecutor"><span class="toc-number">3.3.</span> <span class="toc-text">newSingleThreadExecutor:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NewScheduledThreadPool"><span class="toc-number">3.4.</span> <span class="toc-text">NewScheduledThreadPool:</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B%EF%BC%9A"><span class="toc-number">4.</span> <span class="toc-text">执行流程：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%9E%90%EF%BC%9A"><span class="toc-number">5.</span> <span class="toc-text">分析：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97%EF%BC%9A"><span class="toc-number">6.</span> <span class="toc-text">更新日志：</span></a></li></ol>	
         </div>
     
 </div>
