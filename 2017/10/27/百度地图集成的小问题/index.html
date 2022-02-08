@@ -19,9 +19,24 @@
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
 
     
+    
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:title" content="百度地图集成的小问题 - Fox Hound"/>
+    <meta name="twitter:description" content="Life should be so,模拟器运行时候JS不加载或白屏
+之前用百度地图的时候都是直接Copy过来其他项目的地方，因为好业务逻辑相同，也简单了不少。但是偶然在运行中发现了这样一个问题。我用的是SDK 25（7.1）的模拟器，,"/>
+    
+    
+    
+    
+    <meta property="og:site_name" content="Fox Hound"/>
+    <meta property="og:type" content="object"/>
+    <meta property="og:title" content="百度地图集成的小问题 - Fox Hound"/>
+    <meta property="og:description" content="Life should be so,模拟器运行时候JS不加载或白屏
+之前用百度地图的时候都是直接Copy过来其他项目的地方，因为好业务逻辑相同，也简单了不少。但是偶然在运行中发现了这样一个问题。我用的是SDK 25（7.1）的模拟器，,"/>
+    
 <link rel="stylesheet" href="/css/diaspora.css">
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 5.4.1"></head>
 
 <body class="loading">
     <span id="config-title" style="display:none">Fox Hound</span>
@@ -57,12 +72,12 @@
         <div class="content markdown">
             <h2 id="模拟器运行时候JS不加载或白屏"><a href="#模拟器运行时候JS不加载或白屏" class="headerlink" title="模拟器运行时候JS不加载或白屏"></a>模拟器运行时候JS不加载或白屏</h2><hr>
 <p>之前用百度地图的时候都是直接Copy过来其他项目的地方，因为好业务逻辑相同，也简单了不少。但是偶然在运行中发现了这样一个问题。我用的是SDK 25（7.1）的模拟器，在我点击跳转到页面的时候显示了空白，同时我的日志输出了这样一段：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chromium: [ERROR:interface_registry.cc(104)] Failed to locate a binder for interface: autofill::mojom::PasswordManagerDriver</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chromium: [ERROR:interface_registry.cc(<span class="number">104</span>)] Failed to locate a binder <span class="keyword">for</span> interface: autofill::mojom::PasswordManagerDriver</span><br></pre></td></tr></table></figure>
 
 <p>上网查阅资料里好多人说的是权限没获取到，又或是服务器资源不好。但这个页面短暂空白后，又出现了地图列表，看起来似乎是JS没有加载。可是我的代码里已经有了这些东西：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">webView.getSettings().setJavaScriptEnabled(<span class="keyword">true</span>);</span><br><span class="line">webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(<span class="keyword">true</span>);</span><br><span class="line">webView.getSettings().setDomStorageEnabled(<span class="keyword">true</span>);</span><br><span class="line">webView.getSettings().setLoadsImagesAutomatically(<span class="keyword">true</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">webView.getSettings().setJavaScriptEnabled(<span class="literal">true</span>);</span><br><span class="line">webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(<span class="literal">true</span>);</span><br><span class="line">webView.getSettings().setDomStorageEnabled(<span class="literal">true</span>);</span><br><span class="line">webView.getSettings().setLoadsImagesAutomatically(<span class="literal">true</span>);</span><br></pre></td></tr></table></figure>
 <p>这个时候还是Stack Overflow上能看出些门道， 同时我注意到还有另外一条信息：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Unrecognized GLES max version string in extensions: ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_dma_v1 </span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Unrecognized GLES max version string in extensions: ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_dma_v1 </span><br></pre></td></tr></table></figure>
 <p>由于是使用虚拟机，我意识到可能还有显示渲染的不兼容。</p>
 <p>然后我试着找了一个x86版本的虚拟机安装上去，画面又显示回来了。</p>
 <p>目前在Stack Overflow上没有找到什么能解决的办法。</p>
@@ -77,60 +92,60 @@
                 <ul id="audio-list" style="display:none">
                     
                         
-                            <li title='0' data-url='http://music.163.com/song/media/outer/url?id=1349292048.mp3'></li>
+                            <li title="0" data-url="http://music.163.com/song/media/outer/url?id=1349292048.mp3"></li>
                         
                     
                         
-                            <li title='1' data-url='http://music.163.com/song/media/outer/url?id=539176.mp3'></li>
+                            <li title="1" data-url="http://music.163.com/song/media/outer/url?id=539176.mp3"></li>
                         
                     
                         
-                            <li title='2' data-url='http://music.163.com/song/media/outer/url?id=1331819951.mp3'></li>
+                            <li title="2" data-url="http://music.163.com/song/media/outer/url?id=1331819951.mp3"></li>
                         
                     
                         
-                            <li title='3' data-url='http://music.163.com/song/media/outer/url?id=784455.mp3'></li>
+                            <li title="3" data-url="http://music.163.com/song/media/outer/url?id=784455.mp3"></li>
                         
                     
                         
-                            <li title='4' data-url='http://music.163.com/song/media/outer/url?id=863489767.mp3'></li>
+                            <li title="4" data-url="http://music.163.com/song/media/outer/url?id=863489767.mp3"></li>
                         
                     
                         
-                            <li title='5' data-url='http://music.163.com/song/media/outer/url?id=28692519.mp3'></li>
+                            <li title="5" data-url="http://music.163.com/song/media/outer/url?id=28692519.mp3"></li>
                         
                     
                         
-                            <li title='6' data-url='http://music.163.com/song/media/outer/url?id=28468136.mp3'></li>
+                            <li title="6" data-url="http://music.163.com/song/media/outer/url?id=28468136.mp3"></li>
                         
                     
                         
-                            <li title='7' data-url='http://music.163.com/song/media/outer/url?id=27808360.mp3'></li>
+                            <li title="7" data-url="http://music.163.com/song/media/outer/url?id=27808360.mp3"></li>
                         
                     
                         
-                            <li title='8' data-url='http://music.163.com/song/media/outer/url?id=723174.mp3'></li>
+                            <li title="8" data-url="http://music.163.com/song/media/outer/url?id=723174.mp3"></li>
                         
                     
                 </ul>
             
         </div>
         
-    <div id='gitalk-container' class="comment link"
-		data-enable='true'
-        data-ae='true'
-        data-ci='bea144b43eefb358981c'
-        data-cs='a36c22fec87740cbe5e17b541731a652d8e2785d'
-        data-r='gitalk'
-        data-o='ArnoFrost'
-        data-a='ArnoFrost'
-        data-d='false'
+    <div id="gitalk-container" class="comment link"
+		data-enable="true"
+        data-ae="true"
+        data-ci="bea144b43eefb358981c"
+        data-cs="a36c22fec87740cbe5e17b541731a652d8e2785d"
+        data-r="gitalk"
+        data-o="ArnoFrost"
+        data-a="ArnoFrost"
+        data-d="false"
     >查看评论</div>
 
 
     </div>
     
-        <div class='side'>
+        <div class="side">
 			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E6%8B%9F%E5%99%A8%E8%BF%90%E8%A1%8C%E6%97%B6%E5%80%99JS%E4%B8%8D%E5%8A%A0%E8%BD%BD%E6%88%96%E7%99%BD%E5%B1%8F"><span class="toc-number">1.</span> <span class="toc-text">模拟器运行时候JS不加载或白屏</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E6%B3%95%E5%9C%A8AndroidManifest-xml%E4%B8%AD%E8%8E%B7%E5%8F%96com-baidu-android-lbs-API-KEY%E7%9A%84%E5%80%BC"><span class="toc-number">2.</span> <span class="toc-text">无法在AndroidManifest.xml中获取com.baidu.android.lbs.API_KEY的值</span></a></li></ol>	
         </div>
     

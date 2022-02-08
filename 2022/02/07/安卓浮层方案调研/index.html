@@ -18,9 +18,22 @@
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
 
     
+    
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:title" content="安卓全局浮层方案调研 - Fox Hound"/>
+    <meta name="twitter:description" content="Life should be so,背景：为满足开机广告丰富样式，7.76.0新闻客户端接入LongView广告样式。目前的LongView效果实现是复用之前一镜到底的视频缩放动画，与集成了sax广告SDK的倒计时相关组件。最后用单独,"/>
+    
+    
+    
+    
+    <meta property="og:site_name" content="Fox Hound"/>
+    <meta property="og:type" content="object"/>
+    <meta property="og:title" content="安卓全局浮层方案调研 - Fox Hound"/>
+    <meta property="og:description" content="Life should be so,背景：为满足开机广告丰富样式，7.76.0新闻客户端接入LongView广告样式。目前的LongView效果实现是复用之前一镜到底的视频缩放动画，与集成了sax广告SDK的倒计时相关组件。最后用单独,"/>
+    
 <link rel="stylesheet" href="/css/diaspora.css">
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 5.4.1"></head>
 
 <body class="loading">
     <span id="config-title" style="display:none">Fox Hound</span>
@@ -49,7 +62,7 @@
         <div class="stuff">
             <span>二月 07, 2022</span>
             
-  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Window/" rel="tag">Window</a></li></ul>
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Window/" rel="tag">Window</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E6%82%AC%E6%B5%AE%E7%AA%97/" rel="tag">悬浮窗</a></li></ul>
 
 
         </div>
@@ -67,7 +80,7 @@
 <p><strong>注意点</strong><code>WindowManager.LayoutParam</code>中的<code>type</code>需要留意<strong>区分版本</strong>：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.O) &#123;</span><br><span class="line">    layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    layoutParams.type = WindowManager.LayoutParams.TYPE_PHONE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>Android 8.0</strong>之前可以通过<code>TYPE_PHONE</code>来提供用户交互窗口，但是8.0及以上会抛出异常：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android.view.WindowManager$BadTokenException: Unable to add window android.view.ViewRootImpl$W@f8ec928 -- permission denied for window type 2002</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android.view.WindowManager$BadTokenException: Unable to add window android.view.ViewRootImpl$W@f8ec928 -- permission denied for window type 2002</span><br></pre></td></tr></table></figure>
 <p>同时以下类型也被禁止：<br><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/upload_f50f6c1ff1e34bd7ec0bf282e75e8803.jpg" alt="Android8.0-TYPE规范"></p>
 <h3 id="注意点："><a href="#注意点：" class="headerlink" title="注意点："></a>注意点：</h3><p>综上所以我们必须添加<code>TYPE_APPLICATION_OVERLAY</code>类型来达到显示目的，但是某些情况下悬浮窗效果仍旧会失效不显示。<br>所以此时如果仍旧想要<strong>覆盖此种场景</strong>（如小米手机查看系统信息页面），需要添加<code>TYPE_ACCESSIBILITY_OVERLAY</code>类型，则必须搭配<code>AccessibilityService</code>无障碍服务使用。</p>
 <p>过程概述：</p>
@@ -80,7 +93,7 @@
 <h2 id="3-应用内全局悬浮窗"><a href="#3-应用内全局悬浮窗" class="headerlink" title="3. 应用内全局悬浮窗"></a>3. 应用内全局悬浮窗</h2><p>优点：<strong>无需权限申请</strong>，可满足大部分场景，相对较少的侵入代码。<br>缺点：<strong>无法后台</strong>，且本质上仍旧是<code>Activity页面级别</code>在页面切换时，需要更新<code>token</code>依附<strong>会有闪动</strong>。</p>
 <p>关键点是<code>type</code>类型中有一个<code>TYPE_APPLICATION_PANEL</code>适合用于应用内的悬浮窗开发。所以可以在<code>BaseActivity</code>基类中埋入相关代码，不断切换悬浮窗的token，也可用LifeCycle监听解耦基类代码。</p>
 <p>过程伪代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">WindowManager windowManager = (WindowManager)  applicationContext.getSystemService(Context.WINDOW_SERVICE);</span><br><span class="line">WindowManager.LayoutParams layoutParams = <span class="keyword">new</span> WindowManager.LayoutParams();</span><br><span class="line">layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_PANEL;</span><br><span class="line"> <span class="comment">// 必须</span></span><br><span class="line">layoutParams.token = activity.getWindow().getDecorView().getWindowToken();</span><br><span class="line">windowManager.addView(view, layoutParams);</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">WindowManager</span> <span class="variable">windowManager</span> <span class="operator">=</span> (WindowManager)  applicationContext.getSystemService(Context.WINDOW_SERVICE);</span><br><span class="line">WindowManager.<span class="type">LayoutParams</span> <span class="variable">layoutParams</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">WindowManager</span>.LayoutParams();</span><br><span class="line">layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_PANEL;</span><br><span class="line"> <span class="comment">// 必须</span></span><br><span class="line">layoutParams.token = activity.getWindow().getDecorView().getWindowToken();</span><br><span class="line">windowManager.addView(view, layoutParams);</span><br></pre></td></tr></table></figure>
 <p>由于关键点仍旧<strong>依附于页面</strong>，所以切换Activity时会跟随动画一起位移且会有闪动。</p>
 <p>之后在生命周期时做token 切换：</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onActivityResumed</span><span class="params">(activity: <span class="type">Activity</span>?)</span></span> &#123;</span><br><span class="line">       activity?.window?.decorView?.let &#123; decorView -&gt;</span><br><span class="line">           decorView.viewTreeObserver?.let &#123; viewTree -&gt;</span><br><span class="line">               <span class="keyword">if</span> (decorView.windowToken != <span class="literal">null</span>) &#123;</span><br><span class="line">                   FloatWindowUtils.bindDebugPanelFloatWindow(activity, decorView.windowToken)</span><br><span class="line">                   weakGlobalListener?.<span class="keyword">get</span>()?.let &#123; globalListener -&gt;</span><br><span class="line">                       decorView.viewTreeObserver.removeOnGlobalLayoutListener(globalListener)</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                   <span class="keyword">val</span> globalListener = <span class="keyword">object</span> : ViewTreeObserver.OnGlobalLayoutListener &#123;</span><br><span class="line">                       <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onGlobalLayout</span><span class="params">()</span></span> &#123;</span><br><span class="line">                           activity.window?.decorView?.windowToken?.let &#123;</span><br><span class="line">                               FloatWindowUtils.bindDebugPanelFloatWindow(activity, it)</span><br><span class="line">                           &#125;</span><br><span class="line">                           decorView.viewTreeObserver.removeOnGlobalLayoutListener(<span class="keyword">this</span>)</span><br><span class="line">                       &#125;</span><br><span class="line">                   &#125;</span><br><span class="line">                   viewTree.addOnGlobalLayoutListener(globalListener)</span><br><span class="line">                   weakGlobalListener = WeakReference(globalListener)</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onActivityPaused</span><span class="params">(activity: <span class="type">Activity</span>?)</span></span> &#123;</span><br><span class="line">       activity?.let &#123;</span><br><span class="line">           FloatWindowUtils.unbindDebugPanelFloatWindow(activity)</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
@@ -100,60 +113,60 @@
                 <ul id="audio-list" style="display:none">
                     
                         
-                            <li title='0' data-url='http://music.163.com/song/media/outer/url?id=1349292048.mp3'></li>
+                            <li title="0" data-url="http://music.163.com/song/media/outer/url?id=1349292048.mp3"></li>
                         
                     
                         
-                            <li title='1' data-url='http://music.163.com/song/media/outer/url?id=539176.mp3'></li>
+                            <li title="1" data-url="http://music.163.com/song/media/outer/url?id=539176.mp3"></li>
                         
                     
                         
-                            <li title='2' data-url='http://music.163.com/song/media/outer/url?id=1331819951.mp3'></li>
+                            <li title="2" data-url="http://music.163.com/song/media/outer/url?id=1331819951.mp3"></li>
                         
                     
                         
-                            <li title='3' data-url='http://music.163.com/song/media/outer/url?id=784455.mp3'></li>
+                            <li title="3" data-url="http://music.163.com/song/media/outer/url?id=784455.mp3"></li>
                         
                     
                         
-                            <li title='4' data-url='http://music.163.com/song/media/outer/url?id=863489767.mp3'></li>
+                            <li title="4" data-url="http://music.163.com/song/media/outer/url?id=863489767.mp3"></li>
                         
                     
                         
-                            <li title='5' data-url='http://music.163.com/song/media/outer/url?id=28692519.mp3'></li>
+                            <li title="5" data-url="http://music.163.com/song/media/outer/url?id=28692519.mp3"></li>
                         
                     
                         
-                            <li title='6' data-url='http://music.163.com/song/media/outer/url?id=28468136.mp3'></li>
+                            <li title="6" data-url="http://music.163.com/song/media/outer/url?id=28468136.mp3"></li>
                         
                     
                         
-                            <li title='7' data-url='http://music.163.com/song/media/outer/url?id=27808360.mp3'></li>
+                            <li title="7" data-url="http://music.163.com/song/media/outer/url?id=27808360.mp3"></li>
                         
                     
                         
-                            <li title='8' data-url='http://music.163.com/song/media/outer/url?id=723174.mp3'></li>
+                            <li title="8" data-url="http://music.163.com/song/media/outer/url?id=723174.mp3"></li>
                         
                     
                 </ul>
             
         </div>
         
-    <div id='gitalk-container' class="comment link"
-		data-enable='true'
-        data-ae='true'
-        data-ci='bea144b43eefb358981c'
-        data-cs='a36c22fec87740cbe5e17b541731a652d8e2785d'
-        data-r='gitalk'
-        data-o='ArnoFrost'
-        data-a='ArnoFrost'
-        data-d='false'
+    <div id="gitalk-container" class="comment link"
+		data-enable="true"
+        data-ae="true"
+        data-ci="bea144b43eefb358981c"
+        data-cs="a36c22fec87740cbe5e17b541731a652d8e2785d"
+        data-r="gitalk"
+        data-o="ArnoFrost"
+        data-a="ArnoFrost"
+        data-d="false"
     >查看评论</div>
 
 
     </div>
     
-        <div class='side'>
+        <div class="side">
 			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">背景：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%82%AC%E6%B5%AE%E7%AA%97%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">悬浮窗基本原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%BA%94%E7%94%A8%E5%86%85%E6%B7%BB%E5%8A%A0%E6%82%AC%E6%B5%AE%E7%AA%97%EF%BC%88%E9%A1%B5%E9%9D%A2%E7%BA%A7%E5%88%AB%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">1. 应用内添加悬浮窗（页面级别）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%B3%BB%E7%BB%9F%E7%B1%BB%E5%85%A8%E5%B1%80%E6%82%AC%E6%B5%AE%E7%AA%97%EF%BC%88%E9%9C%80%E7%94%B3%E8%AF%B7%E6%9D%83%E9%99%90%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">2. 系统类全局悬浮窗（需申请权限）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E7%82%B9%EF%BC%9A"><span class="toc-number">4.1.</span> <span class="toc-text">注意点：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%BA%94%E7%94%A8%E5%86%85%E5%85%A8%E5%B1%80%E6%82%AC%E6%B5%AE%E7%AA%97"><span class="toc-number">5.</span> <span class="toc-text">3. 应用内全局悬浮窗</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">6.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5%EF%BC%9A"><span class="toc-number">7.</span> <span class="toc-text">参考链接：</span></a></li></ol>	
         </div>
     

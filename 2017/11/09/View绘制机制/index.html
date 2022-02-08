@@ -18,9 +18,22 @@
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
 
     
+    
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:title" content="View绘制机制 - Fox Hound"/>
+    <meta name="twitter:description" content="Life should be so,View的绘制机制1. view树的绘制流程(当Activity接收到用户触摸焦点的时候, 会被请求去绘制布局;请求是由安卓Framework层去处理绘制,从根节点去对布局进行测量和绘制ViewRo,"/>
+    
+    
+    
+    
+    <meta property="og:site_name" content="Fox Hound"/>
+    <meta property="og:type" content="object"/>
+    <meta property="og:title" content="View绘制机制 - Fox Hound"/>
+    <meta property="og:description" content="Life should be so,View的绘制机制1. view树的绘制流程(当Activity接收到用户触摸焦点的时候, 会被请求去绘制布局;请求是由安卓Framework层去处理绘制,从根节点去对布局进行测量和绘制ViewRo,"/>
+    
 <link rel="stylesheet" href="/css/diaspora.css">
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 5.4.1"></head>
 
 <body class="loading">
     <span id="config-title" style="display:none">Fox Hound</span>
@@ -101,16 +114,16 @@ AT_MOST : 父容器为所有子视图指定一个最大的尺寸, 子视图所�
 </code></pre>
 <h3 id="2-3-measure-重要的回调方法"><a href="#2-3-measure-重要的回调方法" class="headerlink" title="2.3 measure 重要的回调方法:"></a>2.3 measure 重要的回调方法:</h3><p>measure(): 调用onMeasure();<br>树遍历所有子结点;</p>
 <p>onMeasure(): 将所有测量的规格传递给setMeasuredDimension();</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onMeasure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line"><span class="comment">// setMeasuredDimension是用来通知测量结束的, 必须调用</span></span><br><span class="line">    setMeasuredDimension(getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec),</span><br><span class="line">            getDefaultSize(getSuggestedMinimumHeight(), heightMeasureSpec));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onMeasure</span><span class="params">(<span class="type">int</span> widthMeasureSpec, <span class="type">int</span> heightMeasureSpec)</span> &#123;</span><br><span class="line"><span class="comment">// setMeasuredDimension是用来通知测量结束的, 必须调用</span></span><br><span class="line">    setMeasuredDimension(getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec),</span><br><span class="line">            getDefaultSize(getSuggestedMinimumHeight(), heightMeasureSpec));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>setMeasuredDimension(): 完成整个测测量过程;</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * &lt;p&gt;This method must be called by &#123;<span class="doctag">@link</span> #onMeasure(int, int)&#125; to store the</span></span><br><span class="line"><span class="comment">     * measured width and measured height. Failing to do so will trigger an</span></span><br><span class="line"><span class="comment">     * exception at measurement time.&lt;/p&gt;</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> measuredWidth The measured width of this view.  May be a complex</span></span><br><span class="line"><span class="comment">     * bit mask as defined by &#123;<span class="doctag">@link</span> #MEASURED_SIZE_MASK&#125; and</span></span><br><span class="line"><span class="comment">     * &#123;<span class="doctag">@link</span> #MEASURED_STATE_TOO_SMALL&#125;.</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> measuredHeight The measured height of this view.  May be a complex</span></span><br><span class="line"><span class="comment">     * bit mask as defined by &#123;<span class="doctag">@link</span> #MEASURED_SIZE_MASK&#125; and</span></span><br><span class="line"><span class="comment">     * &#123;<span class="doctag">@link</span> #MEASURED_STATE_TOO_SMALL&#125;.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">setMeasuredDimension</span><span class="params">(<span class="keyword">int</span> measuredWidth, <span class="keyword">int</span> measuredHeight)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">boolean</span> optical = isLayoutModeOptical(<span class="keyword">this</span>);</span><br><span class="line">        <span class="keyword">if</span> (optical != isLayoutModeOptical(mParent)) &#123;</span><br><span class="line">            Insets insets = getOpticalInsets();</span><br><span class="line">            <span class="keyword">int</span> opticalWidth  = insets.left + insets.right;</span><br><span class="line">            <span class="keyword">int</span> opticalHeight = insets.top  + insets.bottom;</span><br><span class="line"></span><br><span class="line">            measuredWidth  += optical ? opticalWidth  : -opticalWidth;</span><br><span class="line">            measuredHeight += optical ? opticalHeight : -opticalHeight;</span><br><span class="line">        &#125;</span><br><span class="line">        setMeasuredDimensionRaw(measuredWidth, measuredHeight);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * &lt;p&gt;This method must be called by &#123;<span class="doctag">@link</span> #onMeasure(int, int)&#125; to store the</span></span><br><span class="line"><span class="comment">     * measured width and measured height. Failing to do so will trigger an</span></span><br><span class="line"><span class="comment">     * exception at measurement time.&lt;/p&gt;</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> measuredWidth The measured width of this view.  May be a complex</span></span><br><span class="line"><span class="comment">     * bit mask as defined by &#123;<span class="doctag">@link</span> #MEASURED_SIZE_MASK&#125; and</span></span><br><span class="line"><span class="comment">     * &#123;<span class="doctag">@link</span> #MEASURED_STATE_TOO_SMALL&#125;.</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> measuredHeight The measured height of this view.  May be a complex</span></span><br><span class="line"><span class="comment">     * bit mask as defined by &#123;<span class="doctag">@link</span> #MEASURED_SIZE_MASK&#125; and</span></span><br><span class="line"><span class="comment">     * &#123;<span class="doctag">@link</span> #MEASURED_STATE_TOO_SMALL&#125;.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title function_">setMeasuredDimension</span><span class="params">(<span class="type">int</span> measuredWidth, <span class="type">int</span> measuredHeight)</span> &#123;</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">optical</span> <span class="operator">=</span> isLayoutModeOptical(<span class="built_in">this</span>);</span><br><span class="line">        <span class="keyword">if</span> (optical != isLayoutModeOptical(mParent)) &#123;</span><br><span class="line">            <span class="type">Insets</span> <span class="variable">insets</span> <span class="operator">=</span> getOpticalInsets();</span><br><span class="line">            <span class="type">int</span> <span class="variable">opticalWidth</span>  <span class="operator">=</span> insets.left + insets.right;</span><br><span class="line">            <span class="type">int</span> <span class="variable">opticalHeight</span> <span class="operator">=</span> insets.top  + insets.bottom;</span><br><span class="line"></span><br><span class="line">            measuredWidth  += optical ? opticalWidth  : -opticalWidth;</span><br><span class="line">            measuredHeight += optical ? opticalHeight : -opticalHeight;</span><br><span class="line">        &#125;</span><br><span class="line">        setMeasuredDimensionRaw(measuredWidth, measuredHeight);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>注: 如果父视图发现子视图传递的大小可能不对时候, 会再次请求子视图进行测量, 如果给定的数值超过了规定大小或者太小, 父视图会赋值给AT_MOST 或者 EXACTLY的形式,再次对子视图进行测量</p>
 </blockquote>
 <h2 id="3-layout"><a href="#3-layout" class="headerlink" title="3. layout"></a>3. layout</h2><p>会根据测量所得到的尺寸来确定layout摆放的位置, 子视图的具体位置是相对于父视图而言的, 必须实现onLayout(), 重新摆放;</p>
 <p>layout(): 调用onLayout();</p>
 <p>onLayout(): 一定要实现;<br>可以去分析LinearLayout中的实现;</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Called from layout when this view should</span></span><br><span class="line"><span class="comment">    * assign a size and position to each of its children.</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * Derived classes with children should override</span></span><br><span class="line"><span class="comment">    * this method and call layout on each of</span></span><br><span class="line"><span class="comment">    * their children.</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> changed This is a new size or position for this view</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> left Left position, relative to parent</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> top Top position, relative to parent</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> right Right position, relative to parent</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> bottom Bottom position, relative to parent</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onLayout</span><span class="params">(<span class="keyword">boolean</span> changed, <span class="keyword">int</span> left, <span class="keyword">int</span> top, <span class="keyword">int</span> right, <span class="keyword">int</span> bottom)</span> </span>&#123;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Called from layout when this view should</span></span><br><span class="line"><span class="comment">    * assign a size and position to each of its children.</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * Derived classes with children should override</span></span><br><span class="line"><span class="comment">    * this method and call layout on each of</span></span><br><span class="line"><span class="comment">    * their children.</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> changed This is a new size or position for this view</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> left Left position, relative to parent</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> top Top position, relative to parent</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> right Right position, relative to parent</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> bottom Bottom position, relative to parent</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onLayout</span><span class="params">(<span class="type">boolean</span> changed, <span class="type">int</span> left, <span class="type">int</span> top, <span class="type">int</span> right, <span class="type">int</span> bottom)</span> &#123;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
 <p>是一个树形结构, 依次从ViewGroup进行位置摆放</p>
 <h2 id="4-draw"><a href="#4-draw" class="headerlink" title="4. draw"></a>4. draw</h2><p>两个比较容易混淆的回调方法:</p>
 <h3 id="4-1-invalidate-请求安卓系统"><a href="#4-1-invalidate-请求安卓系统" class="headerlink" title="4.1 invalidate(): 请求安卓系统;"></a>4.1 invalidate(): 请求安卓系统;</h3><pre><code>如果视图大小没有发生变化, 则不会调用layout放置过程;
@@ -126,60 +139,60 @@ AT_MOST : 父容器为所有子视图指定一个最大的尺寸, 子视图所�
                 <ul id="audio-list" style="display:none">
                     
                         
-                            <li title='0' data-url='http://music.163.com/song/media/outer/url?id=1349292048.mp3'></li>
+                            <li title="0" data-url="http://music.163.com/song/media/outer/url?id=1349292048.mp3"></li>
                         
                     
                         
-                            <li title='1' data-url='http://music.163.com/song/media/outer/url?id=539176.mp3'></li>
+                            <li title="1" data-url="http://music.163.com/song/media/outer/url?id=539176.mp3"></li>
                         
                     
                         
-                            <li title='2' data-url='http://music.163.com/song/media/outer/url?id=1331819951.mp3'></li>
+                            <li title="2" data-url="http://music.163.com/song/media/outer/url?id=1331819951.mp3"></li>
                         
                     
                         
-                            <li title='3' data-url='http://music.163.com/song/media/outer/url?id=784455.mp3'></li>
+                            <li title="3" data-url="http://music.163.com/song/media/outer/url?id=784455.mp3"></li>
                         
                     
                         
-                            <li title='4' data-url='http://music.163.com/song/media/outer/url?id=863489767.mp3'></li>
+                            <li title="4" data-url="http://music.163.com/song/media/outer/url?id=863489767.mp3"></li>
                         
                     
                         
-                            <li title='5' data-url='http://music.163.com/song/media/outer/url?id=28692519.mp3'></li>
+                            <li title="5" data-url="http://music.163.com/song/media/outer/url?id=28692519.mp3"></li>
                         
                     
                         
-                            <li title='6' data-url='http://music.163.com/song/media/outer/url?id=28468136.mp3'></li>
+                            <li title="6" data-url="http://music.163.com/song/media/outer/url?id=28468136.mp3"></li>
                         
                     
                         
-                            <li title='7' data-url='http://music.163.com/song/media/outer/url?id=27808360.mp3'></li>
+                            <li title="7" data-url="http://music.163.com/song/media/outer/url?id=27808360.mp3"></li>
                         
                     
                         
-                            <li title='8' data-url='http://music.163.com/song/media/outer/url?id=723174.mp3'></li>
+                            <li title="8" data-url="http://music.163.com/song/media/outer/url?id=723174.mp3"></li>
                         
                     
                 </ul>
             
         </div>
         
-    <div id='gitalk-container' class="comment link"
-		data-enable='true'
-        data-ae='true'
-        data-ci='bea144b43eefb358981c'
-        data-cs='a36c22fec87740cbe5e17b541731a652d8e2785d'
-        data-r='gitalk'
-        data-o='ArnoFrost'
-        data-a='ArnoFrost'
-        data-d='false'
+    <div id="gitalk-container" class="comment link"
+		data-enable="true"
+        data-ae="true"
+        data-ci="bea144b43eefb358981c"
+        data-cs="a36c22fec87740cbe5e17b541731a652d8e2785d"
+        data-r="gitalk"
+        data-o="ArnoFrost"
+        data-a="ArnoFrost"
+        data-d="false"
     >查看评论</div>
 
 
     </div>
     
-        <div class='side'>
+        <div class="side">
 			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#View%E7%9A%84%E7%BB%98%E5%88%B6%E6%9C%BA%E5%88%B6"><span class="toc-number">1.</span> <span class="toc-text">View的绘制机制</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-view%E6%A0%91%E7%9A%84%E7%BB%98%E5%88%B6%E6%B5%81%E7%A8%8B"><span class="toc-number">1.1.</span> <span class="toc-text">1. view树的绘制流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-measure"><span class="toc-number">1.2.</span> <span class="toc-text">2. measure</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-ViewGroup-LayoutParams"><span class="toc-number">1.2.1.</span> <span class="toc-text">2.1 ViewGroup.LayoutParams:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-MeasureSpec-%E6%B5%8B%E9%87%8F%E8%A7%84%E6%A0%BC"><span class="toc-number">1.2.2.</span> <span class="toc-text">2.2 MeasureSpec(测量规格):</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-measure-%E9%87%8D%E8%A6%81%E7%9A%84%E5%9B%9E%E8%B0%83%E6%96%B9%E6%B3%95"><span class="toc-number">1.2.3.</span> <span class="toc-text">2.3 measure 重要的回调方法:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-layout"><span class="toc-number">1.3.</span> <span class="toc-text">3. layout</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-draw"><span class="toc-number">1.4.</span> <span class="toc-text">4. draw</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-invalidate-%E8%AF%B7%E6%B1%82%E5%AE%89%E5%8D%93%E7%B3%BB%E7%BB%9F"><span class="toc-number">1.4.1.</span> <span class="toc-text">4.1 invalidate(): 请求安卓系统;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-requestLayout-%E5%BD%93%E5%B8%83%E5%B1%80%E6%96%B9%E5%90%91%E5%8F%98%E5%8C%96-%E5%B0%BA%E5%AF%B8%E5%8F%98%E5%8C%96%E5%B0%B1%E5%9B%9E%E5%8E%BB%E8%B0%83%E7%94%A8"><span class="toc-number">1.4.2.</span> <span class="toc-text">4.2 requestLayout(): 当布局方向变化, 尺寸变化就回去调用;</span></a></li></ol></li></ol></li></ol>	
         </div>
     

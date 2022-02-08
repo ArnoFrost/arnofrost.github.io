@@ -22,9 +22,30 @@ version 0.2
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
 
     
+    
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:title" content="浅析HashMap（上） - Fox Hound"/>
+    <meta name="twitter:description" content="Life should be so,
+version 0.2
+
+[TOC]
+介绍：HashMap是平时工作开发经常接触的数据结构，但很多时候疏于查看原理，在使用过程中会发生一些问题。最近根据自己所学与参考记录一下。结合其他相近数据结构,"/>
+    
+    
+    
+    
+    <meta property="og:site_name" content="Fox Hound"/>
+    <meta property="og:type" content="object"/>
+    <meta property="og:title" content="浅析HashMap（上） - Fox Hound"/>
+    <meta property="og:description" content="Life should be so,
+version 0.2
+
+[TOC]
+介绍：HashMap是平时工作开发经常接触的数据结构，但很多时候疏于查看原理，在使用过程中会发生一些问题。最近根据自己所学与参考记录一下。结合其他相近数据结构,"/>
+    
 <link rel="stylesheet" href="/css/diaspora.css">
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 5.4.1"></head>
 
 <body class="loading">
     <span id="config-title" style="display:none">Fox Hound</span>
@@ -92,7 +113,7 @@ version 0.2
 <p>这样我们便能通过简单的一次计算快速得到数据在数组中的存储位置，以此来提高访问性能。</p>
 <h3 id="大体结构"><a href="#大体结构" class="headerlink" title="大体结构"></a>大体结构</h3><p>从实现上来说，<code>HashMap</code>的结构是<strong>数组+ （链表/红黑树）结合</strong><br><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/G8AVthCgfSI1dzL.jpg"></p>
 <p>这里是<code>JDK 1.8</code> ，之前没有转换红黑树的过程。<br>其中<code>HashMap</code>一个重要的字段就是 <code>Node[] table</code>即哈希桶数组：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Map</span>.<span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> hash;    <span class="comment">//用来定位数组索引位置</span></span><br><span class="line">        <span class="keyword">final</span> K key;</span><br><span class="line">        V value;</span><br><span class="line">        Node&lt;K,V&gt; next;   <span class="comment">//链表的下一个node</span></span><br><span class="line"></span><br><span class="line">        Node(<span class="keyword">int</span> hash, K key, V value, Node&lt;K,V&gt; next) &#123; ... &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> K <span class="title">getKey</span><span class="params">()</span></span>&#123; ... &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> V <span class="title">getValue</span><span class="params">()</span> </span>&#123; ... &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123; ... &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>&#123; ... &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> V <span class="title">setValue</span><span class="params">(V newValue)</span> </span>&#123; ... &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object o)</span> </span>&#123; ... &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">Node</span>&lt;K,V&gt; <span class="keyword">implements</span> <span class="title class_">Map</span>.Entry&lt;K,V&gt; &#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="type">int</span> hash;    <span class="comment">//用来定位数组索引位置</span></span><br><span class="line">        <span class="keyword">final</span> K key;</span><br><span class="line">        V value;</span><br><span class="line">        Node&lt;K,V&gt; next;   <span class="comment">//链表的下一个node</span></span><br><span class="line"></span><br><span class="line">        Node(<span class="type">int</span> hash, K key, V value, Node&lt;K,V&gt; next) &#123; ... &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">final</span> K <span class="title function_">getKey</span><span class="params">()</span>&#123; ... &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">final</span> V <span class="title function_">getValue</span><span class="params">()</span> &#123; ... &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">final</span> String <span class="title function_">toString</span><span class="params">()</span> &#123; ... &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">final</span> <span class="type">int</span> <span class="title function_">hashCode</span><span class="params">()</span> &#123; ... &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">final</span> V <span class="title function_">setValue</span><span class="params">(V newValue)</span> &#123; ... &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">final</span> <span class="type">boolean</span> <span class="title function_">equals</span><span class="params">(Object o)</span> &#123; ... &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>本质上没一个<code>Node</code>都是一个键值对，而上图的每一个黑色点便是一个<code>Node</code>对象。</p>
 <h3 id="存储过程概述"><a href="#存储过程概述" class="headerlink" title="存储过程概述"></a>存储过程概述</h3><p>当有元素进来，会进行判断是否存在，如果不存在，则直接将元素放入对应的数组中去。但当已经有数据时，就有了<code>Hash碰撞</code>。常见的解决方法有几种：开放地址，再哈希，链地址等等。<a target="_blank" rel="noopener" href="https://blog.csdn.net/zeb_perfect/article/details/52574915">解决Hash碰撞冲突方法总结</a></p>
@@ -101,7 +122,7 @@ version 0.2
 <p>如果哈希桶数组很大，即使较差的Hash算法也会比较分散，如果哈希桶数组数组很小，即使好的Hash算法也会出现较多碰撞，所以就需要在空间成本和时间成本之间权衡，其实就是在根据实际情况确定哈希桶数组的大小，并在此基础上设计好的hash算法减少Hash碰撞。</p>
 </blockquote>
 <p>同时对于<code>JDK 1.8</code>中当一个链表元素超过8个的时候还会进行红黑树转化即<code>treeify</code>过程来增强性能。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> threshold;             <span class="comment">// 所能容纳的key-value对极限 </span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">float</span> loadFactor;    <span class="comment">// 负载因子</span></span><br><span class="line"><span class="keyword">int</span> modCount;  </span><br><span class="line"><span class="keyword">int</span> size;  </span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> threshold;             <span class="comment">// 所能容纳的key-value对极限 </span></span><br><span class="line"><span class="keyword">final</span> <span class="type">float</span> loadFactor;    <span class="comment">// 负载因子</span></span><br><span class="line"><span class="type">int</span> modCount;  </span><br><span class="line"><span class="type">int</span> size;  </span><br></pre></td></tr></table></figure>
 <p><code>HashMap</code>默认开辟的存储空间为16，<code>theshold = length * loadFactor</code> 当存储到12后开始进行<strong>扩容</strong>，大小就是之前的<strong>两倍</strong>。扩容过程意味着需要时间，开辟新的空间并拷贝过去。所以意味着我们尽量避免扩容的发生，又不想浪费太多空间。<code>0.75</code>是默认的负载因子，通常可以比较好的平衡空间与性能，除非特殊需求。</p>
 <p>具体过程分析与区别或许还是需要阅读源码才可以，这部分看了一些但还需要再总结归纳一下有时间写到下篇中分析。</p>
 <p>（未完待续…）</p>
@@ -136,60 +157,60 @@ version 0.2
                 <ul id="audio-list" style="display:none">
                     
                         
-                            <li title='0' data-url='http://music.163.com/song/media/outer/url?id=1349292048.mp3'></li>
+                            <li title="0" data-url="http://music.163.com/song/media/outer/url?id=1349292048.mp3"></li>
                         
                     
                         
-                            <li title='1' data-url='http://music.163.com/song/media/outer/url?id=539176.mp3'></li>
+                            <li title="1" data-url="http://music.163.com/song/media/outer/url?id=539176.mp3"></li>
                         
                     
                         
-                            <li title='2' data-url='http://music.163.com/song/media/outer/url?id=1331819951.mp3'></li>
+                            <li title="2" data-url="http://music.163.com/song/media/outer/url?id=1331819951.mp3"></li>
                         
                     
                         
-                            <li title='3' data-url='http://music.163.com/song/media/outer/url?id=784455.mp3'></li>
+                            <li title="3" data-url="http://music.163.com/song/media/outer/url?id=784455.mp3"></li>
                         
                     
                         
-                            <li title='4' data-url='http://music.163.com/song/media/outer/url?id=863489767.mp3'></li>
+                            <li title="4" data-url="http://music.163.com/song/media/outer/url?id=863489767.mp3"></li>
                         
                     
                         
-                            <li title='5' data-url='http://music.163.com/song/media/outer/url?id=28692519.mp3'></li>
+                            <li title="5" data-url="http://music.163.com/song/media/outer/url?id=28692519.mp3"></li>
                         
                     
                         
-                            <li title='6' data-url='http://music.163.com/song/media/outer/url?id=28468136.mp3'></li>
+                            <li title="6" data-url="http://music.163.com/song/media/outer/url?id=28468136.mp3"></li>
                         
                     
                         
-                            <li title='7' data-url='http://music.163.com/song/media/outer/url?id=27808360.mp3'></li>
+                            <li title="7" data-url="http://music.163.com/song/media/outer/url?id=27808360.mp3"></li>
                         
                     
                         
-                            <li title='8' data-url='http://music.163.com/song/media/outer/url?id=723174.mp3'></li>
+                            <li title="8" data-url="http://music.163.com/song/media/outer/url?id=723174.mp3"></li>
                         
                     
                 </ul>
             
         </div>
         
-    <div id='gitalk-container' class="comment link"
-		data-enable='true'
-        data-ae='true'
-        data-ci='bea144b43eefb358981c'
-        data-cs='a36c22fec87740cbe5e17b541731a652d8e2785d'
-        data-r='gitalk'
-        data-o='ArnoFrost'
-        data-a='ArnoFrost'
-        data-d='false'
+    <div id="gitalk-container" class="comment link"
+		data-enable="true"
+        data-ae="true"
+        data-ci="bea144b43eefb358981c"
+        data-cs="a36c22fec87740cbe5e17b541731a652d8e2785d"
+        data-r="gitalk"
+        data-o="ArnoFrost"
+        data-a="ArnoFrost"
+        data-d="false"
     >查看评论</div>
 
 
     </div>
     
-        <div class='side'>
+        <div class="side">
 			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">介绍：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E7%A1%AE%E5%AE%9A%E5%93%88%E5%B8%8C%E5%80%BC"><span class="toc-number">2.</span> <span class="toc-text">如何确定哈希值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%A7%E4%BD%93%E7%BB%93%E6%9E%84"><span class="toc-number">3.</span> <span class="toc-text">大体结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E6%A6%82%E8%BF%B0"><span class="toc-number">4.</span> <span class="toc-text">存储过程概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">5.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97%EF%BC%9A"><span class="toc-number">6.</span> <span class="toc-text">更新日志：</span></a></li></ol>	
         </div>
     
