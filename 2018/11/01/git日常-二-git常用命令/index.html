@@ -11,8 +11,9 @@
     <meta name="google" content="notranslate" />
     <meta name="keywords" content="ArnoFrost,"> 
     <meta name="description" content="Life should be so,
-version 0.0.2
+version 0.2
 
+[TOC]
 1. 日志类
 显示每次更新的文件修改统计信息
 
@@ -24,7 +25,7 @@ git log -p -2
 
 根据自定义格式过滤日志
 
-git l,"> 
+g,"> 
     <meta name="author" content="Arno Frost"> 
     <link rel="alternative" href="atom.xml" title="Fox Hound" type="application/atom+xml"> 
     <link rel="icon" href="/img/favicon.png"> 
@@ -69,8 +70,9 @@ git l,">
         </div>
         <div class="content markdown">
             <blockquote>
-<p>version 0.0.2</p>
+<p>version 0.2</p>
 </blockquote>
+<p>[TOC]</p>
 <h2 id="1-日志类"><a href="#1-日志类" class="headerlink" title="1. 日志类"></a>1. 日志类</h2><blockquote>
 <p>显示每次更新的文件修改统计信息</p>
 </blockquote>
@@ -102,8 +104,7 @@ git l,">
 <blockquote>
 <p>显示提交但未合并的信息</p>
 </blockquote>
-<p><code>git log --pretty=&quot;%h - %s&quot; --author=xuxin --since=&quot;2018-04-01&quot; \
-   --before=&quot;2018-10-08&quot; --no-merges -- t/</code></p>
+<p><code>git log --pretty=&quot;%h - %s&quot; --author=xuxin --since=&quot;2018-04-01&quot; \    --before=&quot;2018-10-08&quot; --no-merges -- t/</code></p>
 <h2 id="2-检索类"><a href="#2-检索类" class="headerlink" title="2. 检索类"></a>2. 检索类</h2><blockquote>
 <p>根据commit信息搜索提交</p>
 </blockquote>
@@ -139,11 +140,11 @@ git l,">
 <blockquote>
 <p>查看某人提交的代码</p>
 </blockquote>
-<p><code>git log --author=&quot;xuxin&quot; --pretty=tformat: --numstat | awk &#39;{ add += $1; subs += $2; loc += $1 - $2 } END { printf &quot;added lines: %s, removed lines: %s, total lines: %s\n&quot;, add, subs, loc }&#39; -</code></p>
+<p><code>git log --author=&quot;xuxin&quot; --pretty=tformat: --numstat | awk &#39;&#123; add += $1; subs += $2; loc += $1 - $2 &#125; END &#123; printf &quot;added lines: %s, removed lines: %s, total lines: %s\n&quot;, add, subs, loc &#125;&#39; -</code></p>
 <blockquote>
 <p>统计每个人提交的代码</p>
 </blockquote>
-<p><code>git log --format=&#39;%aN&#39; | sort -u | while read name; do echo -en &quot;$name\t&quot;; git log --author=&quot;$name&quot; --pretty=tformat: --numstat | awk &#39;{ add += $1; subs += $2; loc += $1 - $2 } END { printf &quot;added lines: %s, removed lines: %s, total lines: %s\n&quot;, add, subs, loc }&#39; -; done</code></p>
+<p><code>git log --format=&#39;%aN&#39; | sort -u | while read name; do echo -en &quot;$name\t&quot;; git log --author=&quot;$name&quot; --pretty=tformat: --numstat | awk &#39;&#123; add += $1; subs += $2; loc += $1 - $2 &#125; END &#123; printf &quot;added lines: %s, removed lines: %s, total lines: %s\n&quot;, add, subs, loc &#125;&#39; -; done</code></p>
 <blockquote>
 <p>查看提交者 前五名</p>
 </blockquote>
@@ -159,20 +160,15 @@ git l,">
 <blockquote>
 <p>gitconfig中代码:</p>
 </blockquote>
-<p><code>[alias]
-    lm = log --no-merges --color --date=format:&#39;%Y-%m-%d %H:%M:%S&#39; --author=&#39;xuxin&#39; --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Cblue %s %Cgreen(%cd) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit
-    find = log --all --pretty=\&quot;format:%Cred%cd\n%Cgreen%H %Cblue%s\n%b%Creset\&quot; --name-status --date=format:&#39;%Y-%m-%d %H:%M:%S&#39; --grep
-    lss = log --no-merges --color --stat --graph --date=format:&#39;%Y-%m-%d %H:%M:%S&#39; --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Cblue %s %Cgreen(%cd) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit
-    lms = log --no-merges --color --stat --date=format:&#39;%Y-%m-%d %H:%M:%S&#39; --author=&#39;xuxin&#39; --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Cblue %s %Cgreen(%cd) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit
-    ls = log --no-merges --color --graph --date=format:&#39;%Y-%m-%d %H:%M:%S&#39; --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Cblue %s %Cgreen(%cd) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit</code></p>
+<p><code>[alias]     lm = log --no-merges --color --date=format:&#39;%Y-%m-%d %H:%M:%S&#39; --author=&#39;xuxin&#39; --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Cblue %s %Cgreen(%cd) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit     find = log --all --pretty=\&quot;format:%Cred%cd\n%Cgreen%H %Cblue%s\n%b%Creset\&quot; --name-status --date=format:&#39;%Y-%m-%d %H:%M:%S&#39; --grep     lss = log --no-merges --color --stat --graph --date=format:&#39;%Y-%m-%d %H:%M:%S&#39; --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Cblue %s %Cgreen(%cd) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit     lms = log --no-merges --color --stat --date=format:&#39;%Y-%m-%d %H:%M:%S&#39; --author=&#39;xuxin&#39; --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Cblue %s %Cgreen(%cd) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit     ls = log --no-merges --color --graph --date=format:&#39;%Y-%m-%d %H:%M:%S&#39; --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Cblue %s %Cgreen(%cd) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit</code></p>
 <h3 id="4-2-参考"><a href="#4-2-参考" class="headerlink" title="4.2 参考:"></a>4.2 参考:</h3><ul>
-<li><p><a href="https://git-scm.com/book/zh/v1/Git-%E5%9F%BA%E7%A1%80-%E6%9F%A5%E7%9C%8B%E6%8F%90%E4%BA%A4%E5%8E%86%E5%8F%B2" target="_blank" rel="noopener">git 查看提交历史</a></p>
+<li><p><a target="_blank" rel="noopener" href="https://git-scm.com/book/zh/v1/Git-%E5%9F%BA%E7%A1%80-%E6%9F%A5%E7%9C%8B%E6%8F%90%E4%BA%A4%E5%8E%86%E5%8F%B2">git 查看提交历史</a></p>
 </li>
-<li><p><a href="https://www.cnblogs.com/bellkosmos/p/5923439.html" target="_blank" rel="noopener">git log命令全解析</a></p>
+<li><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/bellkosmos/p/5923439.html">git log命令全解析</a></p>
 </li>
-<li><p><a href="https://www.cnblogs.com/qufanblog/p/7606105.html" target="_blank" rel="noopener">git 放弃本地修改</a></p>
+<li><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qufanblog/p/7606105.html">git 放弃本地修改</a></p>
 </li>
-<li><p><a href="https://www.jianshu.com/p/8fd14064c201" target="_blank" rel="noopener">git代码行统计命令集</a></p>
+<li><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/8fd14064c201">git代码行统计命令集</a></p>
 </li>
 </ul>
 <h3 id="4-3-更新说明"><a href="#4-3-更新说明" class="headerlink" title="4.3 更新说明:"></a>4.3 更新说明:</h3><table>
@@ -184,12 +180,12 @@ git l,">
 </tr>
 </thead>
 <tbody><tr>
-<td>version 0.0.1</td>
+<td>version 0.1</td>
 <td>2018年10月09日15:45:06</td>
 <td>初版</td>
 </tr>
 <tr>
-<td>version 0.0.2</td>
+<td>version 0.2</td>
 <td>2018年10月24日15:51:51</td>
 <td>添加代码统计命令</td>
 </tr>

@@ -62,7 +62,7 @@
 <p>上网查阅资料里好多人说的是权限没获取到，又或是服务器资源不好。但这个页面短暂空白后，又出现了地图列表，看起来似乎是JS没有加载。可是我的代码里已经有了这些东西：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">webView.getSettings().setJavaScriptEnabled(<span class="keyword">true</span>);</span><br><span class="line">webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(<span class="keyword">true</span>);</span><br><span class="line">webView.getSettings().setDomStorageEnabled(<span class="keyword">true</span>);</span><br><span class="line">webView.getSettings().setLoadsImagesAutomatically(<span class="keyword">true</span>);</span><br></pre></td></tr></table></figure>
 <p>这个时候还是Stack Overflow上能看出些门道， 同时我注意到还有另外一条信息：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Unrecognized GLES max version string in extensions: ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_dma_v1</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Unrecognized GLES max version string in extensions: ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_dma_v1 </span><br></pre></td></tr></table></figure>
 <p>由于是使用虚拟机，我意识到可能还有显示渲染的不兼容。</p>
 <p>然后我试着找了一个x86版本的虚拟机安装上去，画面又显示回来了。</p>
 <p>目前在Stack Overflow上没有找到什么能解决的办法。</p>

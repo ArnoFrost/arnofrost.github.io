@@ -11,12 +11,12 @@
     <meta name="google" content="notranslate" />
     <meta name="keywords" content="ArnoFrost,"> 
     <meta name="description" content="Life should be so,
-version 0.0.1
+version 0.2
 
 1. 通过 brew 安装 privoxybrew install privoxy
 安装后查看安装目录
 brew privoxy list
-打开目录并编辑config,"> 
+打开目录并编辑config文件,"> 
     <meta name="author" content="Arno Frost"> 
     <link rel="alternative" href="atom.xml" title="Fox Hound" type="application/atom+xml"> 
     <link rel="icon" href="/img/favicon.png"> 
@@ -61,7 +61,7 @@ brew privoxy list
         </div>
         <div class="content markdown">
             <blockquote>
-<p>version 0.0.1</p>
+<p>version 0.2</p>
 </blockquote>
 <h2 id="1-通过-brew-安装-privoxy"><a href="#1-通过-brew-安装-privoxy" class="headerlink" title="1. 通过 brew 安装 privoxy"></a>1. 通过 brew 安装 privoxy</h2><p><code>brew install privoxy</code></p>
 <p>安装后查看安装目录</p>
@@ -71,7 +71,7 @@ brew privoxy list
 <h2 id="2-添加需要映射的端口"><a href="#2-添加需要映射的端口" class="headerlink" title="2. 添加需要映射的端口"></a>2. 添加需要映射的端口</h2><p>本地ss端口<br><code>forward-socks5t   /               127.0.0.1:1086 .</code>(注意要有默认的点)</p>
 <p>转发的端口</p>
 <p><code>listen-address  0.0.0.0:6666</code></p>
-<h3 id="3-运行privoxy"><a href="#3-运行privoxy" class="headerlink" title="3. 运行privoxy"></a>3. 运行privoxy</h3><p><code>sudo /usr/local/Cellar/privoxy/3.0.26/sbin/privoxy /usr/local/etc/privoxy/config</code></p>
+<h3 id="3-运行privoxy"><a href="#3-运行privoxy" class="headerlink" title="3. 运行privoxy"></a>3. 运行privoxy</h3><p><code>sudo /usr/local/Cellar/privoxy/3.0.26/sbin/privoxy /usr/local/etc/privoxy/config </code></p>
 <h3 id="4-添加开机启动"><a href="#4-添加开机启动" class="headerlink" title="4. 添加开机启动"></a>4. 添加开机启动</h3><p>将变量添加到 <code>.bash_profile</code> 中: </p>
 <p><code>export PATH=$PATH:/usr/local/Cellar/privoxy/3.0.26/sbin/</code></p>
 <p>新建一个文本文档, 将如下添加后, 修改后缀名为.sh</p>
@@ -81,7 +81,7 @@ brew privoxy list
 <p>在终端运行 :</p>
 <p>eg: <code>sh test.sh</code></p>
 <h2 id="5-查看是否已经开启"><a href="#5-查看是否已经开启" class="headerlink" title="5. 查看是否已经开启"></a>5. 查看是否已经开启</h2><p><code>netstat -na | grep 6666</code></p>
-<p><img src="https://s2.ax1x.com/2019/01/15/FzwTQU.png" alt="监听端口"></p>
+<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/FzwTQU.png" alt="监听端口"></p>
 <p>如上, 已经成功监听</p>
 <h2 id="6-更新说明"><a href="#6-更新说明" class="headerlink" title="6. 更新说明:"></a>6. 更新说明:</h2><table>
 <thead>
@@ -92,9 +92,14 @@ brew privoxy list
 </tr>
 </thead>
 <tbody><tr>
-<td>version 0.0.1</td>
+<td>version 0.1</td>
 <td>2019年01月15日16:10:55</td>
 <td>初版</td>
+</tr>
+<tr>
+<td>version 0.2</td>
+<td>2022年02月08日17:49:01</td>
+<td>更换图床为Github</td>
 </tr>
 </tbody></table>
 
