@@ -51,7 +51,7 @@ brew privoxy list
     
 <link rel="stylesheet" href="/css/diaspora.css">
 
-<meta name="generator" content="Hexo 5.4.1"></head>
+<meta name="generator" content="Hexo 6.0.0"></head>
 
 <body class="loading">
     <span id="config-title" style="display:none">Fox Hound</span>
@@ -102,7 +102,7 @@ brew privoxy list
 <p>新建一个文本文档, 将如下添加后, 修改后缀名为.sh</p>
 <blockquote>
 </blockquote>
-<p># 添加开机启动:<br>ln -sfv /usr/local/opt/privoxy/*.plist ~/Library/LaunchAgents<br># 开启 Privoxy:<br>launchctl load ~/Library/LaunchAgents/homebrew.mxcl.privoxy.plist<br># 如果不需要用 launchctl 就直接运行:<br>privoxy /usr/local/etc/privoxy/config</p>
+<p># 添加开机启动:<br>ln -sfv &#x2F;usr&#x2F;local&#x2F;opt&#x2F;privoxy&#x2F;*.plist ~&#x2F;Library&#x2F;LaunchAgents<br># 开启 Privoxy:<br>launchctl load ~&#x2F;Library&#x2F;LaunchAgents&#x2F;homebrew.mxcl.privoxy.plist<br># 如果不需要用 launchctl 就直接运行:<br>privoxy &#x2F;usr&#x2F;local&#x2F;etc&#x2F;privoxy&#x2F;config</p>
 <p>在终端运行 :</p>
 <p>eg: <code>sh test.sh</code></p>
 <h2 id="5-查看是否已经开启"><a href="#5-查看是否已经开启" class="headerlink" title="5. 查看是否已经开启"></a>5. 查看是否已经开启</h2><p><code>netstat -na | grep 6666</code></p>

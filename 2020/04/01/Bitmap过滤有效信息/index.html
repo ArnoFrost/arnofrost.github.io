@@ -45,7 +45,7 @@ version 0.2
     
 <link rel="stylesheet" href="/css/diaspora.css">
 
-<meta name="generator" content="Hexo 5.4.1"></head>
+<meta name="generator" content="Hexo 6.0.0"></head>
 
 <body class="loading">
     <span id="config-title" style="display:none">Fox Hound</span>
@@ -115,12 +115,12 @@ version 0.2
 <p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/GawyqJiAgnlLMDS.png" alt="最终效果-c"></p>
 <h2 id="数据表示"><a href="#数据表示" class="headerlink" title="数据表示"></a>数据表示</h2><p>处理数据的过程也是一个反复推到重试的过程，刚开始制定的想法就是颜色的二进制值去表示，对方（<code>HUD端</code>）再去绘制。<br>但很快发现了一个问题，分辨率是固定的也就是 <code>128 * 71</code>的大小，那么我就要有这么多个点，也就是要有这么多的数据。<br>如果用<code>RGB</code>来表示那么就是三个数 再乘以像素的大小。</p>
 <blockquote>
-<p>（4字节 + 4字节 + 4字节）* 128 * 71 = 109056 字节 ≈ 106k</p>
+<p>（4字节 + 4字节 + 4字节）* 128 * 71 &#x3D; 109056 字节 ≈ 106k</p>
 </blockquote>
 <p>那么一定是不能按照类似加载到内存大小的形式来表示数据了。</p>
 <p>我们初步想的方案准备用一字节来表示颜色，因为颜色种类只有四种以内：<br>分别是建筑的灰色1，指示的黄色2，道路绘制的白色3，以及无关的黑色内容4。</p>
 <blockquote>
-<p>1字节 * 128 * 71 = 18176 字节  ≈ 8.8K</p>
+<p>1字节 * 128 * 71 &#x3D; 18176 字节  ≈ 8.8K</p>
 </blockquote>
 <p> 这样颜色的表示瞬间降低了下来，可这个大小仍旧与实际需要想去甚远。类似<code>jpeg</code> 之类的图片在我保存到硬盘上只有2k到6k大小而且人家的颜色还不止这么点，然后去<br> 翻资料找到一个<code>游程编码</code>(Run-length encoding,简称RLE)压缩的方式。</p>
 <p> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Run-length_encoding">Wiki-Run-length encoding</a></p>
