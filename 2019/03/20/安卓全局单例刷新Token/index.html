@@ -1,0 +1,299 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>安卓全局单例刷新Token - Fox Hound</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="ArnoFrost,"> 
+    <meta name="description" content="Life should be so,
+version 0.5
+
+[TOC]
+前言前阶段公司的业务比较忙,很长时间没有整理出来什么博客.最近刚空出些时间,简单再整理一些记录.
+产生原因:客户端是被动向服务器查询登录状态,一些网络请求需要,"> 
+    <meta name="author" content="Arno Frost"> 
+    <link rel="alternative" href="atom.xml" title="Fox Hound" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">Fox Hound</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="https://arnoforst.github.io"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">安卓全局单例刷新Token</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">安卓全局单例刷新Token</h1>
+        <div class="stuff">
+            <span>三月 20, 2019</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/token/" rel="tag">token</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <blockquote>
+<p>version 0.5</p>
+</blockquote>
+<p>[TOC]</p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>前阶段公司的业务比较忙,很长时间没有整理出来什么博客.最近刚空出些时间,简单再整理一些记录.</p>
+<h2 id="产生原因"><a href="#产生原因" class="headerlink" title="产生原因:"></a>产生原因:</h2><p>客户端是被动向服务器查询登录状态,一些网络请求需要一个刷新token来验证客户端是否处于登录态,是则可以进行用户操作,否则做登出操作.</p>
+<p>刚开始直接单纯的每个请求刷新token,刷新token,然后请求是没什么问题的.</p>
+<p>但是随着版本迭代,任务增多,有些时候,比如app首次启动, 会进行一些列用户相关操作, 比如拉取用户信息, 拉取特定的活动项目,这样一个刷新token的操作可能会并发, 而我们的服务端刷新token每次可能都会不一样,这就产生了一些问题. 以下会展开示意.</p>
+<h2 id="之前的方案-并发刷新token"><a href="#之前的方案-并发刷新token" class="headerlink" title="之前的方案(并发刷新token)"></a>之前的方案(并发刷新token)</h2><p>为了简化理解我画了几张图,来说明情况,为了表示并发,我用RequestA,RequestB,RequestC分别表示三个请求,Server表示服务端</p>
+<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/5c91aaea82080.png" alt="~~理想状态~~刷新token"></p>
+<p>可以看见理想状态下,其实是没什么问题,请求都能正常收到与发送,但前提是他们是只有<strong>当A请求完全完成后</strong>B的后续请求,刷新token才不会受到干扰.</p>
+<h2 id="实际情况"><a href="#实际情况" class="headerlink" title="实际情况"></a>实际情况</h2><p>然而,提到了随着业务增多,实际中大多请求都是并发的,于是乎就有可能有下面的情况.</p>
+<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/5c91aaea9b360.png" alt="实际刷新token"></p>
+<p>可以看到,实际中,很有可能产生,A,B同时刷新token,而在A拿到新<strong>Token A</strong>去再一次请求时,B已经从服务器拿到了<strong>Token B</strong>导致了A请求又一次失败,随着并发的增多这种失败的可能性越来越多.</p>
+<h2 id="改进思路"><a href="#改进思路" class="headerlink" title="改进思路"></a>改进思路</h2><p>我所想的是全局有一个单例的线程来掌管整个Token的刷新,并且这个token的刷新不是并发,而是队列,但是又不能让之后的请求变成队列. 否则简单的将所有请求变成队列即可,但实际情况我们根本不会让请求都是串行,无论从用户体验还是代码的书写上都是不好的.</p>
+<p>所以在与iOS端讨论后,我们决定使用单一管理,并可阻塞的队列方式来管理token的请求过程,确保app内不会并发发送请求token的过程.</p>
+<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/5c94407d7401e.png" alt="修改后刷新机制.png"></p>
+<p>改进后就是主要几点:</p>
+<ol>
+<li>当A请求过期后,需要向<code>TokenManager</code>去请求token.</li>
+<li><code>TokenManager</code>会阻塞住队列,让后来的B请求等待.</li>
+<li>当刷新完成后,通知所有队列中的对象,因为这个<code>TokenManager</code>只负责刷新返回token一个职责</li>
+<li>所有请求拿到新的token,再来并发执行而互不影响.</li>
+</ol>
+<h2 id="代码概要"><a href="#代码概要" class="headerlink" title="代码概要"></a>代码概要</h2><p>主要是实现一个任务队列,并要求阻塞, 因为刷新token也是一个异步请求,所以可以用<code>wait()</code>来阻塞住,当一次请求完成后,使用<code>notify()</code>来让队列继续执行,然后再加入一个超时规则,一段时间内,不会重新刷新token,加快之后的token请求</p>
+<p>那么在安卓中,<code>HandlerThread</code>内部已经有了一个loop的实现,就很方便处理这中情景,而不必要自己去写一些任务队列与Loop,简化代码量.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//单独开辟一个线程来处理looper</span></span><br><span class="line">tokenThread = <span class="keyword">new</span> <span class="title class_">HandlerThread</span>(<span class="string">&quot;token-handlerThread&quot;</span>);</span><br><span class="line">tokenThread.start();</span><br><span class="line"></span><br><span class="line"><span class="comment">//通过Handler来处理消息</span></span><br><span class="line"> mHandler = <span class="keyword">new</span> <span class="title class_">Handler</span>(tokenThread.getLooper()) &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">handleMessage</span><span class="params">(Message msg)</span> &#123;</span><br><span class="line">            <span class="built_in">super</span>.handleMessage(msg);</span><br><span class="line">            <span class="keyword">if</span> (msg != <span class="literal">null</span> &amp;&amp; msg.obj != <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">switch</span> (msg.what) &#123;</span><br><span class="line">                    <span class="keyword">case</span> WITH_RETRY:</span><br><span class="line">                        doGetOrRefreshTokenWithRetry(msg.arg1, (RefreshTokenListener) msg.obj);</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    <span class="keyword">case</span> FORCE:</span><br><span class="line">                        doForceRefreshToken((RefreshTokenListener) msg.obj);</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    <span class="keyword">case</span> NORMAL:</span><br><span class="line">                    <span class="keyword">default</span>:</span><br><span class="line">                        doGetOrRefreshToken((RefreshTokenListener) msg.obj);</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                AILog.d(TAG, <span class="string">&quot;getTokenHandler : msg is null&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+<p>   初始化Handler去操作不同的请求方式</p>
+   <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 直接获取或刷新token</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> listener</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">doGetOrRefreshToken</span><span class="params">(RefreshTokenListener listener)</span> &#123;</span><br><span class="line">    <span class="comment">//AILog.d(TAG, &quot;doGetOrRefreshToken: &quot;);</span></span><br><span class="line">    <span class="keyword">if</span> (checkIsTokenExpired()) &#123;</span><br><span class="line">        <span class="keyword">if</span> (mContext != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="comment">//使用CountDownLatch来阻塞</span></span><br><span class="line">            <span class="type">CountDownLatch</span> <span class="variable">latch</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">CountDownLatch</span>(<span class="number">1</span>);</span><br><span class="line">            MobileAccount.getInst().refreshToken(mContext, <span class="keyword">new</span> <span class="title class_">MobileAccount</span>.RefreshCallback() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onSuccess</span><span class="params">(<span class="type">int</span> code, String refreshedToken)</span> &#123;</span><br><span class="line">                    userUpload(refreshedToken);</span><br><span class="line">                    lastToken = refreshedToken;</span><br><span class="line">                    <span class="keyword">if</span> (listener != <span class="literal">null</span>) &#123;</span><br><span class="line">                        listener.onSuccess(refreshedToken);</span><br><span class="line">                    &#125;</span><br><span class="line">                    lastRefreshTime = System.currentTimeMillis();</span><br><span class="line">                    <span class="comment">//去掉阻塞</span></span><br><span class="line">                    latch.countDown();</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">doLogout</span><span class="params">(<span class="type">int</span> code)</span> &#123;</span><br><span class="line">                    AILog.e(TAG, <span class="string">&quot;doGetOrRefreshToken doLogout() called with: code = [&quot;</span> + code + <span class="string">&quot;]&quot;</span>);</span><br><span class="line">                    <span class="keyword">if</span> (listener != <span class="literal">null</span>) &#123;</span><br><span class="line">                        listener.doLogout(code);</span><br><span class="line">                    &#125;</span><br><span class="line">                    clear();</span><br><span class="line">                    <span class="comment">//去掉阻塞</span></span><br><span class="line">                    latch.countDown();</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onError</span><span class="params">(<span class="type">int</span> errorCode)</span> &#123;</span><br><span class="line">                    AILog.e(TAG, <span class="string">&quot;doGetOrRefreshToken onError() called with: errorCode = [&quot;</span> + errorCode + <span class="string">&quot;]&quot;</span>);</span><br><span class="line">                    <span class="keyword">if</span> (listener != <span class="literal">null</span>) &#123;</span><br><span class="line">                        listener.onError(errorCode);</span><br><span class="line">                    &#125;</span><br><span class="line">                    clear();</span><br><span class="line">                    <span class="comment">//去掉阻塞</span></span><br><span class="line">                    latch.countDown();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">            <span class="comment">//阻塞线程,并设置超时等待</span></span><br><span class="line">            waitUntilNotify(latch);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">//AILog.d(TAG, &quot;doGetOrRefreshToken with not fresh: &quot; + lastToken);</span></span><br><span class="line">        <span class="comment">//直接获得</span></span><br><span class="line">        listener.onSuccess(lastToken);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;   </span><br></pre></td></tr></table></figure>
+
+<p><del>当任务执行到访问网络刷新token时,通过信号量<code>wait()</code>阻塞住任务,当收到回调时<code>notify()</code>去执行,为了防止超时,内部起了一个定时器.</del>(已弃用Lock方式，发现有极少情况可能在加锁之前请求已经过来，导致锁一直不释放)</p>
+<p>采用CountDownLatch来阻塞，防止之前如果速度过快导致lock时已经notify的过程，同时提升可读性</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">waitUntilNotify</span><span class="params">(CountDownLatch latch)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (latch != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="comment">//判断是否还需要加锁</span></span><br><span class="line">            <span class="keyword">if</span> (latch.getCount() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line"><span class="comment">//                        latch.await();</span></span><br><span class="line">                    latch.await(REFRESH_EXPIRED_TIME, TimeUnit.SECONDS);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>阻塞当前线程，并等待一定时长，防止过多请求服务器导致token快速过期。以上是核心部分的简要说明。</p>
+<p>外部通过<code>RefreshTokenListener</code>来处理token的回调,做相应的处理.<br>相对于外部请求,依然是无感知<code>TokenManager</code>的存在.</p>
+<p>外部调用时:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">TokenManager.getInstance().getToken(<span class="keyword">new</span> <span class="title class_">TokenManager</span>.RefreshTokenListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onSuccess</span><span class="params">(String token)</span> &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">doLogOut</span><span class="params">(<span class="type">int</span> code)</span> &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onError</span><span class="params">(<span class="type">int</span> code)</span> &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h2 id="更新说明"><a href="#更新说明" class="headerlink" title="更新说明:"></a>更新说明:</h2><table>
+<thead>
+<tr>
+<th>版本</th>
+<th>时间</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>version 0.1</td>
+<td>2019年03月20日11:29:20</td>
+<td>初版</td>
+</tr>
+<tr>
+<td>version 0.2</td>
+<td>2019年03月22日09:56:52</td>
+<td>修改TokenManager图表</td>
+</tr>
+<tr>
+<td>version 0.3</td>
+<td>2019年03月28日10:21:02</td>
+<td>优化代码</td>
+</tr>
+<tr>
+<td>version 0.4</td>
+<td>2020年04月28日18:12:59</td>
+<td>改用CountDownLatch简化</td>
+</tr>
+<tr>
+<td>version 0.5</td>
+<td>2022年02月08日17:49:01</td>
+<td>更换图床为Github</td>
+</tr>
+</tbody></table>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='http://music.163.com/song/media/outer/url?id=1349292048.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://music.163.com/song/media/outer/url?id=539176.mp3'></li>
+                        
+                    
+                        
+                            <li title='2' data-url='http://music.163.com/song/media/outer/url?id=1331819951.mp3'></li>
+                        
+                    
+                        
+                            <li title='3' data-url='http://music.163.com/song/media/outer/url?id=784455.mp3'></li>
+                        
+                    
+                        
+                            <li title='4' data-url='http://music.163.com/song/media/outer/url?id=863489767.mp3'></li>
+                        
+                    
+                        
+                            <li title='5' data-url='http://music.163.com/song/media/outer/url?id=28692519.mp3'></li>
+                        
+                    
+                        
+                            <li title='6' data-url='http://music.163.com/song/media/outer/url?id=28468136.mp3'></li>
+                        
+                    
+                        
+                            <li title='7' data-url='http://music.163.com/song/media/outer/url?id=27808360.mp3'></li>
+                        
+                    
+                        
+                            <li title='8' data-url='http://music.163.com/song/media/outer/url?id=723174.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='true'
+        data-ae='true'
+        data-ci='bea144b43eefb358981c'
+        data-cs='a36c22fec87740cbe5e17b541731a652d8e2785d'
+        data-r='gitalk'
+        data-o='ArnoFrost'
+        data-a='ArnoFrost'
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%A7%E7%94%9F%E5%8E%9F%E5%9B%A0"><span class="toc-number">1.1.</span> <span class="toc-text">产生原因:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B9%8B%E5%89%8D%E7%9A%84%E6%96%B9%E6%A1%88-%E5%B9%B6%E5%8F%91%E5%88%B7%E6%96%B0token"><span class="toc-number">1.2.</span> <span class="toc-text">之前的方案(并发刷新token)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%99%85%E6%83%85%E5%86%B5"><span class="toc-number">1.3.</span> <span class="toc-text">实际情况</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%B9%E8%BF%9B%E6%80%9D%E8%B7%AF"><span class="toc-number">1.4.</span> <span class="toc-text">改进思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E6%A6%82%E8%A6%81"><span class="toc-number">1.5.</span> <span class="toc-text">代码概要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E8%AF%B4%E6%98%8E"><span class="toc-number">1.6.</span> <span class="toc-text">更新说明:</span></a></li></ol></li></ol>	
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+</html>

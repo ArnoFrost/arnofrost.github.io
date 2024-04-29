@@ -1,0 +1,259 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>安卓全局浮层方案调研 - Fox Hound</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="ArnoFrost,"> 
+    <meta name="description" content="Life should be so,背景：为满足开机广告丰富样式，7.76.0新闻客户端接入LongView广告样式。目前的LongView效果实现是复用之前一镜到底的视频缩放动画，与集成了sax广告SDK的倒计时相关组件。最后用单独,"> 
+    <meta name="author" content="Arno Frost"> 
+    <link rel="alternative" href="atom.xml" title="Fox Hound" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">Fox Hound</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="https://arnoforst.github.io"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">安卓全局浮层方案调研</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">安卓全局浮层方案调研</h1>
+        <div class="stuff">
+            <span>二月 07, 2022</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Window/" rel="tag">Window</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E6%82%AC%E6%B5%AE%E7%AA%97/" rel="tag">悬浮窗</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h2 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h2><p>为满足开机广告丰富样式，7.76.0新闻客户端接入<code>LongView</code>广告样式。目前的<code>LongView</code>效果实现是复用之前<code>一镜到底</code>的视频缩放动画，与集成了<code>sax</code>广告SDK的倒计时相关组件。最后用单独的一个<code>Activity层级</code>的浮层Window来承载后续小窗内容。</p>
+<p>这样做的方式目前满足了第一版的需求，但是前置动画与小窗目前是侵入式埋点在主页面的<code>onCreate</code>中，后续如果想扩充其他场景需要再继续埋入相应代码，不利于统一维护且容易遗漏，并且当前的浮层不能 <strong>“跨页面”</strong>。</p>
+<h2 id="悬浮窗基本原理"><a href="#悬浮窗基本原理" class="headerlink" title="悬浮窗基本原理"></a>悬浮窗基本原理</h2><p>类似于<strong>动态添加View</strong>，但是由于悬浮窗是不依赖具体某个<code>View</code>的所以需要<code>WindowManager</code>介入。</p>
+<ul>
+<li>获取<code>WindowManger</code></li>
+<li>创建悬浮窗View [可额外处理悬浮窗View的拖拽事件等]</li>
+<li>添加到<code>WindowManager</code>中</li>
+</ul>
+<h2 id="1-应用内添加悬浮窗（页面级别）"><a href="#1-应用内添加悬浮窗（页面级别）" class="headerlink" title="1. 应用内添加悬浮窗（页面级别）"></a>1. 应用内添加悬浮窗（页面级别）</h2><p>优点：方便添加<strong>无需权限</strong>申请，快速创建。<br>缺点：<code>Activity层级</code>无法全局，退后台后不能显示。<br>整体流程伪代码如下：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> layoutParam = WindowManager.LayoutParams().apply &#123;</span><br><span class="line">    <span class="comment">//设置大小 自适应</span></span><br><span class="line">    width = WRAP_CONTENT</span><br><span class="line">    height = WRAP_CONTENT</span><br><span class="line">    flags =</span><br><span class="line">        WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 新建悬浮窗控件</span></span><br><span class="line">floatRootView = LayoutInflater.from(<span class="keyword">this</span>).inflate(R.layout.float_view, <span class="literal">null</span>)</span><br><span class="line"><span class="comment">//设置拖动事件</span></span><br><span class="line">floatRootView?.setOnTouchListener(ItemViewTouchListener(layoutParam, windowManager))</span><br><span class="line"><span class="comment">// 将悬浮窗控件添加到WindowManager</span></span><br><span class="line">windowManager.addView(floatRootView, layoutParam)</span><br></pre></td></tr></table></figure>
+<h2 id="2-系统类全局悬浮窗（需申请权限）"><a href="#2-系统类全局悬浮窗（需申请权限）" class="headerlink" title="2. 系统类全局悬浮窗（需申请权限）"></a>2. 系统类全局悬浮窗（需申请权限）</h2><p>优点：可以在应用后台后依然显示，官方支持，限制较少。<br>缺点：<strong>需要权限申请</strong>考虑用户授权率打开率或许较低，且如果想覆盖所有场景，需要<strong>无障碍敏感权限</strong>。由于有后台操作，所以接口需要用到<code>Service</code>参与。<br>（总结：使用普通的Service创建悬浮窗无法做到任何界面都能显示，利用无障碍服务可以做到任何界面悬浮）</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.SYSTEM_ALERT_WINDOW&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.SYSTEM_OVERLAY_WINDOW&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<p>相应权限判断代码省略。<strong>（6.0以下声明权限即默认拥有，但华为小米OPPO等手机有自己的畸形悬浮窗权限管理，仍旧需要考虑适配。）</strong></p>
+<p><strong>注意点</strong><code>WindowManager.LayoutParam</code>中的<code>type</code>需要留意<strong>区分版本</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.O) &#123;</span><br><span class="line">    layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    layoutParams.type = WindowManager.LayoutParams.TYPE_PHONE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Android 8.0</strong>之前可以通过<code>TYPE_PHONE</code>来提供用户交互窗口，但是8.0及以上会抛出异常：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android.view.WindowManager$BadTokenException: Unable to add window android.view.ViewRootImpl$W@f8ec928 -- permission denied for window type 2002</span><br></pre></td></tr></table></figure>
+<p>同时以下类型也被禁止：<br><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/upload_f50f6c1ff1e34bd7ec0bf282e75e8803.jpg" alt="Android8.0-TYPE规范"></p>
+<h3 id="注意点："><a href="#注意点：" class="headerlink" title="注意点："></a>注意点：</h3><p>综上所以我们必须添加<code>TYPE_APPLICATION_OVERLAY</code>类型来达到显示目的，但是某些情况下悬浮窗效果仍旧会失效不显示。<br>所以此时如果仍旧想要<strong>覆盖此种场景</strong>（如小米手机查看系统信息页面），需要添加<code>TYPE_ACCESSIBILITY_OVERLAY</code>类型，则必须搭配<code>AccessibilityService</code>无障碍服务使用。</p>
+<p>过程概述：</p>
+<ul>
+<li>配置无障碍服务</li>
+<li>在<code>AccessibilityService</code>中获取<code>WindowManager</code></li>
+<li>创建悬浮View[设置悬浮View的拖拽事件]</li>
+<li>添加View到<code>WindowManager</code></li>
+</ul>
+<h2 id="3-应用内全局悬浮窗"><a href="#3-应用内全局悬浮窗" class="headerlink" title="3. 应用内全局悬浮窗"></a>3. 应用内全局悬浮窗</h2><p>优点：<strong>无需权限申请</strong>，可满足大部分场景，相对较少的侵入代码。<br>缺点：<strong>无法后台</strong>，且本质上仍旧是<code>Activity页面级别</code>在页面切换时，需要更新<code>token</code>依附<strong>会有闪动</strong>。</p>
+<p>关键点是<code>type</code>类型中有一个<code>TYPE_APPLICATION_PANEL</code>适合用于应用内的悬浮窗开发。所以可以在<code>BaseActivity</code>基类中埋入相关代码，不断切换悬浮窗的token，也可用LifeCycle监听解耦基类代码。</p>
+<p>过程伪代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">WindowManager</span> <span class="variable">windowManager</span> <span class="operator">=</span> (WindowManager)  applicationContext.getSystemService(Context.WINDOW_SERVICE);</span><br><span class="line">WindowManager.<span class="type">LayoutParams</span> <span class="variable">layoutParams</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">WindowManager</span>.LayoutParams();</span><br><span class="line">layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_PANEL;</span><br><span class="line"> <span class="comment">// 必须</span></span><br><span class="line">layoutParams.token = activity.getWindow().getDecorView().getWindowToken();</span><br><span class="line">windowManager.addView(view, layoutParams);</span><br></pre></td></tr></table></figure>
+<p>由于关键点仍旧<strong>依附于页面</strong>，所以切换Activity时会跟随动画一起位移且会有闪动。</p>
+<p>之后在生命周期时做token 切换：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onActivityResumed</span><span class="params">(activity: <span class="type">Activity</span>?)</span></span> &#123;</span><br><span class="line">       activity?.window?.decorView?.let &#123; decorView -&gt;</span><br><span class="line">           decorView.viewTreeObserver?.let &#123; viewTree -&gt;</span><br><span class="line">               <span class="keyword">if</span> (decorView.windowToken != <span class="literal">null</span>) &#123;</span><br><span class="line">                   FloatWindowUtils.bindDebugPanelFloatWindow(activity, decorView.windowToken)</span><br><span class="line">                   weakGlobalListener?.<span class="keyword">get</span>()?.let &#123; globalListener -&gt;</span><br><span class="line">                       decorView.viewTreeObserver.removeOnGlobalLayoutListener(globalListener)</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                   <span class="keyword">val</span> globalListener = <span class="keyword">object</span> : ViewTreeObserver.OnGlobalLayoutListener &#123;</span><br><span class="line">                       <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onGlobalLayout</span><span class="params">()</span></span> &#123;</span><br><span class="line">                           activity.window?.decorView?.windowToken?.let &#123;</span><br><span class="line">                               FloatWindowUtils.bindDebugPanelFloatWindow(activity, it)</span><br><span class="line">                           &#125;</span><br><span class="line">                           decorView.viewTreeObserver.removeOnGlobalLayoutListener(<span class="keyword">this</span>)</span><br><span class="line">                       &#125;</span><br><span class="line">                   &#125;</span><br><span class="line">                   viewTree.addOnGlobalLayoutListener(globalListener)</span><br><span class="line">                   weakGlobalListener = WeakReference(globalListener)</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onActivityPaused</span><span class="params">(activity: <span class="type">Activity</span>?)</span></span> &#123;</span><br><span class="line">       activity?.let &#123;</span><br><span class="line">           FloatWindowUtils.unbindDebugPanelFloatWindow(activity)</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>对比上述方案，授予权限仍旧是最佳的方案，但由于广告的特殊性用户授予权限场景低，这样会导致LongView的全局浮层几乎失效。<br>那么第三种方案，将会是首选，目前看到也有通过<strong>自定义toast</strong>方案来解决的，但是对于一些手机系统如小米ROM不稳定等问题需要进一步考量。</p>
+<h2 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/smallchen/blogs/blob/efd540620a50aad6e8eb4429e504f6b7678c52f6/Android/Android-%E6%B5%AE%E7%AA%97/Android-%E6%B5%AE%E7%AA%97%E6%B5%8B%E8%AF%95.md#%E4%B8%8D%E6%B7%BB%E5%8A%A0%E4%BB%BB%E4%BD%95%E6%9D%83%E9%99%90%E5%A3%B0%E6%98%8E%E6%B5%8B%E8%AF%95">Android-浮窗测试.md</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6951608145537925128">Android悬浮窗看这篇就够了</a></li>
+<li><a target="_blank" rel="noopener" href="https://yuanfentiank789.github.io/2017/04/24/windowtype/">Android入门之窗口类型</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.codenong.com/cs106044375/">Android 应用内悬浮球开发</a></li>
+</ul>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='http://music.163.com/song/media/outer/url?id=1349292048.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://music.163.com/song/media/outer/url?id=539176.mp3'></li>
+                        
+                    
+                        
+                            <li title='2' data-url='http://music.163.com/song/media/outer/url?id=1331819951.mp3'></li>
+                        
+                    
+                        
+                            <li title='3' data-url='http://music.163.com/song/media/outer/url?id=784455.mp3'></li>
+                        
+                    
+                        
+                            <li title='4' data-url='http://music.163.com/song/media/outer/url?id=863489767.mp3'></li>
+                        
+                    
+                        
+                            <li title='5' data-url='http://music.163.com/song/media/outer/url?id=28692519.mp3'></li>
+                        
+                    
+                        
+                            <li title='6' data-url='http://music.163.com/song/media/outer/url?id=28468136.mp3'></li>
+                        
+                    
+                        
+                            <li title='7' data-url='http://music.163.com/song/media/outer/url?id=27808360.mp3'></li>
+                        
+                    
+                        
+                            <li title='8' data-url='http://music.163.com/song/media/outer/url?id=723174.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='true'
+        data-ae='true'
+        data-ci='bea144b43eefb358981c'
+        data-cs='a36c22fec87740cbe5e17b541731a652d8e2785d'
+        data-r='gitalk'
+        data-o='ArnoFrost'
+        data-a='ArnoFrost'
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">背景：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%82%AC%E6%B5%AE%E7%AA%97%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">悬浮窗基本原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%BA%94%E7%94%A8%E5%86%85%E6%B7%BB%E5%8A%A0%E6%82%AC%E6%B5%AE%E7%AA%97%EF%BC%88%E9%A1%B5%E9%9D%A2%E7%BA%A7%E5%88%AB%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">1. 应用内添加悬浮窗（页面级别）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%B3%BB%E7%BB%9F%E7%B1%BB%E5%85%A8%E5%B1%80%E6%82%AC%E6%B5%AE%E7%AA%97%EF%BC%88%E9%9C%80%E7%94%B3%E8%AF%B7%E6%9D%83%E9%99%90%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">2. 系统类全局悬浮窗（需申请权限）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E7%82%B9%EF%BC%9A"><span class="toc-number">4.1.</span> <span class="toc-text">注意点：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%BA%94%E7%94%A8%E5%86%85%E5%85%A8%E5%B1%80%E6%82%AC%E6%B5%AE%E7%AA%97"><span class="toc-number">5.</span> <span class="toc-text">3. 应用内全局悬浮窗</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">6.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5%EF%BC%9A"><span class="toc-number">7.</span> <span class="toc-text">参考链接：</span></a></li></ol>	
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+</html>

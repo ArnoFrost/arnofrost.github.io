@@ -1,0 +1,294 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>记一次折腾过程（一） - Fox Hound</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="ArnoFrost,"> 
+    <meta name="description" content="Life should be so, 写在前面:做安卓的都知道，安卓是归谷歌的。谷歌很多最新的好玩儿有趣的功能，第一时间对移动端的支持大部分也都是在安卓上。身为平常娱乐，有些东西可有可无，也就作罢。但是身为一名开发者，你经常要了解最新,"> 
+    <meta name="author" content="Arno Frost"> 
+    <link rel="alternative" href="atom.xml" title="Fox Hound" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">Fox Hound</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="https://arnoforst.github.io"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">记一次折腾过程（一）</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">记一次折腾过程（一）</h1>
+        <div class="stuff">
+            <span>十月 24, 2017</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Proxy/" rel="tag">Proxy</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E7%AC%A6%E5%8F%B7%C2%B7%E4%BA%BA%E7%94%9F/" rel="tag">符号·人生</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E7%BA%AA%E5%BF%B5/" rel="tag">纪念</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h2 id="写在前面"><a href="#写在前面" class="headerlink" title=" 写在前面:"></a> 写在前面:</h2><p>做安卓的都知道，安卓是归谷歌的。谷歌很多最新的好玩儿有趣的功能，第一时间对移动端的支持大部分也都是在安卓上。身为平常娱乐，有些东西可有可无，也就作罢。但是身为一名开发者，你经常要了解最新的咨询需要上官网，那么这个官网还不能访问，这种情况是不能容忍的。本文是我对这系列折腾过程的记录，当做一个对过去的总结。</p>
+<h2 id="Why？"><a href="#Why？" class="headerlink" title="Why？"></a>Why？</h2><hr>
+<blockquote>
+<p>整体软件环境</p>
+</blockquote>
+<p>安卓的开源是便利的，但同样是危险的。当开发者发现安卓的各种可定制的功能时，同样也是对一名开发者或者说一个软件团队的技术与「道德」的考验。</p>
+<p>常驻后台，相互唤醒。国内安卓的App市场里各种应用的审核并不像想想象中那么严，尤其是身为一名开发者后，发现国内环境的确没有Play Store上那种基于机器学习App检测系统更安全。</p>
+<p>如果你可以可以看看QQ在Play Store上的功能要简约明朗很多，我想无论如何Play Store多多少少制约了一下现在这种软件的「店大欺客」的状态，什么微信<strong>必须</strong>给定位权限，支付宝<strong>必须</strong>要给电话拨打权限，否则就不让用。这相当有悖于谷歌的设计动态权限申请的原则。国内虽然也有一大堆「国人习惯」的第三方ROM来制衡这个混乱的生态圈，但这也给很多开发者带来了更多的适配兼容的问题。(´-ι_-｀)</p>
+<blockquote>
+<p>海外连接速度<strong>过慢</strong></p>
+</blockquote>
+<p>作为一个开发者，上到软件的下载，下到linux的代码仓，好多软件的更新支持都需要一个稳定速度的带宽支持。说到这点，就好比我刚开始用AS开发，一个几百兆的gradle文件愣是让我下载了半天时间，除了学校当时网速有点低之外更主要还是本身对海外节点的访问速度。</p>
+<blockquote>
+<p>You Can Learn More And More</p>
+</blockquote>
+<p>我只是一个纯粹的喜爱生活，热爱技术的人，好多东西明明应该是「无害」的，就好比我想看个谷歌IO大会的直播视频，却难以实现。好在谷歌在国内的影响力又渐渐有了些起色，虽然现在也有腾讯的同声转播，但是总感觉哪里有点不一样。</p>
+<h2 id="What？"><a href="#What？" class="headerlink" title="What？"></a>What？</h2><hr>
+<p>最简单的人们听过最多的也就是VPN，这个简单粗暴和正常软件的使用没什么太大难度。很多时候我们只是使用了一个服务商提供的已经设置好的「工具」，来直接使用，多数的直接就是提供商自己的出的软件，定制化不是很高。理论上和SS速度不应该差距太多，但是实际使用中稳定性，速度体验都有很大折扣。当然在企业里VPN这种东西还是很方便的，你可以远程访问内网环境来提交你的文件管理日常等。</p>
+<p>我选择的是Shadowsocks，简称SS。</p>
+<p>简单理解的话，Shadowsocks是将以前通过SSH创建的Socks5协议拆开成Server端和client端，下面这个原理图能简单介绍其翻墙原理，基本上和利用SSH tunnel大致类似：</p>
+<p><img src="https://i.imgur.com/6ZDVSNr.png"></p>
+<blockquote>
+<ol>
+<li>PC客户端（即你的电脑）发出请求基于Socks5协议跟SS-Local端进行通讯，由于这个SS-Local一般是本机或路由器等局域网的其他机器，不经过GFW，所以解决GFW通过特征分析进行干扰的问题。</li>
+<li>SS-Local和SS-Server两端通过多种可选的加密方法进行通讯，经过GFW的时候因为是常规的TCP包，没有明显特征码GFW也无法对通讯数据进行解密，因此通讯放行。</li>
+<li>SS-Server将收到的加密数据进行解密，还原初始请求，再发送到用户需要访问的服务网站，获取响应原路再返回SS-04，返回途中依然使用了加密，使得流量是普通TCP包，并成功穿过GFW防火墙。</li>
+</ol>
+</blockquote>
+<h2 id="How？"><a href="#How？" class="headerlink" title="How？"></a>How？</h2><hr>
+<p><a target="_blank" rel="noopener" href="https://github.com/shadowsocksr-backup/shadowsocks-rss">各平台位置</a></p>
+<blockquote>
+<p>（注： 这里的SS和SSR还是有区别的 不过本篇暂且不说。）<br>找到一个稳定的提供商，根据节点信息来填写后连接就好。而且二维码的加入更是降低了用户门槛，很多时候只需要点击客户端的扫描二维码就可以啦！</p>
+</blockquote>
+<p><img src="https://i.imgur.com/09eRspU.png"></p>
+<p>你可以在小伙伴的客户端或者提供商页面找到二维码，其实就是包含我所填入的这些信息的一段内容。</p>
+<p><img src="https://i.imgur.com/CzREqdg.png"></p>
+<p>然后我们直接点击扫描屏幕上的二维码就会拿到识别信息了。如果没有的话，手动填写即可。（这里mac客户端是SS那么没有混淆和协议选项的情况下先不写。或者有的使用的是启动参数，-O -o等）</p>
+<p><img src="https://i.imgur.com/EhZ1piC.png"></p>
+<p>最后我们可以选择服务器来切换不同的节点，同样可以开启全局。也可在需要时开启。</p>
+<p>然后我们就可以愉快的看着我们gradle下载文件的速度变快了不少。</p>
+<h2 id="当然还有彩蛋"><a href="#当然还有彩蛋" class="headerlink" title="当然还有彩蛋"></a>当然还有彩蛋</h2><p>这是折腾过程的第一部分，没有什么复杂的东西，如果你要是动手实现的话，估计几分钟十几分钟就能搞定。当然我们们可以做的还远不止这些。</p>
+<blockquote>
+<h2 id="为软件设置代理"><a href="#为软件设置代理" class="headerlink" title="为软件设置代理"></a>为软件设置代理</h2></blockquote>
+<ol>
+<li>所在的地方大局域网屏蔽了一切和音视频相关的内容网站和信息，连网易云音乐都不让听。小伙伴们可着急了，音乐是动力啊有木有。 </li>
+<li>全局代理虽然简单暴力，让你直接达到直连的效果。但是你会发现会有很多弊端：访问国内网站时候我们仍然会走这个代理模式，这就导致了速度变慢，而且很多提供商每个月的流量也都有限。虽然正常使用下流量基本够用，但是也是浪费了不必要的资源。</li>
+</ol>
+<p>在运行客户端后我们开始，选择设置中为局域网开启代理。</p>
+<p><img src="https://i.imgur.com/a2cbV80.png"></p>
+<p>然后在网易云音乐里的设置里找到下载，填写好本地地址和端口，点击测试发现代理可用，然后重启软件，发现每日推荐又活过来了。</p>
+<p><img src="https://i.imgur.com/yeLt6ag.png"></p>
+<p>以此类推，你会发现好多软件都可以这样设置代理。达到节约流量和不影响你日常的网速效果。</p>
+<blockquote>
+<h2 id="更灵活的配置方式-PAC"><a href="#更灵活的配置方式-PAC" class="headerlink" title="更灵活的配置方式 PAC"></a>更灵活的配置方式 PAC</h2></blockquote>
+<blockquote>
+<p>代理自动配置（英语：Proxy auto-config，简称PAC）是一种网页浏览器技术，用于定义浏览器该如何自动选择适当的代理服务器来访问一个网址。<br>一个PAC文件包含一个JavaScript形式的函数“FindProxyForURL(url, host)”。这个函数返回一个包含一个或多个访问规则的字符串。用户代理根据这些规则适用一个特定的代理器或者直接访问。当一个代理服务器无法响应的时候，多个访问规则提供了其他的后备访问方法。浏览器在访问其他页面以前，首先访问这个PAC文件。PAC文件中的URL可能是手工配置的，也可能是是通过网页的网络代理自动发现协议（WPAD）自动配置的。</p>
+</blockquote>
+<p>简单来说就是国内走国内，国外走代理。<br>你可以在客户端找到这个选项，我们可以设置国内不走这个节点，国外自动走代理。</p>
+<p><img src="https://i.imgur.com/F9WTFks.png"></p>
+<p>这里我用了一个好像不是最优不过也还好：</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://jiasd123.oss-cn-hangzhou.aliyuncs.com/list.txt">http://jiasd123.oss-cn-hangzhou.aliyuncs.com/list.txt</a></p>
+</blockquote>
+<p>同样我们可以自己通过JS编辑规则，来实现更高度的定制化。语法规则和具体，可以查阅这几个参考资料:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://www.cnblogs.com/edward2013/p/5560836.html">浅析PAC，教你动手修改你的PAC文件及user-rule文件实现自动代理</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/22166179?refer=barretlee">详解代理自动配置 PAC-知乎专栏</a></li>
+<li><a target="_blank" rel="noopener" href="http://blog.csdn.net/xundh/article/details/48193369">PAC脚本语法（代理自动配置）</a></li>
+</ul>
+<p><img src="https://i.imgur.com/L4unCUQ.png"></p>
+<p>我们还可以通过软件来直接在Chrome上集成这种自动切换的插件。</p>
+<p>比如：<a target="_blank" rel="noopener" href="https://switchyomega.com/">proxy-switchyomega</a> </p>
+<p>跟着教程走一遍，你会发现PAC的神器之处。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><hr>
+<p>祝下载不再缓慢，祝git把把顺畅。<br>当然我们只是走了第一步，还有很多可提升的空间，后续我会再写两篇。</p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='http://music.163.com/song/media/outer/url?id=1349292048.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://music.163.com/song/media/outer/url?id=539176.mp3'></li>
+                        
+                    
+                        
+                            <li title='2' data-url='http://music.163.com/song/media/outer/url?id=1331819951.mp3'></li>
+                        
+                    
+                        
+                            <li title='3' data-url='http://music.163.com/song/media/outer/url?id=784455.mp3'></li>
+                        
+                    
+                        
+                            <li title='4' data-url='http://music.163.com/song/media/outer/url?id=863489767.mp3'></li>
+                        
+                    
+                        
+                            <li title='5' data-url='http://music.163.com/song/media/outer/url?id=28692519.mp3'></li>
+                        
+                    
+                        
+                            <li title='6' data-url='http://music.163.com/song/media/outer/url?id=28468136.mp3'></li>
+                        
+                    
+                        
+                            <li title='7' data-url='http://music.163.com/song/media/outer/url?id=27808360.mp3'></li>
+                        
+                    
+                        
+                            <li title='8' data-url='http://music.163.com/song/media/outer/url?id=723174.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='true'
+        data-ae='true'
+        data-ci='bea144b43eefb358981c'
+        data-cs='a36c22fec87740cbe5e17b541731a652d8e2785d'
+        data-r='gitalk'
+        data-o='ArnoFrost'
+        data-a='ArnoFrost'
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="toc-number">1.</span> <span class="toc-text"> 写在前面:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Why%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">Why？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#What%EF%BC%9F"><span class="toc-number">3.</span> <span class="toc-text">What？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#How%EF%BC%9F"><span class="toc-number">4.</span> <span class="toc-text">How？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BD%93%E7%84%B6%E8%BF%98%E6%9C%89%E5%BD%A9%E8%9B%8B"><span class="toc-number">5.</span> <span class="toc-text">当然还有彩蛋</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E8%BD%AF%E4%BB%B6%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86"><span class="toc-number">6.</span> <span class="toc-text">为软件设置代理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E7%81%B5%E6%B4%BB%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%B9%E5%BC%8F-PAC"><span class="toc-number">7.</span> <span class="toc-text">更灵活的配置方式 PAC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E5%90%8E"><span class="toc-number">8.</span> <span class="toc-text">最后</span></a></li></ol>	
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+</html>

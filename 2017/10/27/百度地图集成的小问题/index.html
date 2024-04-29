@@ -1,0 +1,233 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>百度地图集成的小问题 - Fox Hound</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="ArnoFrost,"> 
+    <meta name="description" content="Life should be so,模拟器运行时候JS不加载或白屏
+之前用百度地图的时候都是直接Copy过来其他项目的地方，因为好业务逻辑相同，也简单了不少。但是偶然在运行中发现了这样一个问题。我用的是SDK 25（7.1）的模拟器，,"> 
+    <meta name="author" content="Arno Frost"> 
+    <link rel="alternative" href="atom.xml" title="Fox Hound" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">Fox Hound</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="https://arnoforst.github.io"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">百度地图集成的小问题</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">百度地图集成的小问题</h1>
+        <div class="stuff">
+            <span>十月 27, 2017</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E7%99%BE%E5%BA%A6%E5%9C%B0%E5%9B%BE/" rel="tag">百度地图</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E9%9B%86%E6%88%90/" rel="tag">集成</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h2 id="模拟器运行时候JS不加载或白屏"><a href="#模拟器运行时候JS不加载或白屏" class="headerlink" title="模拟器运行时候JS不加载或白屏"></a>模拟器运行时候JS不加载或白屏</h2><hr>
+<p>之前用百度地图的时候都是直接Copy过来其他项目的地方，因为好业务逻辑相同，也简单了不少。但是偶然在运行中发现了这样一个问题。我用的是SDK 25（7.1）的模拟器，在我点击跳转到页面的时候显示了空白，同时我的日志输出了这样一段：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chromium: [ERROR:interface_registry.cc(<span class="number">104</span>)] Failed to locate a binder <span class="keyword">for</span> interface: autofill::mojom::PasswordManagerDriver</span><br></pre></td></tr></table></figure>
+
+<p>上网查阅资料里好多人说的是权限没获取到，又或是服务器资源不好。但这个页面短暂空白后，又出现了地图列表，看起来似乎是JS没有加载。可是我的代码里已经有了这些东西：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">webView.getSettings().setJavaScriptEnabled(<span class="literal">true</span>);</span><br><span class="line">webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(<span class="literal">true</span>);</span><br><span class="line">webView.getSettings().setDomStorageEnabled(<span class="literal">true</span>);</span><br><span class="line">webView.getSettings().setLoadsImagesAutomatically(<span class="literal">true</span>);</span><br></pre></td></tr></table></figure>
+<p>这个时候还是Stack Overflow上能看出些门道， 同时我注意到还有另外一条信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Unrecognized GLES max version string in extensions: ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_dma_v1 </span><br></pre></td></tr></table></figure>
+<p>由于是使用虚拟机，我意识到可能还有显示渲染的不兼容。</p>
+<p>然后我试着找了一个x86版本的虚拟机安装上去，画面又显示回来了。</p>
+<p>目前在Stack Overflow上没有找到什么能解决的办法。</p>
+<h2 id="无法在AndroidManifest-xml中获取com-baidu-android-lbs-API-KEY的值"><a href="#无法在AndroidManifest-xml中获取com-baidu-android-lbs-API-KEY的值" class="headerlink" title="无法在AndroidManifest.xml中获取com.baidu.android.lbs.API_KEY的值"></a>无法在AndroidManifest.xml中获取com.baidu.android.lbs.API_KEY的值</h2><hr>
+<p>按照文档上的说明，我在AndroidManifest文件中配置meta-data应该是可以的，但是读取不到，后来发现原来key 不应该是api_key而是com.baidu.lbsapi.API_KEY，这个问题还是要细心注意一下。</p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='http://music.163.com/song/media/outer/url?id=1349292048.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://music.163.com/song/media/outer/url?id=539176.mp3'></li>
+                        
+                    
+                        
+                            <li title='2' data-url='http://music.163.com/song/media/outer/url?id=1331819951.mp3'></li>
+                        
+                    
+                        
+                            <li title='3' data-url='http://music.163.com/song/media/outer/url?id=784455.mp3'></li>
+                        
+                    
+                        
+                            <li title='4' data-url='http://music.163.com/song/media/outer/url?id=863489767.mp3'></li>
+                        
+                    
+                        
+                            <li title='5' data-url='http://music.163.com/song/media/outer/url?id=28692519.mp3'></li>
+                        
+                    
+                        
+                            <li title='6' data-url='http://music.163.com/song/media/outer/url?id=28468136.mp3'></li>
+                        
+                    
+                        
+                            <li title='7' data-url='http://music.163.com/song/media/outer/url?id=27808360.mp3'></li>
+                        
+                    
+                        
+                            <li title='8' data-url='http://music.163.com/song/media/outer/url?id=723174.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='true'
+        data-ae='true'
+        data-ci='bea144b43eefb358981c'
+        data-cs='a36c22fec87740cbe5e17b541731a652d8e2785d'
+        data-r='gitalk'
+        data-o='ArnoFrost'
+        data-a='ArnoFrost'
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E6%8B%9F%E5%99%A8%E8%BF%90%E8%A1%8C%E6%97%B6%E5%80%99JS%E4%B8%8D%E5%8A%A0%E8%BD%BD%E6%88%96%E7%99%BD%E5%B1%8F"><span class="toc-number">1.</span> <span class="toc-text">模拟器运行时候JS不加载或白屏</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E6%B3%95%E5%9C%A8AndroidManifest-xml%E4%B8%AD%E8%8E%B7%E5%8F%96com-baidu-android-lbs-API-KEY%E7%9A%84%E5%80%BC"><span class="toc-number">2.</span> <span class="toc-text">无法在AndroidManifest.xml中获取com.baidu.android.lbs.API_KEY的值</span></a></li></ol>	
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+</html>

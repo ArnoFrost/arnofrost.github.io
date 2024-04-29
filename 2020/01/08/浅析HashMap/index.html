@@ -1,0 +1,289 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>浅析HashMap（上） - Fox Hound</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="ArnoFrost,"> 
+    <meta name="description" content="Life should be so,
+version 0.2
+
+[TOC]
+介绍：HashMap是平时工作开发经常接触的数据结构，但很多时候疏于查看原理，在使用过程中会发生一些问题。最近根据自己所学与参考记录一下。结合其他相近数据结构,"> 
+    <meta name="author" content="Arno Frost"> 
+    <link rel="alternative" href="atom.xml" title="Fox Hound" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">Fox Hound</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="https://arnoforst.github.io"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">浅析HashMap（上）</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">浅析HashMap（上）</h1>
+        <div class="stuff">
+            <span>一月 08, 2020</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <blockquote>
+<p>version 0.2</p>
+</blockquote>
+<p>[TOC]</p>
+<h3 id="介绍："><a href="#介绍：" class="headerlink" title="介绍："></a>介绍：</h3><p>HashMap是平时工作开发经常接触的数据结构，但很多时候疏于查看原理，在使用过程中会发生一些问题。最近根据自己所学与参考记录一下。结合其他相近数据结构<code>HashTable</code>，<code>LinkedHashMap</code>,<code>ConcurrentHashMap</code>等展开分析梳理。</p>
+<blockquote>
+<p>Java中对Map定义了接口<code>java.util.Map</code>，主要有<code>HashMap</code>，<code>HashTable</code>,<code>LinkedHashMap</code>,<code>TreeMap</code>四种常用实现类。继承关系如图所示（我盗用的美团的）</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/HRMhQLwpZkEXTVW.jpg" alt="常见Map实现类继承关系图"></p>
+<p>简单区分一下各自的特点：</p>
+<ol>
+<li><strong>HashMap</strong>：根据键的哈希值来存储数据，内部大体是<strong>数组+链表</strong>结构，很多情况下可以直接从数组的位置直接获取到值，因此有很快的访问速度。同时允许<strong>至多一条</strong>键为<code>null</code>的数据存入，而值的null不限制。缺点是虽然访问速度很快，但是遍历的顺序是不确定的，也不保证在结构变动后元素顺序不变化，所以<code>HashMap</code>如果直接用来表示顺序很多情况是不满足的，同时它的每个操作也不是线程安全，在并发情况容易产生问题，<code>JDK 1.8</code>之前甚至可能产生<strong>死循环</strong>（头插法变动导致环产生），但可以用<code>Collections</code>类中的<code>synchronizedMap()</code>来包装实现线程安全的能力，本质上也是采用<code>synchronized</code>来加锁。</li>
+<li><strong>HashTable</strong>：相较于线程不安全的<code>HashMap</code>,<code>HashTable</code>在以前编程初期经常用来当做解决各种奇怪问题的解药。由于内部对数据结构修改的方法都是用<code>synchronized</code>修饰，所以是<strong>线程安全</strong>的，同一时间只有一个线程能进行写操作，所以并发性受到限制。在<code>JDK 1.5</code>后用<code>ConcurrentHashMap</code>类来代替，相较于暴力的大段加锁，<code>ConcurrentHashMap</code>采用分段锁等优化（<code>ConcurrentHashMap</code>本身的优化也具有迭代性是一个持续性的表现比如对分段锁的懒加载，volatile等操作）</li>
+<li><strong>LinkedHashMap</strong>：是<code>HashMap</code>的子类，通过引入新的辅助<strong>双向链表</strong>使得结构支持表示顺序，如<strong>插入顺序</strong>或<strong>访问顺序</strong>。其中将构造函数<code>LinkedHashMap(int initialCapacity,                   float loadFactor,                   boolean accessOrder)</code>中传入 <code>accessOrder</code> 为 <code>true</code>时支持按照访问顺序遍历的特性，基于这个数据结构的天然特性安卓的很多LRU缓存机制都能见到它的身影。</li>
+<li><strong>TreeMap</strong>：实现了<code>SortedMap</code>接口，会根据键值的hashCode做排序，默认是<strong>升序</strong>，也可以指定排序的比较器，在迭代时可以按照需要的情况遍历数据。同时由于涉及排序，所以key一定要实现<code>Comparable</code>接口，或者在构造时传入自定义的比较器<code>Comparator</code>，否则会抛出<code>java.lang.ClassCastException</code>异常。</li>
+</ol>
+<p>在介绍上面四种常见Map类型时我们发现很多情况这个为了实现这种映射关系时都必须要保证一个大前提，那就是<strong>key的值要是不可变的</strong>。简而言之就是在他们存入Map后，它的<code>hashCode</code>一定不能变更，否则很可能下次查找就找不到需要的数据位置。所以我打算从<code>hashCode</code>讲起。</p>
+<h3 id="如何确定哈希值"><a href="#如何确定哈希值" class="headerlink" title="如何确定哈希值"></a>如何确定哈希值</h3><p>在开发过程中，我们在覆写对象<code>equals（）</code>方法后常常需要覆写<code>hashCode()</code>，那么不覆写会产生什么问题呢？</p>
+<p>我们知道在Java中如果不覆写对象的<code>equals（）</code>方法，在用<code>equals（）</code>进行比较时默认使用内存地址进行比较的，那很多情况物理上是不一样的对象但逻辑上可能是相同的对象。比如从反序列化中读取到的数据，这个是新的对象，但逻辑上可能和我们实际来说是一个。这个时候如果我们覆写了<code>equals（）</code>方法，加入了具体的判断逻辑，比如:<br><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/dFEkrS2tsxBIeH9.jpg" alt="没覆写equals方法比较地址引用"></p>
+<p>如果加入覆写逻辑则可以为相同：<br><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/jwX7ch5L2d3f9Uv.jpg" alt="覆写equals逻辑比较覆写方法"></p>
+<p>那为什么还要覆写<code>hashCode</code>呢？<br>这是由于<code>java.lang.Object</code>中对于<code>hashCode</code>的约定：<br><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/VkpaBl796gG52ih.jpg"></p>
+<p>简而言之就是：运行期间如果两个对象的<code>equals</code>判定为一样，那么<code>hashCode</code>一定一样，反之如果<code>equals</code>不一样，那么<code>hashCode</code>一定不一样，同时在对象比较的方法内信息如果没有改动的话必须每次<code>hashCode</code>值还是一样。</p>
+<p>所以当我们改动了判定的信息条件时，也必须改动合理的<code>hashCode</code>判断方法以确保我们符合这个定义。但同时需要谨慎区分，如果<code>equals</code>一样那么两个对象一定一样。但由于存在<strong>哈希碰撞</strong>，反之我们并不能确保相同的<code>hashCode</code>代表同一个对象。</p>
+<blockquote>
+<p>哈希的计算方式一定要尽量散列，让不同对象尽可能产生不同的值来减少碰撞，这样才能用此来当做一种消息摘要来快速比对是否是同一个内容。</p>
+</blockquote>
+<p>好在这种头疼的问题大多数情况不用我们考虑，默认的<code>hashCode()</code>方法已经能满足我们大部分情况。但思考一个问题，既然是随机散列，那么就一定可能产生负数，而我们知道在数组中是必须从0开始的自然数，很多时候还需要做进一步处理，比如<code>HashTable</code>中会将<code>hashCode</code>再与一个大素数计算得到正数再放入数组中。</p>
+<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/nOgJtVTjDUPck8v.jpg"></p>
+<p>这样我们便能通过简单的一次计算快速得到数据在数组中的存储位置，以此来提高访问性能。</p>
+<h3 id="大体结构"><a href="#大体结构" class="headerlink" title="大体结构"></a>大体结构</h3><p>从实现上来说，<code>HashMap</code>的结构是<strong>数组+ （链表&#x2F;红黑树）结合</strong><br><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/G8AVthCgfSI1dzL.jpg"></p>
+<p>这里是<code>JDK 1.8</code> ，之前没有转换红黑树的过程。<br>其中<code>HashMap</code>一个重要的字段就是 <code>Node[] table</code>即哈希桶数组：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">Node</span>&lt;K,V&gt; <span class="keyword">implements</span> <span class="title class_">Map</span>.Entry&lt;K,V&gt; &#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="type">int</span> hash;    <span class="comment">//用来定位数组索引位置</span></span><br><span class="line">        <span class="keyword">final</span> K key;</span><br><span class="line">        V value;</span><br><span class="line">        Node&lt;K,V&gt; next;   <span class="comment">//链表的下一个node</span></span><br><span class="line"></span><br><span class="line">        Node(<span class="type">int</span> hash, K key, V value, Node&lt;K,V&gt; next) &#123; ... &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">final</span> K <span class="title function_">getKey</span><span class="params">()</span>&#123; ... &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">final</span> V <span class="title function_">getValue</span><span class="params">()</span> &#123; ... &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">final</span> String <span class="title function_">toString</span><span class="params">()</span> &#123; ... &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">final</span> <span class="type">int</span> <span class="title function_">hashCode</span><span class="params">()</span> &#123; ... &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">final</span> V <span class="title function_">setValue</span><span class="params">(V newValue)</span> &#123; ... &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">final</span> <span class="type">boolean</span> <span class="title function_">equals</span><span class="params">(Object o)</span> &#123; ... &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>本质上没一个<code>Node</code>都是一个键值对，而上图的每一个黑色点便是一个<code>Node</code>对象。</p>
+<h3 id="存储过程概述"><a href="#存储过程概述" class="headerlink" title="存储过程概述"></a>存储过程概述</h3><p>当有元素进来，会进行判断是否存在，如果不存在，则直接将元素放入对应的数组中去。但当已经有数据时，就有了<code>Hash碰撞</code>。常见的解决方法有几种：开放地址，再哈希，链地址等等。<a target="_blank" rel="noopener" href="https://blog.csdn.net/zeb_perfect/article/details/52574915">解决Hash碰撞冲突方法总结</a></p>
+<p><code>HashMap</code>采用了链地址法，在每个元素上都追加了一个链表结构，以此来存储相同哈希值的元素。所以在早先版本如果没有红黑树的转换，极端情况当所有数据的哈希值都一样的情况下，<code>HashMap</code>会退化为单链表，查找速度也从<code>O(1)</code>退化为<code>0（N）</code>。</p>
+<blockquote>
+<p>如果哈希桶数组很大，即使较差的Hash算法也会比较分散，如果哈希桶数组数组很小，即使好的Hash算法也会出现较多碰撞，所以就需要在空间成本和时间成本之间权衡，其实就是在根据实际情况确定哈希桶数组的大小，并在此基础上设计好的hash算法减少Hash碰撞。</p>
+</blockquote>
+<p>同时对于<code>JDK 1.8</code>中当一个链表元素超过8个的时候还会进行红黑树转化即<code>treeify</code>过程来增强性能。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> threshold;             <span class="comment">// 所能容纳的key-value对极限 </span></span><br><span class="line"><span class="keyword">final</span> <span class="type">float</span> loadFactor;    <span class="comment">// 负载因子</span></span><br><span class="line"><span class="type">int</span> modCount;  </span><br><span class="line"><span class="type">int</span> size;  </span><br></pre></td></tr></table></figure>
+<p><code>HashMap</code>默认开辟的存储空间为16，<code>theshold = length * loadFactor</code> 当存储到12后开始进行<strong>扩容</strong>，大小就是之前的<strong>两倍</strong>。扩容过程意味着需要时间，开辟新的空间并拷贝过去。所以意味着我们尽量避免扩容的发生，又不想浪费太多空间。<code>0.75</code>是默认的负载因子，通常可以比较好的平衡空间与性能，除非特殊需求。</p>
+<p>具体过程分析与区别或许还是需要阅读源码才可以，这部分看了一些但还需要再总结归纳一下有时间写到下篇中分析。</p>
+<p>（未完待续…）</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://tech.meituan.com/2016/06/24/java-hashmap.html">Java 8系列之重新认识HashMap</a></li>
+</ul>
+<h3 id="更新日志："><a href="#更新日志：" class="headerlink" title="更新日志："></a>更新日志：</h3><table>
+<thead>
+<tr>
+<th>版本</th>
+<th>时间</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>version 0.1</td>
+<td>2020年01月08日20:50:03</td>
+<td>初版整理</td>
+</tr>
+<tr>
+<td>version 0.2</td>
+<td>2022年02月08日17:49:01</td>
+<td>更换图床为Github</td>
+</tr>
+</tbody></table>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='http://music.163.com/song/media/outer/url?id=1349292048.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://music.163.com/song/media/outer/url?id=539176.mp3'></li>
+                        
+                    
+                        
+                            <li title='2' data-url='http://music.163.com/song/media/outer/url?id=1331819951.mp3'></li>
+                        
+                    
+                        
+                            <li title='3' data-url='http://music.163.com/song/media/outer/url?id=784455.mp3'></li>
+                        
+                    
+                        
+                            <li title='4' data-url='http://music.163.com/song/media/outer/url?id=863489767.mp3'></li>
+                        
+                    
+                        
+                            <li title='5' data-url='http://music.163.com/song/media/outer/url?id=28692519.mp3'></li>
+                        
+                    
+                        
+                            <li title='6' data-url='http://music.163.com/song/media/outer/url?id=28468136.mp3'></li>
+                        
+                    
+                        
+                            <li title='7' data-url='http://music.163.com/song/media/outer/url?id=27808360.mp3'></li>
+                        
+                    
+                        
+                            <li title='8' data-url='http://music.163.com/song/media/outer/url?id=723174.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='true'
+        data-ae='true'
+        data-ci='bea144b43eefb358981c'
+        data-cs='a36c22fec87740cbe5e17b541731a652d8e2785d'
+        data-r='gitalk'
+        data-o='ArnoFrost'
+        data-a='ArnoFrost'
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">介绍：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E7%A1%AE%E5%AE%9A%E5%93%88%E5%B8%8C%E5%80%BC"><span class="toc-number">2.</span> <span class="toc-text">如何确定哈希值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%A7%E4%BD%93%E7%BB%93%E6%9E%84"><span class="toc-number">3.</span> <span class="toc-text">大体结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E6%A6%82%E8%BF%B0"><span class="toc-number">4.</span> <span class="toc-text">存储过程概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">5.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97%EF%BC%9A"><span class="toc-number">6.</span> <span class="toc-text">更新日志：</span></a></li></ol>	
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+</html>

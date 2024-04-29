@@ -1,0 +1,317 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bitmap过滤有效信息 - Fox Hound</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="ArnoFrost,"> 
+    <meta name="description" content="Life should be so,
+version 0.2
+
+[TOC]
+产生背景最近在和产品一起讨论我们新设备的亮点功能上尝试探讨，是否可以将导航过程中的路口放大图通过蓝牙传递到我们的hud上。可是由于成本因素考虑，硬件的限制条件,"> 
+    <meta name="author" content="Arno Frost"> 
+    <link rel="alternative" href="atom.xml" title="Fox Hound" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">Fox Hound</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="https://arnoforst.github.io"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">Bitmap过滤有效信息</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">Bitmap过滤有效信息</h1>
+        <div class="stuff">
+            <span>四月 01, 2020</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Bitmap/" rel="tag">Bitmap</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/OpenCV/" rel="tag">OpenCV</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E5%8D%8F%E8%AE%AE/" rel="tag">协议</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <blockquote>
+<p>version 0.2</p>
+</blockquote>
+<p>[TOC]</p>
+<h1 id="产生背景"><a href="#产生背景" class="headerlink" title="产生背景"></a>产生背景</h1><p>最近在和产品一起讨论我们新设备的亮点功能上尝试探讨，是否可以将导航过程中的路口放大图通过蓝牙传递到我们的hud上。可是由于成本因素考虑，硬件的限制条件比较苛刻。留给我们的显示区域的分辨率只有<code>128*71</code>的大小，而且文件内存只能控制在寥寥2k以内，最初时候甚至不支持加载图片。中间也经历了几次尝试从黑白到彩色，己经波折与尝试终于有了一个不错的效果展示以此记录这次过程。</p>
+<h2 id="采用黑白方案过程："><a href="#采用黑白方案过程：" class="headerlink" title="采用黑白方案过程："></a>采用黑白方案过程：</h2><blockquote>
+<p>协定的是客户端将图片的特征数据提取并简化成点阵，然后采用压缩的形式再传给客户端。分成数据提取，与信息表示两个部分。</p>
+</blockquote>
+<h2 id="特征提取"><a href="#特征提取" class="headerlink" title="特征提取"></a>特征提取</h2><p>首先想到的方案是通过Bitmap来过滤特征的像素值，然后进一步去掉其他无关像素点。</p>
+<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/H6vlKhP71OM3Xkm.png" alt="image.png-c"></p>
+<p>首次过滤效果是这样，上面是原高德地图SDK返回的路口放大图信息，下图是通过Bitmap像素遍历值并替换需要元素拿到的转换图片。</p>
+<h3 id="初步过程"><a href="#初步过程" class="headerlink" title="初步过程"></a>初步过程</h3><p>初步看来主要信息轮廓都在，看上去只要再压缩完成后去传输就行。<br>当时想的方案是颜色加坐标，然后传输过去，<code>HUD端</code>那边接收再按行绘制出来。</p>
+<p>可在实际压缩至小的分辨率之后发现锯齿比想象中严重虽然分辨率低，但是由于单纯用像素匹配黄色导航箭头可能效果还好，但对于路的边缘有很多误差，甚至像一些建筑物桥梁等根本看不出来是什么，而且还有其他问题。</p>
+<p>首先虽然这张图的像素可以替换成简单的四个色值，但是压缩后在所难免产生色彩的偏移：</p>
+<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/MbKYhRFCUHl2Azr.png" alt="原始调整颜色-c"></p>
+<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/6tFjYzmNXaZUlyV.png" alt="原始压缩效果-c"></p>
+<p>可以看到道路的周围对于这种哪怕非常清晰的原图压缩后也没有很理想的效果。这个对于锯齿的处理，想用简单的连线来代替可处理的判断逻辑比想象中要复杂，如何判断周围的像素要相连，如何判断不相连，压缩之后的图片色彩偏移后 白色与灰色值的判定依旧不是那么清晰。</p>
+<p>到这里，似乎问题变得不好处理起来。日常大多处理的东西很少会需要这种精准度的匹配，相关问题组里面也没有人涉及。我的组长只是想到看能不能用OpenCV 来试着处理，可自己从来没有过经验。硬着头皮试试看吧。</p>
+<h3 id="OpenCV"><a href="#OpenCV" class="headerlink" title="OpenCV"></a>OpenCV</h3><p>终于在一次偶然机会，发现了一种术语叫<code>特征提取</code>。其中的<code>坎尼运算</code>对于描述图像轮廓很有帮助，这是OpenCV中比较常用的特征提取算法。大体是用线条来绘制轮廓而不在描述全部特征的一种方式，也算是边缘检测的一种方法。</p>
+<p>在摸索了几天OpenCV的基础使用后，我开始集成进Demo去尝试处理。</p>
+<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/cLzOBhqWMnEmef6.png" alt="坎尼运算-c"></p>
+<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/GikUeKfdauLDy8q.png" alt="坎尼运算2-c"></p>
+<p>我想或许这是我想要的方案，但这又产生了另一个问题，这只有轮廓却完全是黑白色的体现。但我可以手动再填充一次，同时坎尼运算有两个阈值设置为了简而言之就是这两个阈值算子决定了轮廓绘制的有多详细。</p>
+<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/BwnNp7SLDsV1ThQ.png" alt="坎尼运算3-c"></p>
+<p>以上便方便切较为精准的匹配了特征，那么下一步就是希望降低压缩后的颗粒感。（因为分辨率非常小，又为了突出主体在研究的过程中我加上了一部分裁剪的方法来适当去掉无关内容，比如蓝天那些远景图。原理也比较简单，就是从黄色箭头处的位置适当保留高度，而不是全部的高度这样压缩后的图片主要能容就会更大一些。）</p>
+<h3 id="压缩与填充"><a href="#压缩与填充" class="headerlink" title="压缩与填充"></a>压缩与填充</h3><p>在尝试各种自带方法效果不理想后，奈何对于计算机图像视觉根本于我不着边际，又开始了各种谷歌尝试找到一种方法，于是OpenCV中的一种压缩方式引起了我的注意，这种采用的<code>像素面积关系重采样</code>能较好的拟合这种锯齿行为。同时其中的<code>二值化</code>处理也为压缩后的图片产生色彩偏移带来了可行性，在这过程中也加了一些处理为了使得锯齿更小，同时加入了高斯模糊以及锐化等辅助处理工作。</p>
+<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/7DvRFHPcVWhoG1E.png" alt="OpenCv压缩-c"></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/38493205">OpenCV里的INTER_AREA究竟是在做啥？</a></li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/AKF53sgVyMdZU9G.png" alt="image.png-c"></p>
+<p>最终处理的图片可以看到在经过这些处理后的图像抗锯齿的效果好了很多，之前左边毛躁的边缘开始类似两条线去收尾。至此在黑白色彩方案里终于可以有一个可预期的效果。</p>
+<p><strong>最终展示效果：</strong></p>
+<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/GawyqJiAgnlLMDS.png" alt="最终效果-c"></p>
+<h2 id="数据表示"><a href="#数据表示" class="headerlink" title="数据表示"></a>数据表示</h2><p>处理数据的过程也是一个反复推到重试的过程，刚开始制定的想法就是颜色的二进制值去表示，对方（<code>HUD端</code>）再去绘制。<br>但很快发现了一个问题，分辨率是固定的也就是 <code>128 * 71</code>的大小，那么我就要有这么多个点，也就是要有这么多的数据。<br>如果用<code>RGB</code>来表示那么就是三个数 再乘以像素的大小。</p>
+<blockquote>
+<p>（4字节 + 4字节 + 4字节）* 128 * 71 &#x3D; 109056 字节 ≈ 106k</p>
+</blockquote>
+<p>那么一定是不能按照类似加载到内存大小的形式来表示数据了。</p>
+<p>我们初步想的方案准备用一字节来表示颜色，因为颜色种类只有四种以内：<br>分别是建筑的灰色1，指示的黄色2，道路绘制的白色3，以及无关的黑色内容4。</p>
+<blockquote>
+<p>1字节 * 128 * 71 &#x3D; 18176 字节  ≈ 8.8K</p>
+</blockquote>
+<p> 这样颜色的表示瞬间降低了下来，可这个大小仍旧与实际需要想去甚远。类似<code>jpeg</code> 之类的图片在我保存到硬盘上只有2k到6k大小而且人家的颜色还不止这么点，然后去<br> 翻资料找到一个<code>游程编码</code>(Run-length encoding,简称RLE)压缩的方式。</p>
+<p> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Run-length_encoding">Wiki-Run-length encoding</a></p>
+<p> <img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/kWrvElzKedu7F2x.png" alt="image.png-c"></p>
+<p> 简而言之就是把数据按照<strong>线性</strong>的序列分为<strong>连续</strong>和<strong>不连续</strong>的两种情况。假设我的图片是<code>10*10</code> 在第一行的像素是这样：</p>
+<blockquote>
+<p>[黑，黑，黑，黑，黑，黄，黄，白，白，白]</p>
+</blockquote>
+<p>那么我可以表示成：</p>
+<blockquote>
+<p>黑[5],黄[2],白[3] </p>
+</blockquote>
+<p>原本一行的内容是 10字节，但现在只需要6字节，这还是因为长度比较少，极端情况一行都是黑色可以用2字节表示。<br>这个过程也是在和我的组长讨论后看上去比较简单可行的方式。<br>后来发现传统的方式是偏向<strong>横向压缩</strong>，对我们的图像更加偏向<strong>纵向线条</strong>，所以后来换成了纵向的<strong>RLE</strong>方式，不过那是后来的事情了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取到像素坐标点</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> bitmap</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Map&lt;Integer, List&lt;Point&gt;&gt; <span class="title function_">getCoordinateData</span><span class="params">(Bitmap bitmap)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (bitmap == <span class="literal">null</span>) &#123;</span><br><span class="line">            Log.e(TAG, <span class="string">&quot;getCoordinateData() called with: bitmap is null&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//获得缩放后的宽高</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">width</span> <span class="operator">=</span> bitmap.getWidth();</span><br><span class="line">        <span class="type">int</span> <span class="variable">height</span> <span class="operator">=</span> bitmap.getHeight();</span><br><span class="line">        Log.d(TAG, <span class="string">&quot;getRegenBitmap after compress: width = &quot;</span> + width + <span class="string">&quot;,height = &quot;</span> + height);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2. 判断颜色比较遍历像素 并填充替换=====</span></span><br><span class="line">        <span class="comment">// 保存所有的像素的数组，图片宽×高</span></span><br><span class="line">        <span class="type">int</span>[] pixels = <span class="keyword">new</span> <span class="title class_">int</span>[width * height];</span><br><span class="line"></span><br><span class="line">        bitmap.getPixels(pixels, <span class="number">0</span>, width, <span class="number">0</span>, <span class="number">0</span>, width, height);</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">length</span> <span class="operator">=</span> pixels.length;</span><br><span class="line"></span><br><span class="line">        Map&lt;Integer, List&lt;Point&gt;&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        List&lt;Point&gt; listY = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        List&lt;Point&gt; listW = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        List&lt;Point&gt; listG = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        Point point;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; length; i++) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">clr</span> <span class="operator">=</span> pixels[i];</span><br><span class="line">            <span class="type">int</span> <span class="variable">red</span> <span class="operator">=</span> Color.red(clr);</span><br><span class="line">            <span class="type">int</span> <span class="variable">green</span> <span class="operator">=</span> Color.green(clr);</span><br><span class="line">            <span class="type">int</span> <span class="variable">blue</span> <span class="operator">=</span> Color.blue(clr);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (isArrow(red, green, blue)) &#123; <span class="comment">//箭头黄色</span></span><br><span class="line">                pixels[i] = Color.YELLOW;</span><br><span class="line">                point = <span class="keyword">new</span> <span class="title class_">Point</span>();</span><br><span class="line">                point.y = i / width;</span><br><span class="line">                point.x = i % width;</span><br><span class="line">                listY.add(point);</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isWhite(red, green, blue)) &#123;<span class="comment">//线条白色</span></span><br><span class="line"><span class="comment">//                pixels[i] = Color.WHITE;</span></span><br><span class="line">                pixels[i] = Color.GRAY;</span><br><span class="line">                point = <span class="keyword">new</span> <span class="title class_">Point</span>();</span><br><span class="line">                point.y = i / width;</span><br><span class="line">                point.x = i % width;</span><br><span class="line">                listG.add(point);</span><br><span class="line"><span class="comment">//                listW.add(point);</span></span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isBuilding(red, green, blue)) &#123;<span class="comment">//建筑灰色</span></span><br><span class="line">                pixels[i] = Color.GRAY;</span><br><span class="line">                point = <span class="keyword">new</span> <span class="title class_">Point</span>();</span><br><span class="line">                point.y = i / width;</span><br><span class="line">                point.x = i % width;</span><br><span class="line">                listG.add(point);</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isBlue(red, green, blue)) &#123; <span class="comment">//道路黑色</span></span><br><span class="line">                pixels[i] = Color.BLACK;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">//其他默认黑色</span></span><br><span class="line">                pixels[i] = Color.BLACK;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//        ImageUtils.save(Bitmap.createBitmap(pixels, width, height, Bitmap.Config.RGB_565),</span></span><br><span class="line"><span class="comment">//                (PathUtils.getInternalAppCachePath() + File.separator + &quot;cross1.png&quot;)</span></span><br><span class="line"><span class="comment">//                , Bitmap.CompressFormat.PNG);</span></span><br><span class="line">        map.put(<span class="number">1</span>, listY);</span><br><span class="line">        map.put(<span class="number">2</span>, listW);</span><br><span class="line">        map.put(<span class="number">3</span>, listG);</span><br><span class="line">        <span class="keyword">return</span> map;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line"> <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * RLE行程压缩算法</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">RLEPoint</span> &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="type">int</span> <span class="variable">len</span> <span class="operator">=</span> <span class="number">1</span>; <span class="comment">//为了确保只有1字节，点的个数最多127</span></span><br><span class="line">        <span class="keyword">private</span> Point startPoint;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getLen</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> len;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> Point <span class="title function_">getStartPoint</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> startPoint;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> String <span class="title function_">toString</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;&#123;len = &quot;</span> + len + <span class="string">&quot;, start:&quot;</span> + startPoint + <span class="string">&quot;&#125;&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 使用RLE行程长度编码压缩，(按照纵坐标来压)</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> originPoints</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Map&lt;Integer, List&lt;RLEPoint&gt;&gt; <span class="title function_">covertRLEPoint</span><span class="params">(Map&lt;Integer, List&lt;Point&gt;&gt; originPoints)</span> &#123;</span><br><span class="line">        Map&lt;Integer, List&lt;RLEPoint&gt;&gt; dest = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        Iterator&lt;Map.Entry&lt;Integer, List&lt;Point&gt;&gt;&gt; iterator = originPoints.entrySet().iterator();</span><br><span class="line">        <span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">            Map.Entry&lt;Integer, List&lt;Point&gt;&gt; entry = iterator.next();</span><br><span class="line">            <span class="type">Integer</span> <span class="variable">key</span> <span class="operator">=</span> entry.getKey();</span><br><span class="line">            List&lt;Point&gt; points = entry.getValue();</span><br><span class="line"></span><br><span class="line">            dest.put(key, convertPoint2RLE(points));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dest;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 扩展RLE, 相同长度的再合并, 减少那些散点</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> originRLEPoints</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Map&lt;Integer, List&lt;RLEPointsExt&gt;&gt; <span class="title function_">covertRLEPointExt</span><span class="params">(Map&lt;Integer, List&lt;RLEPoint&gt;&gt; originRLEPoints)</span> &#123;</span><br><span class="line">        Map&lt;Integer, List&lt;RLEPointsExt&gt;&gt; dest = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        Iterator&lt;Map.Entry&lt;Integer, List&lt;RLEPoint&gt;&gt;&gt; iterator = originRLEPoints.entrySet().iterator();</span><br><span class="line">        <span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">            Map.Entry&lt;Integer, List&lt;RLEPoint&gt;&gt; entry = iterator.next();</span><br><span class="line">            <span class="type">Integer</span> <span class="variable">key</span> <span class="operator">=</span> entry.getKey();</span><br><span class="line">            List&lt;RLEPoint&gt; points = entry.getValue();</span><br><span class="line"></span><br><span class="line">            dest.put(key, convertRLEPoint2Ext(points));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dest;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>在经过整理后再去最终得到压缩后的集合：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获取到需要的像素坐标点</span></span><br><span class="line">       Map&lt;Integer, List&lt;Point&gt;&gt; picData = CrossBitmapUtil.getCoordinateData(newBitmap);</span><br><span class="line"></span><br><span class="line">       <span class="comment">/**使用RLE行程长度来对像素坐标点进行编码压缩(按照纵坐标来压)**/</span></span><br><span class="line">       Map&lt;Integer, List&lt;CrossBitmapUtil.RLEPoint&gt;&gt; rlePoints = CrossBitmapUtil.covertRLEPoint(picData);</span><br><span class="line"></span><br><span class="line">       <span class="comment">/**扩展RLE, 相同长度的再合并, 减少那些散点**/</span></span><br><span class="line">       Map&lt;Integer, List&lt;CrossBitmapUtil.RLEPointsExt&gt;&gt; rleDataExt = CrossBitmapUtil.covertRLEPointExt(rlePoints);</span><br><span class="line"></span><br><span class="line">       Set&lt;Integer&gt; keySet = rleDataExt.keySet();</span><br><span class="line">       size += keySet.size(); <span class="comment">/** NByte: Color **/</span></span><br><span class="line"></span><br><span class="line">       Collection&lt;List&lt;CrossBitmapUtil.RLEPointsExt&gt;&gt; values = rleDataExt.values();</span><br><span class="line">       <span class="keyword">for</span> (List&lt;CrossBitmapUtil.RLEPointsExt&gt; segments : values) &#123;<span class="comment">//RLE Ext segments</span></span><br><span class="line">           size += <span class="number">1</span>;<span class="comment">/** 1Byte: segments **/</span></span><br><span class="line">           <span class="keyword">for</span> (CrossBitmapUtil.RLEPointsExt ext : segments) &#123;</span><br><span class="line">               size += <span class="number">1</span>;<span class="comment">/** 1Byte: RLE Len **/</span></span><br><span class="line">               size += <span class="number">2</span>;<span class="comment">/** 2Byte: Point Count **/</span></span><br><span class="line">               size += <span class="number">2</span> * ext.getPoints().size();  <span class="comment">/** NByte: Points **/</span></span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="采用彩色方案的过程"><a href="#采用彩色方案的过程" class="headerlink" title="采用彩色方案的过程:"></a>采用彩色方案的过程:</h2><p>在几经波折后我们的硬件系统终于升高，可以满足加载<code>jepg</code>图片格式，给了我们直接传输图片的可能。<br> 我们拿到的图片是从高德SDK的路口放大图回调中获取的分辨率是<code>500*320</code>,这个分辨率的图片可以很清晰的展示图像。举例其中一个：</p>
+<p> <img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/8C9hfnb6FdKqpWS.png" alt="cross_1.png-c"></p>
+<p> 直接调用自带方式压缩至指定分辨率尝试：</p>
+<p> <img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/9A8Bzb24GKemWj1.png" alt="image.png-c"></p>
+<p>可以看到效果是不错的，可是当我转存文件大小时发现文件大小是<code>9.2k</code>大小，可是这个大小对于时效性比较高的信息，我们设备的蓝牙传输过程会变长导致可能这张图片可能要很久才能显示出来，这就需要进一步压缩质量提高传输速度。</p>
+<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/LJWBhalEy3oxPNT.png" alt="image.png-c"></p>
+<p>之后因为已经因为之前集成了OpenCV所以就尝试用OpenCV的方式对比了一下在质量为15的情况下图片对比：</p>
+<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/ucNfktiB2MpyQr4.png" alt="image.png-c"></p>
+<p>除了最直观的大小压缩不同外，OpenCV的<code>INTER_AREA</code>方法还是克服了一些干扰的波纹情况，这里为了便捷我还是放到颗粒感比较强的时候。</p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>其实经过整体过程后发现逻辑串通起来没有当初感觉的那么复杂，但是这个其中反反复复验证的过程或许才是最有意义的收获。又尝试着拓宽一些使用方式，对图像处理以及蓝牙之间的数据协议制定都有了新的认识。也为后续去做高德与谷歌的识别奠定了一些图像基础，等有空再整理一篇。</p>
+<h2 id="更新日志："><a href="#更新日志：" class="headerlink" title="更新日志："></a>更新日志：</h2><table>
+<thead>
+<tr>
+<th>版本</th>
+<th>时间</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>version 0.1</td>
+<td>2020年04月01日23:27:47</td>
+<td>初版整理过程</td>
+</tr>
+<tr>
+<td>version 0.2</td>
+<td>2020年07月22日17:31:26</td>
+<td>添加彩色图片过程，格式微调</td>
+</tr>
+<tr>
+<td>version 0.3</td>
+<td>2022年02月08日17:49:01</td>
+<td>更换图床为Github</td>
+</tr>
+</tbody></table>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='http://music.163.com/song/media/outer/url?id=1349292048.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://music.163.com/song/media/outer/url?id=539176.mp3'></li>
+                        
+                    
+                        
+                            <li title='2' data-url='http://music.163.com/song/media/outer/url?id=1331819951.mp3'></li>
+                        
+                    
+                        
+                            <li title='3' data-url='http://music.163.com/song/media/outer/url?id=784455.mp3'></li>
+                        
+                    
+                        
+                            <li title='4' data-url='http://music.163.com/song/media/outer/url?id=863489767.mp3'></li>
+                        
+                    
+                        
+                            <li title='5' data-url='http://music.163.com/song/media/outer/url?id=28692519.mp3'></li>
+                        
+                    
+                        
+                            <li title='6' data-url='http://music.163.com/song/media/outer/url?id=28468136.mp3'></li>
+                        
+                    
+                        
+                            <li title='7' data-url='http://music.163.com/song/media/outer/url?id=27808360.mp3'></li>
+                        
+                    
+                        
+                            <li title='8' data-url='http://music.163.com/song/media/outer/url?id=723174.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='true'
+        data-ae='true'
+        data-ci='bea144b43eefb358981c'
+        data-cs='a36c22fec87740cbe5e17b541731a652d8e2785d'
+        data-r='gitalk'
+        data-o='ArnoFrost'
+        data-a='ArnoFrost'
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%A7%E7%94%9F%E8%83%8C%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">产生背景</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%87%E7%94%A8%E9%BB%91%E7%99%BD%E6%96%B9%E6%A1%88%E8%BF%87%E7%A8%8B%EF%BC%9A"><span class="toc-number">1.1.</span> <span class="toc-text">采用黑白方案过程：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%B9%E5%BE%81%E6%8F%90%E5%8F%96"><span class="toc-number">1.2.</span> <span class="toc-text">特征提取</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E6%AD%A5%E8%BF%87%E7%A8%8B"><span class="toc-number">1.2.1.</span> <span class="toc-text">初步过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OpenCV"><span class="toc-number">1.2.2.</span> <span class="toc-text">OpenCV</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%8B%E7%BC%A9%E4%B8%8E%E5%A1%AB%E5%85%85"><span class="toc-number">1.2.3.</span> <span class="toc-text">压缩与填充</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E8%A1%A8%E7%A4%BA"><span class="toc-number">1.3.</span> <span class="toc-text">数据表示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%87%E7%94%A8%E5%BD%A9%E8%89%B2%E6%96%B9%E6%A1%88%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="toc-number">1.4.</span> <span class="toc-text">采用彩色方案的过程:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8E%E8%AE%B0"><span class="toc-number">1.5.</span> <span class="toc-text">后记</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97%EF%BC%9A"><span class="toc-number">1.6.</span> <span class="toc-text">更新日志：</span></a></li></ol></li></ol>	
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+</html>

@@ -1,0 +1,269 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AsyncTask - Fox Hound</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="ArnoFrost,"> 
+    <meta name="description" content="Life should be so,AsyncTask1. 什么是 AsyncTask1.1 AsyncTask 是安卓提供的轻量异步类(抽象), 可以继承AsyncTask,在类中可以进行异步操作, 并提供接口反馈当前异步执行的程度,"> 
+    <meta name="author" content="Arno Frost"> 
+    <link rel="alternative" href="atom.xml" title="Fox Hound" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">Fox Hound</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="https://arnoforst.github.io"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">AsyncTask</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">AsyncTask</h1>
+        <div class="stuff">
+            <span>十一月 07, 2017</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/AsyncTask/" rel="tag">AsyncTask</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E6%9C%BA%E5%88%B6/" rel="tag">机制</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h1 id="AsyncTask"><a href="#AsyncTask" class="headerlink" title="AsyncTask"></a>AsyncTask</h1><h2 id="1-什么是-AsyncTask"><a href="#1-什么是-AsyncTask" class="headerlink" title="1. 什么是 AsyncTask"></a>1. 什么是 AsyncTask</h2><h3 id="1-1-AsyncTask-是安卓提供的轻量异步类-抽象-可以继承AsyncTask-在类中可以进行异步操作-并提供接口反馈当前异步执行的程度或进度。"><a href="#1-1-AsyncTask-是安卓提供的轻量异步类-抽象-可以继承AsyncTask-在类中可以进行异步操作-并提供接口反馈当前异步执行的程度或进度。" class="headerlink" title="1.1 AsyncTask 是安卓提供的轻量异步类(抽象), 可以继承AsyncTask,在类中可以进行异步操作, 并提供接口反馈当前异步执行的程度或进度。"></a>1.1 AsyncTask 是安卓提供的轻量异步类(抽象), 可以继承AsyncTask,在类中可以进行异步操作, 并提供接口反馈当前异步执行的程度或进度。</h3><blockquote>
+<p>本质上就是一个封装了线程池和handler的异步框架,主要用来执行异步任务,由于集成了handler,通过handler发送消息,它很方便的在工作线程和UI线程之间切换<br>(最好做耗时比较短的,长的还是用线程池)</p>
+</blockquote>
+<h2 id="2-AsyncTask的使用方法"><a href="#2-AsyncTask的使用方法" class="headerlink" title="2. AsyncTask的使用方法"></a>2. AsyncTask的使用方法</h2><p>2.1 三个参数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">AsyncTask</span>&lt;Params, Progress, Result&gt; &#123;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">LOG_TAG</span> <span class="operator">=</span> <span class="string">&quot;AsyncTask&quot;</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">CPU_COUNT</span> <span class="operator">=</span> Runtime.getRuntime().availableProcessors();</span><br><span class="line"><span class="comment">// We want at least 2 threads and at most 4 threads in the core pool, // preferring to have 1 less than the CPU count to avoid saturating // the CPU with background work  private static final int CORE_POOL_SIZE = Math.max(2, Math.min(CPU_COUNT - 1, 4));</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">MAXIMUM_POOL_SIZE</span> <span class="operator">=</span> CPU_COUNT * <span class="number">2</span> + <span class="number">1</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">KEEP_ALIVE_SECONDS</span> <span class="operator">=</span> <span class="number">30</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">ThreadFactory</span> <span class="variable">sThreadFactory</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ThreadFactory</span>() &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">AtomicInteger</span> <span class="variable">mCount</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AtomicInteger</span>(<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">public</span> Thread <span class="title function_">newThread</span><span class="params">(Runnable r)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Thread</span>(r, <span class="string">&quot;AsyncTask #&quot;</span> + mCount.getAndIncrement());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Params:执行时传入的参数;<br>Progress:在后台执行时的进度;<br>Result:当任务执行完毕后的结果返回;</p>
+<hr>
+<p>2.2 五个方法</p>
+<p>耗时操作没进行前,在UI线程汇中调用onPreExecute();</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@MainThread</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onPreExecute</span><span class="params">()</span> &#123;</span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
+
+<p>在后台执行时调用doInBackground();计算结果必须有一个返回,并会被传到onPost()中;<br>也可以调用publishProgress();返回进度显示<br>    @WorkerThread<br>    protected abstract Result doInBackground(Params… params);<br>在每次onProgressUpdate()调用完后会执行onProgressUpdate();通过progressbar.setProgress(value)动态显示进度条;</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@MainThread</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onProgressUpdate</span><span class="params">(Progress... values)</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后所有doInBackground之后会通过result来传递给onPostExecute()并调用;</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@MainThread</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onPostExecute</span><span class="params">(Result result)</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="3-AsyncTask内部原理"><a href="#3-AsyncTask内部原理" class="headerlink" title="3. AsyncTask内部原理"></a>3. AsyncTask内部原理</h2><p>3.1 AsyncTask的本质是一个静态的线程池,AsyncTask派生出的子类可以实现不同的异步任务, 这些任务都是提交到静态的线程池中执行;</p>
+<p>3.2 线程池中的工作线程执行doInBackground(mParans)方法执行异步任务;</p>
+<p>3.3 当任务状态改变之后,工作线程会向UI线程发送消息,AsyncTask内部的InternalHandler响应这些消息, 并调用相关的回调函数;</p>
+<h2 id="4-AsyncTask注意事项"><a href="#4-AsyncTask注意事项" class="headerlink" title="4. AsyncTask注意事项"></a>4. AsyncTask注意事项</h2><p>4.1 内存泄露 </p>
+<p>被声明为Activity的非静态的内部类,会持有外部类的引用;</p>
+<blockquote>
+<p>设为静态 static;<br>或者持有弱引用;<br>或在外部onDestroy里用cancle;</p>
+</blockquote>
+<p>4.2 生命周期<br>必须在activity生命周期销毁时销毁AsyncTask</p>
+<p>4.3 结果丢失原因</p>
+<p>如被杀掉,或者屏幕旋转时onPostExcute不会更新界面</p>
+<p>4.4 并行OR串行</p>
+<table>
+<thead>
+<tr>
+<th>版本</th>
+<th>执行方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&lt;&#x3D; 1.6</td>
+<td>串行</td>
+</tr>
+<tr>
+<td>&gt;&#x3D; 1.6 &amp;&amp; &lt; 2.3</td>
+<td>并行</td>
+</tr>
+<tr>
+<td>&gt;&#x3D; 2.3</td>
+<td>串行</td>
+</tr>
+</tbody></table>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='http://music.163.com/song/media/outer/url?id=1349292048.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://music.163.com/song/media/outer/url?id=539176.mp3'></li>
+                        
+                    
+                        
+                            <li title='2' data-url='http://music.163.com/song/media/outer/url?id=1331819951.mp3'></li>
+                        
+                    
+                        
+                            <li title='3' data-url='http://music.163.com/song/media/outer/url?id=784455.mp3'></li>
+                        
+                    
+                        
+                            <li title='4' data-url='http://music.163.com/song/media/outer/url?id=863489767.mp3'></li>
+                        
+                    
+                        
+                            <li title='5' data-url='http://music.163.com/song/media/outer/url?id=28692519.mp3'></li>
+                        
+                    
+                        
+                            <li title='6' data-url='http://music.163.com/song/media/outer/url?id=28468136.mp3'></li>
+                        
+                    
+                        
+                            <li title='7' data-url='http://music.163.com/song/media/outer/url?id=27808360.mp3'></li>
+                        
+                    
+                        
+                            <li title='8' data-url='http://music.163.com/song/media/outer/url?id=723174.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='true'
+        data-ae='true'
+        data-ci='bea144b43eefb358981c'
+        data-cs='a36c22fec87740cbe5e17b541731a652d8e2785d'
+        data-r='gitalk'
+        data-o='ArnoFrost'
+        data-a='ArnoFrost'
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#AsyncTask"><span class="toc-number">1.</span> <span class="toc-text">AsyncTask</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF-AsyncTask"><span class="toc-number">1.1.</span> <span class="toc-text">1. 什么是 AsyncTask</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-AsyncTask-%E6%98%AF%E5%AE%89%E5%8D%93%E6%8F%90%E4%BE%9B%E7%9A%84%E8%BD%BB%E9%87%8F%E5%BC%82%E6%AD%A5%E7%B1%BB-%E6%8A%BD%E8%B1%A1-%E5%8F%AF%E4%BB%A5%E7%BB%A7%E6%89%BFAsyncTask-%E5%9C%A8%E7%B1%BB%E4%B8%AD%E5%8F%AF%E4%BB%A5%E8%BF%9B%E8%A1%8C%E5%BC%82%E6%AD%A5%E6%93%8D%E4%BD%9C-%E5%B9%B6%E6%8F%90%E4%BE%9B%E6%8E%A5%E5%8F%A3%E5%8F%8D%E9%A6%88%E5%BD%93%E5%89%8D%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8C%E7%9A%84%E7%A8%8B%E5%BA%A6%E6%88%96%E8%BF%9B%E5%BA%A6%E3%80%82"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.1 AsyncTask 是安卓提供的轻量异步类(抽象), 可以继承AsyncTask,在类中可以进行异步操作, 并提供接口反馈当前异步执行的程度或进度。</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-AsyncTask%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">1.2.</span> <span class="toc-text">2. AsyncTask的使用方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-AsyncTask%E5%86%85%E9%83%A8%E5%8E%9F%E7%90%86"><span class="toc-number">1.3.</span> <span class="toc-text">3. AsyncTask内部原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-AsyncTask%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">1.4.</span> <span class="toc-text">4. AsyncTask注意事项</span></a></li></ol></li></ol>	
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+</html>

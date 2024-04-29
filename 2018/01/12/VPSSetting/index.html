@@ -1,0 +1,402 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>VPS快速部署手册 - Fox Hound</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="ArnoFrost,"> 
+    <meta name="description" content="Life should be so,VPS快速部署手册
+version 0.1基础配置2018年1月10日17:40:33
+
+version 0.2添加了本地化,以及部分说明2018年1月12日14:51:29
+
+
+
+注:本手册每个模,"> 
+    <meta name="author" content="Arno Frost"> 
+    <link rel="alternative" href="atom.xml" title="Fox Hound" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">Fox Hound</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="https://arnoforst.github.io"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">VPS快速部署手册</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">VPS快速部署手册</h1>
+        <div class="stuff">
+            <span>一月 12, 2018</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/vps/" rel="tag">vps</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h1 id="VPS快速部署手册"><a href="#VPS快速部署手册" class="headerlink" title="VPS快速部署手册"></a>VPS快速部署手册</h1><ul>
+<li><p>version 0.1<br>基础配置<br>2018年1月10日17:40:33</p>
+</li>
+<li><p>version 0.2<br>添加了本地化,以及部分说明<br>2018年1月12日14:51:29</p>
+</li>
+</ul>
+<blockquote>
+<p><strong>注:本手册每个模块互相独立,按需参考即可</strong></p>
+</blockquote>
+<h2 id="1-部署SSR"><a href="#1-部署SSR" class="headerlink" title="1. 部署SSR"></a>1. 部署SSR</h2><blockquote>
+<h3 id="1-1-安装依赖软件"><a href="#1-1-安装依赖软件" class="headerlink" title="1.1 安装依赖软件"></a>1.1 安装依赖软件</h3></blockquote>
+<blockquote>
+<p><strong>环境 Ubuntu 16.04.3 LTS</strong></p>
+</blockquote>
+<p>更新软件源</p>
+<pre><code>apt-get update
+</code></pre>
+<p>安装python pip</p>
+<pre><code>apt-get install python-pip
+</code></pre>
+<p>升级pip</p>
+<pre><code>pip install --upgrade pip
+</code></pre>
+<p>安装中文语言包</p>
+<pre><code>apt-get install language-pack-zh-hant
+</code></pre>
+<blockquote>
+<h3 id="1-2-安装SSR"><a href="#1-2-安装SSR" class="headerlink" title="1.2 安装SSR"></a>1.2 安装SSR</h3></blockquote>
+<p>安装SSR</p>
+<pre><code>pip install shadowsocks
+</code></pre>
+<p>配置ss json文件(参考1.3)</p>
+<pre><code>vim /etc/shadowsocks.json
+</code></pre>
+<p>使用screen开启服务</p>
+<pre><code>screen -S ssr
+</code></pre>
+<p>开启ss服务</p>
+<pre><code>ssserver -c /etc/shadowsocks.json
+</code></pre>
+<p>返回</p>
+<pre><code>C -a-d
+</code></pre>
+<p>重新连接开启ssr服务的screen</p>
+<pre><code>screen -r ssr
+</code></pre>
+<blockquote>
+<h3 id="1-3-ssr配置文件"><a href="#1-3-ssr配置文件" class="headerlink" title="1.3 ssr配置文件"></a>1.3 ssr配置文件</h3></blockquote>
+<pre><code>    &#123;
+    &quot;server&quot;:&quot;服务器外网ip&quot;, //&quot;server&quot;:&quot;198.96.88.112&quot;,
+    &quot;local_address&quot;:&quot;127.0.0.1&quot;,
+    &quot;local_port&quot;:1080,
+    &quot;timeout&quot;:300,
+    &quot;port_password&quot;:&#123;
+    &quot;端口号&quot;:&quot;密码&quot;,	//(&quot;8888&quot;,&quot;123456&quot;)
+    &quot;端口号&quot;:&quot;密码&quot;	//(&quot;&quot;8889&quot;,&quot;123457&quot;)
+    &#125;,
+    &quot;method&quot;:&quot;rc4-md5&quot;,		//加密规则
+    &quot;protocol&quot;: &quot;origin&quot;,	//混淆插件
+    &quot;protocol_param&quot;: &quot;&quot;,
+    &quot;obfs&quot;: &quot;plain&quot;,
+    &quot;obfs_param&quot;: &quot;&quot;,
+    &quot;workers&quot;: 1
+&#125;
+</code></pre>
+<h2 id="2-NextCloud安装"><a href="#2-NextCloud安装" class="headerlink" title="2. NextCloud安装"></a>2. NextCloud安装</h2><blockquote>
+<p>2.1 基础软件安装</p>
+</blockquote>
+<p>Apache 安装</p>
+<pre><code>sudo apt-get install apache2
+</code></pre>
+<p>MySQL 安装</p>
+<pre><code>sudo apt-get install mysql-server mysql-client
+</code></pre>
+<p>PHP 安装</p>
+<pre><code>sudo apt-get install phpmyadmin
+</code></pre>
+<blockquote>
+<p>2.2 安装Nextcloud</p>
+</blockquote>
+<pre><code>//下载文件
+wget https://download.nextcloud.com/server/releases/nextcloud-12.0.4.tar.bz2
+//解压文件bz2格式
+tar -xjvf nextcloud-12.0.4.tar.bz2
+//解压文件zip格式
+unzip nextcloud-12.0.4.zip
+
+//将文件拷贝至服务器目录
+cp -r nextcloud /var/www/html/
+
+//修改nextcloud权限
+</code></pre>
+<blockquote>
+<p>2.3 启用额外插件</p>
+</blockquote>
+<p>重新启动模块</p>
+<pre><code>sudo a2enmod rewrite
+sudo a2enmod headers
+</code></pre>
+<p>zip模块</p>
+<pre><code>apt-get install php-zip
+</code></pre>
+<p>curl模块</p>
+<pre><code>apt-get install php-curl
+</code></pre>
+<p>修改php.ini文件</p>
+<pre><code>vim /etc/php/7.0/apache2/php.ini
+</code></pre>
+<p>修改以下内容</p>
+<pre><code>;extension=php_mbstring.dll ==&gt;
+extension=php_mbstring.dll
+</code></pre>
+<p>修改apache2.conf文件</p>
+<pre><code>vim /etc/apache2/apache2.conf
+</code></pre>
+<p>修改以下内容</p>
+<pre><code>&lt;Directory /var/www/&gt;
+Options Indexes FollowSymLinks
+AllowOverride None ==&gt; AllowOverride All
+Require all granted
+&lt;/Directory&gt;
+</code></pre>
+<p>重启Apache</p>
+<pre><code>/etc/init.d/apache2 restart
+</code></pre>
+<blockquote>
+<p>2.4 配置文件位置</p>
+</blockquote>
+<p>Apache2配置文件</p>
+<pre><code>vim /etc/apache2/apache2.conf
+</code></pre>
+<p>php配置文件路径</p>
+<pre><code>vim /etc/php/7.0/apache2/php.ini
+</code></pre>
+<p>apache2启动</p>
+<pre><code>/etc/init.d/apache2 start
+/etc/init.d/apache2 restart
+/etc/init.d/apache2 stop
+</code></pre>
+<p>移除文件 </p>
+<pre><code>rm -rf /var/www/html/nextcloud/
+</code></pre>
+<h2 id="3-本地化Ubuntu"><a href="#3-本地化Ubuntu" class="headerlink" title="3.本地化Ubuntu"></a>3.本地化Ubuntu</h2><h3 id="3-1-安装中文支持及语言包"><a href="#3-1-安装中文支持及语言包" class="headerlink" title="3.1 安装中文支持及语言包"></a>3.1 安装中文支持及语言包</h3><p>安装中文语言包</p>
+<pre><code>apt-get install language-pack-zh-hant language-pack-zh-hans
+</code></pre>
+<p>配置相关环境变量：</p>
+<pre><code>vim /etc/environment
+</code></pre>
+<p>在文件中增加语言和编码的设置：</p>
+<pre><code>LANG=&quot;zh_CN.UTF-8&quot;
+LANGUAGE=&quot;zh_CN:zh:en_US:en&quot;
+</code></pre>
+<p>如:</p>
+<pre><code>LANG=&quot;zh_CN.UTF-8&quot;
+LANGUAGE=&quot;zh_CN:zh:en_US:en&quot;
+PATH=&quot;/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games&quot;
+</code></pre>
+<p>重新设置本地配置：</p>
+<pre><code>dpkg-reconfigure locales
+</code></pre>
+<h3 id="3-2-更改时区"><a href="#3-2-更改时区" class="headerlink" title="3.2 更改时区"></a>3.2 更改时区</h3><p>选择时区</p>
+<pre><code>tzselect
+</code></pre>
+<p>复制文件到&#x2F;etc目录下</p>
+<pre><code>sudo cp /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime
+</code></pre>
+<p>如改为中国北京时间,直接输入以下(重新连接会消失)</p>
+<pre><code>TZ=&#39;Asia/Beijing&#39;; export TZ
+</code></pre>
+<p>配置时间文件(重新连接不会消失)</p>
+<pre><code>//选择Asia - Shanghai
+dpkg-reconfigure tzdata
+</code></pre>
+<p>重启VPS</p>
+<pre><code>reboot
+</code></pre>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='http://music.163.com/song/media/outer/url?id=1349292048.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://music.163.com/song/media/outer/url?id=539176.mp3'></li>
+                        
+                    
+                        
+                            <li title='2' data-url='http://music.163.com/song/media/outer/url?id=1331819951.mp3'></li>
+                        
+                    
+                        
+                            <li title='3' data-url='http://music.163.com/song/media/outer/url?id=784455.mp3'></li>
+                        
+                    
+                        
+                            <li title='4' data-url='http://music.163.com/song/media/outer/url?id=863489767.mp3'></li>
+                        
+                    
+                        
+                            <li title='5' data-url='http://music.163.com/song/media/outer/url?id=28692519.mp3'></li>
+                        
+                    
+                        
+                            <li title='6' data-url='http://music.163.com/song/media/outer/url?id=28468136.mp3'></li>
+                        
+                    
+                        
+                            <li title='7' data-url='http://music.163.com/song/media/outer/url?id=27808360.mp3'></li>
+                        
+                    
+                        
+                            <li title='8' data-url='http://music.163.com/song/media/outer/url?id=723174.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='true'
+        data-ae='true'
+        data-ci='bea144b43eefb358981c'
+        data-cs='a36c22fec87740cbe5e17b541731a652d8e2785d'
+        data-r='gitalk'
+        data-o='ArnoFrost'
+        data-a='ArnoFrost'
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#VPS%E5%BF%AB%E9%80%9F%E9%83%A8%E7%BD%B2%E6%89%8B%E5%86%8C"><span class="toc-number">1.</span> <span class="toc-text">VPS快速部署手册</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E9%83%A8%E7%BD%B2SSR"><span class="toc-number">1.1.</span> <span class="toc-text">1. 部署SSR</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96%E8%BD%AF%E4%BB%B6"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.1 安装依赖软件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E5%AE%89%E8%A3%85SSR"><span class="toc-number">1.1.2.</span> <span class="toc-text">1.2 安装SSR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-ssr%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">1.1.3.</span> <span class="toc-text">1.3 ssr配置文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-NextCloud%E5%AE%89%E8%A3%85"><span class="toc-number">1.2.</span> <span class="toc-text">2. NextCloud安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%9C%AC%E5%9C%B0%E5%8C%96Ubuntu"><span class="toc-number">1.3.</span> <span class="toc-text">3.本地化Ubuntu</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E5%AE%89%E8%A3%85%E4%B8%AD%E6%96%87%E6%94%AF%E6%8C%81%E5%8F%8A%E8%AF%AD%E8%A8%80%E5%8C%85"><span class="toc-number">1.3.1.</span> <span class="toc-text">3.1 安装中文支持及语言包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E6%9B%B4%E6%94%B9%E6%97%B6%E5%8C%BA"><span class="toc-number">1.3.2.</span> <span class="toc-text">3.2 更改时区</span></a></li></ol></li></ol></li></ol>	
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+</html>

@@ -1,0 +1,277 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>常用日志过滤手册 - Fox Hound</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="ArnoFrost,"> 
+    <meta name="description" content="Life should be so,常用日志过滤手册 v0.1命令格式:
+[adb] logcat [&amp;lt;option&amp;gt;] ... [&amp;lt;filter-spec&amp;gt;] ...
+
+1. 显示日志adb logcat
+
+,"> 
+    <meta name="author" content="Arno Frost"> 
+    <link rel="alternative" href="atom.xml" title="Fox Hound" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">Fox Hound</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="https://arnoforst.github.io"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">常用日志过滤手册</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">常用日志过滤手册</h1>
+        <div class="stuff">
+            <span>五月 11, 2018</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/adb/" rel="tag">adb</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/logcat/" rel="tag">logcat</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h2 id="常用日志过滤手册-v0-1"><a href="#常用日志过滤手册-v0-1" class="headerlink" title="常用日志过滤手册 v0.1"></a>常用日志过滤手册 v0.1</h2><p>命令格式:</p>
+<pre><code>[adb] logcat [&lt;option&gt;] ... [&lt;filter-spec&gt;] ...
+</code></pre>
+<h3 id="1-显示日志"><a href="#1-显示日志" class="headerlink" title="1. 显示日志"></a>1. 显示日志</h3><pre><code>adb logcat
+</code></pre>
+<h3 id="2-过滤优先级"><a href="#2-过滤优先级" class="headerlink" title="2.  过滤优先级"></a>2.  过滤优先级</h3><table>
+<thead>
+<tr>
+<th>标签</th>
+<th>说明 (级别低-&gt;高)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>V</td>
+<td>Verbos(级别最低)</td>
+</tr>
+<tr>
+<td>D</td>
+<td>Debug</td>
+</tr>
+<tr>
+<td>I</td>
+<td>Info</td>
+</tr>
+<tr>
+<td>W</td>
+<td>Warning</td>
+</tr>
+<tr>
+<td>E</td>
+<td>Error</td>
+</tr>
+<tr>
+<td>F</td>
+<td>Fatal</td>
+</tr>
+<tr>
+<td>S</td>
+<td>Silent(级别最高)</td>
+</tr>
+</tbody></table>
+<p>按照某级别过滤日志:</p>
+<pre><code>adb logcat *:W
+</code></pre>
+<p>会将 <code>Warning</code>、<code>Error</code>、<code>Fatal</code> 和 <code>Silent</code> 日志输出。</p>
+<h3 id="3-配合正则筛选日志"><a href="#3-配合正则筛选日志" class="headerlink" title="3. 配合正则筛选日志"></a>3. 配合正则筛选日志</h3><pre><code>adb logcat -v threadtime |grep --color = auto -iE &quot;XXX|YYY&quot;
+</code></pre>
+<p>会将匹配 <code>XXX </code>和 <code>YYY </code>忽略大小写的匹配日志输出</p>
+<h3 id="4-正则筛选日志文件-txt文件"><a href="#4-正则筛选日志文件-txt文件" class="headerlink" title="4. 正则筛选日志文件(txt文件)"></a>4. 正则筛选日志文件(txt文件)</h3><pre><code>grep --color=auto -iE &quot;XXX|YYY&quot; e:\desktop\1.txt
+</code></pre>
+<p>会将 <code>1.txt</code> 匹配 <code>XXX </code>和 <code>YYY </code>忽略大小写的匹配日志输出</p>
+<h3 id="5-根据正则关键字查看某一文件并输出到新的文件中"><a href="#5-根据正则关键字查看某一文件并输出到新的文件中" class="headerlink" title="5. 根据正则关键字查看某一文件并输出到新的文件中"></a>5. 根据正则关键字查看某一文件并输出到新的文件中</h3><pre><code>grep -rni &quot;OfflineChild&quot; 原始文件目录及名字 |tee 新文件目录及名字
+</code></pre>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='http://music.163.com/song/media/outer/url?id=1349292048.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://music.163.com/song/media/outer/url?id=539176.mp3'></li>
+                        
+                    
+                        
+                            <li title='2' data-url='http://music.163.com/song/media/outer/url?id=1331819951.mp3'></li>
+                        
+                    
+                        
+                            <li title='3' data-url='http://music.163.com/song/media/outer/url?id=784455.mp3'></li>
+                        
+                    
+                        
+                            <li title='4' data-url='http://music.163.com/song/media/outer/url?id=863489767.mp3'></li>
+                        
+                    
+                        
+                            <li title='5' data-url='http://music.163.com/song/media/outer/url?id=28692519.mp3'></li>
+                        
+                    
+                        
+                            <li title='6' data-url='http://music.163.com/song/media/outer/url?id=28468136.mp3'></li>
+                        
+                    
+                        
+                            <li title='7' data-url='http://music.163.com/song/media/outer/url?id=27808360.mp3'></li>
+                        
+                    
+                        
+                            <li title='8' data-url='http://music.163.com/song/media/outer/url?id=723174.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='true'
+        data-ae='true'
+        data-ci='bea144b43eefb358981c'
+        data-cs='a36c22fec87740cbe5e17b541731a652d8e2785d'
+        data-r='gitalk'
+        data-o='ArnoFrost'
+        data-a='ArnoFrost'
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%97%A5%E5%BF%97%E8%BF%87%E6%BB%A4%E6%89%8B%E5%86%8C-v0-1"><span class="toc-number">1.</span> <span class="toc-text">常用日志过滤手册 v0.1</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%98%BE%E7%A4%BA%E6%97%A5%E5%BF%97"><span class="toc-number">1.1.</span> <span class="toc-text">1. 显示日志</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%BF%87%E6%BB%A4%E4%BC%98%E5%85%88%E7%BA%A7"><span class="toc-number">1.2.</span> <span class="toc-text">2.  过滤优先级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E9%85%8D%E5%90%88%E6%AD%A3%E5%88%99%E7%AD%9B%E9%80%89%E6%97%A5%E5%BF%97"><span class="toc-number">1.3.</span> <span class="toc-text">3. 配合正则筛选日志</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%AD%A3%E5%88%99%E7%AD%9B%E9%80%89%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6-txt%E6%96%87%E4%BB%B6"><span class="toc-number">1.4.</span> <span class="toc-text">4. 正则筛选日志文件(txt文件)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%A0%B9%E6%8D%AE%E6%AD%A3%E5%88%99%E5%85%B3%E9%94%AE%E5%AD%97%E6%9F%A5%E7%9C%8B%E6%9F%90%E4%B8%80%E6%96%87%E4%BB%B6%E5%B9%B6%E8%BE%93%E5%87%BA%E5%88%B0%E6%96%B0%E7%9A%84%E6%96%87%E4%BB%B6%E4%B8%AD"><span class="toc-number">1.5.</span> <span class="toc-text">5. 根据正则关键字查看某一文件并输出到新的文件中</span></a></li></ol></li></ol>	
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+</html>

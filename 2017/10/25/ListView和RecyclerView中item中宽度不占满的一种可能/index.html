@@ -1,0 +1,245 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ListView和RecyclerView中item中宽度不占满的一种可能 - Fox Hound</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="ArnoFrost,"> 
+    <meta name="description" content="Life should be so,ListView和RecyclerView中item中宽度不占满的一种可能开发中遇到一个问题，用到一个简单的ListView，我在item里写了match_parent属性，但是在运行中却并没有占满,"> 
+    <meta name="author" content="Arno Frost"> 
+    <link rel="alternative" href="atom.xml" title="Fox Hound" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">Fox Hound</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="https://arnoforst.github.io"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">ListView和RecyclerView中item中宽度不占满的一种可能</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">ListView和RecyclerView中item中宽度不占满的一种可能</h1>
+        <div class="stuff">
+            <span>十月 25, 2017</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/ListView/" rel="tag">ListView</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h2 id="ListView和RecyclerView中item中宽度不占满的一种可能"><a href="#ListView和RecyclerView中item中宽度不占满的一种可能" class="headerlink" title="ListView和RecyclerView中item中宽度不占满的一种可能"></a>ListView和RecyclerView中item中宽度不占满的一种可能</h2><p>开发中遇到一个问题，用到一个简单的ListView，我在item里写了match_parent属性，但是在运行中却并没有占满一整行，就导致了布局有问题。</p>
+<p>在使用ListView的Adapter中,我们在getView方法里是这样的写的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> View <span class="title function_">getView</span><span class="params">(<span class="type">int</span> position, View convertView, ViewGroup parent)</span> &#123;   </span><br><span class="line">   <span class="keyword">if</span> (convertView == <span class="literal">null</span>) &#123;  </span><br><span class="line">        convertView = inflate(R.layout.item_lv_test, <span class="literal">null</span>); </span><br><span class="line">   &#125; </span><br><span class="line">   <span class="keyword">return</span> convertView;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中的第二个参数是放parent，通常情况下之前一直在用null，但是这次却行不通了。问题在其实还真就在于这个null上。</p>
+<p>点进去去看了下源码，发现inflate里还有一个方法。</p>
+<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/20220208181126.png"></p>
+<p>查阅资料，发现了我代码的问题。</p>
+<h2 id="1-如果设置为null："><a href="#1-如果设置为null：" class="headerlink" title="1.如果设置为null："></a>1.如果设置为null：</h2><p>根布局设置的高度是不起作用的，即使根布局是一个控件，比如：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">TextView</span> </span></span><br><span class="line"><span class="tag"><span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag"><span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">   <span class="attr">android:layout_height</span>=<span class="string">&quot;200dp&quot;</span></span></span><br><span class="line"><span class="tag">   <span class="attr">android:text</span>=<span class="string">&quot;abc&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这时200dp不起作用，而是根据里面的文字大小来决定item的高度,比如如下起作用:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">TextView</span> </span></span><br><span class="line"><span class="tag"><span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag"><span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">   <span class="attr">android:layout_height</span>=<span class="string">&quot;200dp&quot;</span></span></span><br><span class="line"><span class="tag">   <span class="attr">android:text</span>=<span class="string">&quot;abc&quot;</span></span></span><br><span class="line"><span class="tag">   <span class="attr">android:textSize</span>=<span class="string">&quot;200dp&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<p>根布局是一个layout的情况下，根布局的高度也不起作用，而是里面子控件的高度起作用，比如下面item的高度是100dp：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">RelativeLayout</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">   <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">   <span class="attr">android:layout_height</span>=<span class="string">&quot;300dp&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   true<span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">       true<span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">       true<span class="attr">android:layout_height</span>=<span class="string">&quot;100dp&quot;</span></span></span><br><span class="line"><span class="tag">       true<span class="attr">android:text</span>=<span class="string">&quot;abc&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>如果里面的内容设置为match_parent,效果跟第一个一样，根据文字大小来决定item高度，因为parent设置的高度没用，所以里面子空间match_parent也没用：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">RelativeLayout</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">   <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">   <span class="attr">android:layout_height</span>=<span class="string">&quot;300dp&quot;</span>&gt;</span></span><br><span class="line">   true<span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">      true <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">      true <span class="attr">android:layout_height</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">      true <span class="attr">android:text</span>=<span class="string">&quot;abc&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="对传null总结："><a href="#对传null总结：" class="headerlink" title="对传null总结："></a>对传null总结：</h3><p>设置为null时，因为没有父亲，根布局的layout_height没有作用，子布局的layout_height为绝对值时有用，为相对值（match_parent,wrap_content）时没用，里面内容的高度决定了item的高度（根部局为普通空间时，控件内容决定item高度，根布局为layout时，子控件设置的绝对高度或子控件的内容决定item高度）</p>
+<h2 id="2-如果传入三个参数"><a href="#2-如果传入三个参数" class="headerlink" title="2.如果传入三个参数##"></a>2.如果传入三个参数##</h2><p>如果parent设置为getview传入的parent（第三个参数false），则根布局设置的高度就有用了：</p>
+<p>比如上面第一个就是200dp了</p>
+<p>如果这时候，根部局设置为match_parent，则根据里面内容来适配，比如以下item高度跟上面第一个一样，为文字的高度：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">RelativeLayout</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">   true<span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">   true<span class="attr">android:layout_height</span>=<span class="string">&quot;match_parent&quot;</span>&gt;</span></span><br><span class="line">   true<span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">       true<span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">       true<span class="attr">android:layout_height</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">       true<span class="attr">android:text</span>=<span class="string">&quot;abc&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>以下高度变成了200dp:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">RelativeLayout</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">   true<span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">   true<span class="attr">android:layout_height</span>=<span class="string">&quot;match_parent&quot;</span>&gt;</span></span><br><span class="line">   true<span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">       true<span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">       true<span class="attr">android:layout_height</span>=<span class="string">&quot;200dp&quot;</span></span></span><br><span class="line"><span class="tag">       true<span class="attr">android:text</span>=<span class="string">&quot;abc&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>同样这个在RecyclerView中也是，总结起来是自己当初用的时候太过着急没仔细看看这个方法是什么用的。以此来记录这次小坑。</p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='http://music.163.com/song/media/outer/url?id=1349292048.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://music.163.com/song/media/outer/url?id=539176.mp3'></li>
+                        
+                    
+                        
+                            <li title='2' data-url='http://music.163.com/song/media/outer/url?id=1331819951.mp3'></li>
+                        
+                    
+                        
+                            <li title='3' data-url='http://music.163.com/song/media/outer/url?id=784455.mp3'></li>
+                        
+                    
+                        
+                            <li title='4' data-url='http://music.163.com/song/media/outer/url?id=863489767.mp3'></li>
+                        
+                    
+                        
+                            <li title='5' data-url='http://music.163.com/song/media/outer/url?id=28692519.mp3'></li>
+                        
+                    
+                        
+                            <li title='6' data-url='http://music.163.com/song/media/outer/url?id=28468136.mp3'></li>
+                        
+                    
+                        
+                            <li title='7' data-url='http://music.163.com/song/media/outer/url?id=27808360.mp3'></li>
+                        
+                    
+                        
+                            <li title='8' data-url='http://music.163.com/song/media/outer/url?id=723174.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='true'
+        data-ae='true'
+        data-ci='bea144b43eefb358981c'
+        data-cs='a36c22fec87740cbe5e17b541731a652d8e2785d'
+        data-r='gitalk'
+        data-o='ArnoFrost'
+        data-a='ArnoFrost'
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ListView%E5%92%8CRecyclerView%E4%B8%ADitem%E4%B8%AD%E5%AE%BD%E5%BA%A6%E4%B8%8D%E5%8D%A0%E6%BB%A1%E7%9A%84%E4%B8%80%E7%A7%8D%E5%8F%AF%E8%83%BD"><span class="toc-number">1.</span> <span class="toc-text">ListView和RecyclerView中item中宽度不占满的一种可能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%A6%82%E6%9E%9C%E8%AE%BE%E7%BD%AE%E4%B8%BAnull%EF%BC%9A"><span class="toc-number">2.</span> <span class="toc-text">1.如果设置为null：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E4%BC%A0null%E6%80%BB%E7%BB%93%EF%BC%9A"><span class="toc-number">2.1.</span> <span class="toc-text">对传null总结：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%A6%82%E6%9E%9C%E4%BC%A0%E5%85%A5%E4%B8%89%E4%B8%AA%E5%8F%82%E6%95%B0"><span class="toc-number">3.</span> <span class="toc-text">2.如果传入三个参数##</span></a></li></ol>	
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+</html>

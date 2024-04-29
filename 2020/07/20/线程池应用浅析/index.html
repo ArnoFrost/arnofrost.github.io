@@ -1,0 +1,301 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>线程池应用浅析 - Fox Hound</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="ArnoFrost,"> 
+    <meta name="description" content="Life should be so,
+version 0.3
+
+[TOC]
+优点：重用存在的线程，减少对象创建、消亡的开销，提升性能。 可有效控制最大并发线程数，提高系统资源的使用率，同时避免过多资源竞争，避免堵塞。 提供定时执行、定,"> 
+    <meta name="author" content="Arno Frost"> 
+    <link rel="alternative" href="atom.xml" title="Fox Hound" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">Fox Hound</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="https://arnoforst.github.io"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">线程池应用浅析</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">线程池应用浅析</h1>
+        <div class="stuff">
+            <span>七月 20, 2020</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E6%9C%BA%E5%88%B6/" rel="tag">机制</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <blockquote>
+<p>version 0.3</p>
+</blockquote>
+<p>[TOC]</p>
+<h2 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h2><p><strong>重用</strong>存在的线程，<strong>减少</strong>对象创建、消亡的<strong>开销</strong>，提升性能。 可有效<strong>控制最大并发</strong>线程数，提高系统资源的使用率，同时避免过多资源竞争，<strong>避免堵塞</strong>。 提供定时执行、定期执行、单线程、并发数控制等功能。（池化技术很多都用了复用思想，<em><strong>享元模式</strong></em>减少创建对象的数量，以减少内存占用提高性能）</p>
+<h1 id="线程池组成与运行机制"><a href="#线程池组成与运行机制" class="headerlink" title="线程池组成与运行机制"></a>线程池组成与运行机制</h1><h2 id="Java线程池构造方法：（四部分）"><a href="#Java线程池构造方法：（四部分）" class="headerlink" title="Java线程池构造方法：（四部分）"></a>Java线程池构造方法：（四部分）</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="title function_">ThreadPoolExecutor</span><span class="params">(<span class="type">int</span> corePoolSize,  </span></span><br><span class="line"><span class="params">                              <span class="type">int</span> maximumPoolSize,  </span></span><br><span class="line"><span class="params">                              <span class="type">long</span> keepAliveTime,  </span></span><br><span class="line"><span class="params">                              TimeUnit unit,  </span></span><br><span class="line"><span class="params">                              BlockingQueue&lt;Runnable&gt; workQueue,  </span></span><br><span class="line"><span class="params">                              ThreadFactory threadFactory,  </span></span><br><span class="line"><span class="params">                              RejectedExecutionHandler handler)</span> </span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>线程池管理器</strong>（<strong>ThreadPool</strong>）：用于<strong>创建并管理</strong>线程池，包括 创建线程池，销毁线程池，添加新任务； </li>
+<li><strong>工作线程</strong>（<strong>PoolWorke</strong>r）：<strong>线程池中线程</strong>，<strong>在没有任务时处于等待状态</strong>，可以循环的执行任务； </li>
+<li><strong>任务接口</strong>（<strong>Task</strong>）：每个任务必须实现的接口，以供工作线程调度任务的执行，它主要规定了任务的入口，任务执行完后的收尾工作，任务的执行状态等；</li>
+<li><strong>任队列</strong>（<strong>taskQueue</strong>）：用于存放没有处理的任务。提供一种缓冲机制。</li>
+</ol>
+<h2 id="执行流程："><a href="#执行流程：" class="headerlink" title="执行流程："></a>执行流程：</h2><ul>
+<li><p>当线程池<strong>小于corePoolSize</strong>时，新提交任务将<strong>创建一个新线程</strong>执行任务，即使此时线程池中存在空闲线程。</p>
+</li>
+<li><p>当线程池<strong>达到corePoolSize时</strong>，新提交任务将被<strong>放入workQueue</strong>中，等待线程池中任务调度执行</p>
+</li>
+<li><p><strong>当workQueue已满</strong>，且<strong>maximumPoolSize&gt;corePoolSize</strong>时，新提交任务会<strong>创建新</strong>线程执行任务</p>
+</li>
+<li><p>当提交任务数<strong>超过maximumPoolSize</strong>时，新提交任务由<em><strong>RejectedExecutionHandler</strong></em>处理</p>
+</li>
+<li><p>当线程池中<strong>超过corePoolSize线程</strong>，<strong>空闲时间达到</strong>keepAliveTime时，关闭<strong>空闲线程</strong></p>
+</li>
+<li><p>当设置<strong>allowCoreThreadTimeOut</strong>(true)时，线程池中<strong>corePoolSize</strong>线程空闲时间达到keepAliveTime<strong>也将关闭</strong></p>
+</li>
+</ul>
+<h2 id="分析："><a href="#分析：" class="headerlink" title="分析："></a>分析：</h2><p>对于任务队列影响线程池的表现：</p>
+<p>我们可以看到，线程池的创建运行不光是要指定核心与线程数，同样更要结合所使用的<strong>任务队列</strong>特性去区别对待。</p>
+<ul>
+<li>如果采用<strong>无界的阻塞队列</strong>比如 <code>LinkedBlockingQueue</code> ，因为<strong>没有大小限制</strong>，队列中可以不断的添加任务，然后一直都是最小核心线程的数量来做事情。换句话说就是最多只能<strong>按照最小线程数量来创建</strong>，而线程池的maxsize被忽略了。这也可以很好地解释<code>newFixedThreadPool</code>的为什么直接将核心数与最大数设置为同一个值，以此来保证并发控制。但由于这种特殊无界的特性，需要关注到是否合理使用防止OOM的发生。（比如<code>OkHttp</code>中，虽然也是创建的<code>newCacheThreadPool</code> 但外部的任务安排还是通过<code>Dispatcher</code>来调度管理分配的避免同时创建过多,默认是64个请求或者5个主机数以内）</li>
+<li>而如果采用一个<strong>有界的队列</strong>比如<code>ArrayBlockingQueue</code>，（假定一个线程池为最小3，最大6，任务队列大小为5）。当前三个任务加入时最小核心数3保持着运行，然后继续添加5个任务，这个时候在任务队列都<strong>可以容纳的前提下</strong>线程池仍旧<strong>不会开启新的线程</strong>，但当<strong>再添加任务时</strong>，这个时候<strong>才会开启</strong>新的工作线程，执行队列中的第一个任务，再将这个新的任务放入任务队列，直到超过最大线程数量后会抛出异常（假设这段时间内没有任何一个任务结束，保证都在运行任务）。这很好的体现了线程池对于多任务并行处理的控制作用，起到了一个<strong>节流阀</strong>的功效。</li>
+</ul>
+<h1 id="Java默认提供的线程池种类："><a href="#Java默认提供的线程池种类：" class="headerlink" title="Java默认提供的线程池种类："></a>Java默认提供的线程池种类：</h1><h2 id="newCachedThreadPool：（特殊无界）"><a href="#newCachedThreadPool：（特殊无界）" class="headerlink" title="newCachedThreadPool：（特殊无界）"></a><code>newCachedThreadPool</code>：（特殊无界）</h2><p>•底层：返回ThreadPoolExecutor实例，corePoolSize为0；maximumPoolSize为<strong>Integer.MAX_VALUE</strong>；<strong>keepAliveTime为60L</strong>；unit为TimeUnit.SECONDS；workQueue为SynchronousQueue(同步队列)</p>
+<p>•通俗：当有新任务到来，则插入到SynchronousQueue中，由于SynchronousQueue是同步队列，因此会在池中寻找可用线程来执行，若有可以线程则执行，若没有可用线程则<strong>创建一个线程来执行该任务</strong>；若池中线程<strong>空闲时间超过</strong>指定大小，则该线程会被<strong>销毁</strong>。</p>
+<p>•适用：执行很多<strong>短期异步</strong>的小程序或者负载较轻的服务器</p>
+<p>注意：由于可创建很多，所以有OOM的风险，由于使用的队列是SynchronousQueue该队列实际不会堆积任务，只要生产者产生任务，就会有消费者也就是线程来处理。</p>
+<h2 id="newFixedThreadPool：（无界）"><a href="#newFixedThreadPool：（无界）" class="headerlink" title="newFixedThreadPool：（无界）"></a><code>newFixedThreadPool</code>：（无界）</h2><p>•底层：返回ThreadPoolExecutor实例，接收参数为所设定线程数量nThread，<strong>corePoolSize为nThread</strong>，<strong>maximumPoolSize为nThread</strong>；keepAliveTime为0L(不限时)；unit为：TimeUnit.MILLISECONDS；WorkQueue为：new LinkedBlockingQueue() 无界阻塞队列</p>
+<p>•通俗：<strong>创建可容纳固定数量线程的池子</strong>，每隔线程的存活时间是无限的，当池子满了就不在添加线程了；如果池中的所有线程均在繁忙状态，对于新任务会进入阻塞队列中(无界的阻塞队列)</p>
+<p>•适用：执行<strong>长期</strong>的任务，性能好很多</p>
+<h2 id="newSingleThreadExecutor"><a href="#newSingleThreadExecutor" class="headerlink" title="newSingleThreadExecutor:"></a><code>newSingleThreadExecutor</code>:</h2><p>•底层：FinalizableDelegatedExecutorService包装的ThreadPoolExecutor实例，corePoolSize为1；maximumPoolSize为1；keepAliveTime为0L；unit为：TimeUnit.MILLISECONDS；workQueue为：new LinkedBlockingQueue() 无界阻塞队列</p>
+<p> •通俗：创建<strong>只有一个线程</strong>的线程池，且线程的<strong>存活时间是无限的</strong>；当该线程正繁忙时，对于新任务会进入阻塞队列中(无界的阻塞队列)</p>
+<p> •适用：<strong>一个任务一个任务</strong>执行的场景<br> <br> ps:<br> 回头复习时候看，这里对比创建一个只有1个最大任务数的<code>newFixedThreadPool</code>有什么区别呢？
+ 
+ </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title function_">newSingleThreadExecutor</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">FinalizableDelegatedExecutorService</span>      <span class="comment">//这里用到了装饰器模式，这是与Fix的唯一区别</span></span><br><span class="line">            (<span class="keyword">new</span> <span class="title class_">ThreadPoolExecutor</span>(<span class="number">1</span>, <span class="number">1</span>,</span><br><span class="line">                                    <span class="number">0L</span>, TimeUnit.MILLISECONDS,</span><br><span class="line">                                    <span class="keyword">new</span> <span class="title class_">LinkedBlockingQueue</span>&lt;Runnable&gt;()));</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title function_">newFixedThreadPool</span><span class="params">(<span class="type">int</span> nThreads)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">ThreadPoolExecutor</span>(nThreads, nThreads,</span><br><span class="line">                                      <span class="number">0L</span>, TimeUnit.MILLISECONDS,</span><br><span class="line">                                      <span class="keyword">new</span> <span class="title class_">LinkedBlockingQueue</span>&lt;Runnable&gt;());</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><code>FinalizableDelegatedExecutorService</code>类里面多了一个<code>finalize()</code>方法，该方法实际上调用的是线程池的<code>shutdown()</code>方法把线程池状态变为SHUTDOWN（即把任务执行完而不接受新任务）。</p>
+<blockquote>
+<p>而二者之间主要区别在于垃圾回收时<code>Single</code>线程池多了一步销毁方法，其次是<code>Fix</code>线程池后期可以更改线程池数量，<code>Single</code>不可以（因为本来就是单一）</p>
+</blockquote>
+<h2 id="NewScheduledThreadPool"><a href="#NewScheduledThreadPool" class="headerlink" title="NewScheduledThreadPool:"></a><code>NewScheduledThreadPool</code>:</h2><p>•底层：创建ScheduledThreadPoolExecutor实例，corePoolSize为传递来的参数，maximumPoolSize为Integer.MAX_VALUE；keepAliveTime为0；unit为：TimeUnit.NANOSECONDS；workQueue为：new DelayedWorkQueue() 一个按超时时间升序排序的队列</p>
+<p> •通俗：<strong>创建一个固定大小的线程池</strong>，线程池内线程存活时间无限制，线程池可以支持定时及周期性任务执行，如果所有线程均处于繁忙状态，对于新任务会进入DelayedWorkQueue队列中，这是一种按<strong>照超时时间排序</strong>的队列结构</p>
+<p>•适用：<strong>周期性</strong>执行任务的场景</p>
+<h3 id="更新日志："><a href="#更新日志：" class="headerlink" title="更新日志："></a>更新日志：</h3><table>
+<thead>
+<tr>
+<th>版本</th>
+<th>时间</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>version 0.1</td>
+<td>2020年05月20日20:50:03</td>
+<td>初版整理</td>
+</tr>
+<tr>
+<td>version 0.2</td>
+<td>2020年07月21日17:49:04</td>
+<td>添加<code>Fix</code>与<code>Single</code>线程池区分</td>
+</tr>
+<tr>
+<td>version 0.3</td>
+<td>2022年02月08日14:51:43</td>
+<td>重新修正排版顺序</td>
+</tr>
+</tbody></table>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='http://music.163.com/song/media/outer/url?id=1349292048.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://music.163.com/song/media/outer/url?id=539176.mp3'></li>
+                        
+                    
+                        
+                            <li title='2' data-url='http://music.163.com/song/media/outer/url?id=1331819951.mp3'></li>
+                        
+                    
+                        
+                            <li title='3' data-url='http://music.163.com/song/media/outer/url?id=784455.mp3'></li>
+                        
+                    
+                        
+                            <li title='4' data-url='http://music.163.com/song/media/outer/url?id=863489767.mp3'></li>
+                        
+                    
+                        
+                            <li title='5' data-url='http://music.163.com/song/media/outer/url?id=28692519.mp3'></li>
+                        
+                    
+                        
+                            <li title='6' data-url='http://music.163.com/song/media/outer/url?id=28468136.mp3'></li>
+                        
+                    
+                        
+                            <li title='7' data-url='http://music.163.com/song/media/outer/url?id=27808360.mp3'></li>
+                        
+                    
+                        
+                            <li title='8' data-url='http://music.163.com/song/media/outer/url?id=723174.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='true'
+        data-ae='true'
+        data-ci='bea144b43eefb358981c'
+        data-cs='a36c22fec87740cbe5e17b541731a652d8e2785d'
+        data-r='gitalk'
+        data-o='ArnoFrost'
+        data-a='ArnoFrost'
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%98%E7%82%B9%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">优点：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%BB%84%E6%88%90%E4%B8%8E%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6"><span class="toc-number"></span> <span class="toc-text">线程池组成与运行机制</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%EF%BC%9A%EF%BC%88%E5%9B%9B%E9%83%A8%E5%88%86%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">Java线程池构造方法：（四部分）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B%EF%BC%9A"><span class="toc-number">2.</span> <span class="toc-text">执行流程：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E6%9E%90%EF%BC%9A"><span class="toc-number">3.</span> <span class="toc-text">分析：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Java%E9%BB%98%E8%AE%A4%E6%8F%90%E4%BE%9B%E7%9A%84%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%A7%8D%E7%B1%BB%EF%BC%9A"><span class="toc-number"></span> <span class="toc-text">Java默认提供的线程池种类：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#newCachedThreadPool%EF%BC%9A%EF%BC%88%E7%89%B9%E6%AE%8A%E6%97%A0%E7%95%8C%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">newCachedThreadPool：（特殊无界）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#newFixedThreadPool%EF%BC%9A%EF%BC%88%E6%97%A0%E7%95%8C%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">newFixedThreadPool：（无界）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#newSingleThreadExecutor"><span class="toc-number">3.</span> <span class="toc-text">newSingleThreadExecutor:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NewScheduledThreadPool"><span class="toc-number">4.</span> <span class="toc-text">NewScheduledThreadPool:</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97%EF%BC%9A"><span class="toc-number">4.1.</span> <span class="toc-text">更新日志：</span></a></li></ol></li></ol>	
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+</html>

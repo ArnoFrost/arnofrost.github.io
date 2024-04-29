@@ -1,0 +1,267 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>为macOS开启局域网ss - Fox Hound</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="ArnoFrost,"> 
+    <meta name="description" content="Life should be so,
+version 0.2
+
+1. 通过 brew 安装 privoxybrew install privoxy
+安装后查看安装目录
+brew privoxy list
+打开目录并编辑config文件,"> 
+    <meta name="author" content="Arno Frost"> 
+    <link rel="alternative" href="atom.xml" title="Fox Hound" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">Fox Hound</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="https://arnoforst.github.io"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">为macOS开启局域网ss</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">为macOS开启局域网ss</h1>
+        <div class="stuff">
+            <span>一月 15, 2019</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/mac/" rel="tag">mac</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <blockquote>
+<p>version 0.2</p>
+</blockquote>
+<h2 id="1-通过-brew-安装-privoxy"><a href="#1-通过-brew-安装-privoxy" class="headerlink" title="1. 通过 brew 安装 privoxy"></a>1. 通过 brew 安装 privoxy</h2><p><code>brew install privoxy</code></p>
+<p>安装后查看安装目录</p>
+<p><code>brew privoxy list</code></p>
+<p>打开目录并编辑config文件</p>
+<p><code>open /usr/local/etc/privoxy/config</code></p>
+<h2 id="2-添加需要映射的端口"><a href="#2-添加需要映射的端口" class="headerlink" title="2. 添加需要映射的端口"></a>2. 添加需要映射的端口</h2><p>本地ss端口<br><code>forward-socks5t   /               127.0.0.1:1086 .</code>(注意要有默认的点)</p>
+<p>转发的端口</p>
+<p><code>listen-address  0.0.0.0:6666</code></p>
+<h3 id="3-运行privoxy"><a href="#3-运行privoxy" class="headerlink" title="3. 运行privoxy"></a>3. 运行privoxy</h3><p><code>sudo /usr/local/Cellar/privoxy/3.0.26/sbin/privoxy /usr/local/etc/privoxy/config </code></p>
+<h3 id="4-添加开机启动"><a href="#4-添加开机启动" class="headerlink" title="4. 添加开机启动"></a>4. 添加开机启动</h3><p>将变量添加到 <code>.bash_profile</code> 中: </p>
+<p><code>export PATH=$PATH:/usr/local/Cellar/privoxy/3.0.26/sbin/</code></p>
+<p>新建一个文本文档, 将如下添加后, 修改后缀名为.sh</p>
+<blockquote>
+</blockquote>
+<p># 添加开机启动:<br>ln -sfv &#x2F;usr&#x2F;local&#x2F;opt&#x2F;privoxy&#x2F;*.plist ~&#x2F;Library&#x2F;LaunchAgents<br># 开启 Privoxy:<br>launchctl load ~&#x2F;Library&#x2F;LaunchAgents&#x2F;homebrew.mxcl.privoxy.plist<br># 如果不需要用 launchctl 就直接运行:<br>privoxy &#x2F;usr&#x2F;local&#x2F;etc&#x2F;privoxy&#x2F;config</p>
+<p>在终端运行 :</p>
+<p>eg: <code>sh test.sh</code></p>
+<h2 id="5-查看是否已经开启"><a href="#5-查看是否已经开启" class="headerlink" title="5. 查看是否已经开启"></a>5. 查看是否已经开启</h2><p><code>netstat -na | grep 6666</code></p>
+<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/FzwTQU.png" alt="监听端口"></p>
+<p>如上, 已经成功监听</p>
+<h2 id="6-更新说明"><a href="#6-更新说明" class="headerlink" title="6. 更新说明:"></a>6. 更新说明:</h2><table>
+<thead>
+<tr>
+<th>版本</th>
+<th>时间</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>version 0.1</td>
+<td>2019年01月15日16:10:55</td>
+<td>初版</td>
+</tr>
+<tr>
+<td>version 0.2</td>
+<td>2022年02月08日17:49:01</td>
+<td>更换图床为Github</td>
+</tr>
+</tbody></table>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='http://music.163.com/song/media/outer/url?id=1349292048.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://music.163.com/song/media/outer/url?id=539176.mp3'></li>
+                        
+                    
+                        
+                            <li title='2' data-url='http://music.163.com/song/media/outer/url?id=1331819951.mp3'></li>
+                        
+                    
+                        
+                            <li title='3' data-url='http://music.163.com/song/media/outer/url?id=784455.mp3'></li>
+                        
+                    
+                        
+                            <li title='4' data-url='http://music.163.com/song/media/outer/url?id=863489767.mp3'></li>
+                        
+                    
+                        
+                            <li title='5' data-url='http://music.163.com/song/media/outer/url?id=28692519.mp3'></li>
+                        
+                    
+                        
+                            <li title='6' data-url='http://music.163.com/song/media/outer/url?id=28468136.mp3'></li>
+                        
+                    
+                        
+                            <li title='7' data-url='http://music.163.com/song/media/outer/url?id=27808360.mp3'></li>
+                        
+                    
+                        
+                            <li title='8' data-url='http://music.163.com/song/media/outer/url?id=723174.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='true'
+        data-ae='true'
+        data-ci='bea144b43eefb358981c'
+        data-cs='a36c22fec87740cbe5e17b541731a652d8e2785d'
+        data-r='gitalk'
+        data-o='ArnoFrost'
+        data-a='ArnoFrost'
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E9%80%9A%E8%BF%87-brew-%E5%AE%89%E8%A3%85-privoxy"><span class="toc-number">1.</span> <span class="toc-text">1. 通过 brew 安装 privoxy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%B7%BB%E5%8A%A0%E9%9C%80%E8%A6%81%E6%98%A0%E5%B0%84%E7%9A%84%E7%AB%AF%E5%8F%A3"><span class="toc-number">2.</span> <span class="toc-text">2. 添加需要映射的端口</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E8%BF%90%E8%A1%8Cprivoxy"><span class="toc-number">2.1.</span> <span class="toc-text">3. 运行privoxy</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%B7%BB%E5%8A%A0%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8"><span class="toc-number">2.2.</span> <span class="toc-text">4. 添加开机启动</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E6%9F%A5%E7%9C%8B%E6%98%AF%E5%90%A6%E5%B7%B2%E7%BB%8F%E5%BC%80%E5%90%AF"><span class="toc-number">3.</span> <span class="toc-text">5. 查看是否已经开启</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E6%9B%B4%E6%96%B0%E8%AF%B4%E6%98%8E"><span class="toc-number">4.</span> <span class="toc-text">6. 更新说明:</span></a></li></ol>	
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+</html>

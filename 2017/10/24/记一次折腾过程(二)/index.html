@@ -1,0 +1,410 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>记一次折腾过程（二） - Fox Hound</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="ArnoFrost,"> 
+    <meta name="description" content="Life should be so, 第二次折腾:在稳定的使用一段时间后,有一天突然不能访问了。想到后台看一眼，没想到官网来了这样一段文字。
+
+为了避免之前其他的提供商那句：“相会有时，后会无期”的话。我还是别等了。
+VPS：
+
+其实,"> 
+    <meta name="author" content="Arno Frost"> 
+    <link rel="alternative" href="atom.xml" title="Fox Hound" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">Fox Hound</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="https://arnoforst.github.io"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">记一次折腾过程（二）</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">记一次折腾过程（二）</h1>
+        <div class="stuff">
+            <span>十月 24, 2017</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Proxy/" rel="tag">Proxy</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E7%AC%A6%E5%8F%B7%C2%B7%E4%BA%BA%E7%94%9F/" rel="tag">符号·人生</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E7%BA%AA%E5%BF%B5/" rel="tag">纪念</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h2 id="第二次折腾"><a href="#第二次折腾" class="headerlink" title=" 第二次折腾:"></a> 第二次折腾:</h2><p>在稳定的使用一段时间后,有一天突然不能访问了。<br>想到后台看一眼，没想到官网来了这样一段文字。</p>
+<p><img src="https://i.imgur.com/6dteqRt.png"></p>
+<p>为了避免之前其他的提供商那句：“相会有时，后会无期”的话。我还是别等了。</p>
+<h2 id="VPS："><a href="#VPS：" class="headerlink" title="VPS："></a>VPS：</h2><hr>
+<p><img src="https://i.imgur.com/ZW9lkbz.png"></p>
+<p>其实之前没搞VPS是因为需要信用卡或者PayPal，当时还没有。不过现在终于有了，又重新找了找发现有的提供商付款选项里有个支付宝，马云爸爸还是厉害啊。（比特币笑而不语）</p>
+<p><img src="https://i.imgur.com/aaSERVz.png"></p>
+<p>VPS的选择也有很多，可以上知乎看一看。别着急，耐心的看一看你是否都需要那么多配置，你需要为你过剩的CPU，内存以及硬盘空间来买单的。当然，性能越好，可做的事情就越多。你可以搭个服务器，跑点PHP，远程下载balabala的。</p>
+<p>选择好你的服务器确定好系统后，我们可以开始了。（注：这里最好使用Linux 比Windows便宜很多而且Linux毕竟是专门干这种的，而且这里还有一个坑就是可能给你的IP也被*了，具体有没有Ping一下就行了，如果发生了咱态度诚恳点找一下客服给你换个IP解决）</p>
+<p><img src="https://i.imgur.com/MQedmiO.png" alt="这是一个悲伤的故事"></p>
+<h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><hr>
+<p>然后我们需要用到SSH连接工具来登录我们的服务器。</p>
+<p>Mac和Linux下直接在终端中输入命令，连接后直接输入你的登录密码就可以直接连接。<br>在Windows系统下需要专门的客户端来SSH登录VPS。在<a target="_blank" rel="noopener" href="http://www.netsarang.com/download/down_form.html?code=522&utm_source=textarea.com&utm_medium=textarea.com&utm_campaign=article">Xshell</a>官网下载。</p>
+<pre><code>ssh root@your_VPS_ipAddress
+</code></pre>
+<p><strong>安装Shadowsocks：</strong></p>
+<p>Debian &#x2F; Ubuntu:</p>
+<pre><code>apt-get install python-pip
+pip install shadowsocks
+</code></pre>
+<p>CentOS:</p>
+<pre><code>yum install python-setuptools &amp;&amp; easy_install pip
+pip install shadowsocks
+</code></pre>
+<p><strong>配置文件：</strong></p>
+<p>使用vim命令来编辑 &#x2F;etc&#x2F;shadowsocks.json</p>
+<pre><code>vim /etc/shadowsocks.json
+</code></pre>
+<p>如果你不会用vim来保存和编辑的话，去用几分钟学习下简单的使用，这个神器还有有很多故事和强大之处的。</p>
+<pre><code>&#123;
+&quot;server&quot;:&quot;my_server_ip&quot;,
+&quot;server_port&quot;:8388,
+&quot;local_address&quot;: &quot;127.0.0.1&quot;,
+&quot;local_port&quot;:1080,
+&quot;password&quot;:&quot;mypassword&quot;,
+&quot;timeout&quot;:300,
+&quot;method&quot;:&quot;aes-256-cfb&quot;,
+&quot;fast_open&quot;: false	
+&#125;
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>字段名</th>
+<th>意义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>server</td>
+<td>你的服务器地址</td>
+</tr>
+<tr>
+<td>server_port</td>
+<td>连接你服务器的端口</td>
+</tr>
+<tr>
+<td>local_address</td>
+<td>本地服务器地址</td>
+</tr>
+<tr>
+<td>local_port</td>
+<td>本地端口</td>
+</tr>
+<tr>
+<td>password</td>
+<td>密码</td>
+</tr>
+<tr>
+<td>timeout</td>
+<td>超时时间（秒）</td>
+</tr>
+<tr>
+<td>method</td>
+<td>加密方式（默认：aes-256-cfb）</td>
+</tr>
+<tr>
+<td>fast_open</td>
+<td>TCP快速开启 （true &#x2F; false）</td>
+</tr>
+</tbody></table>
+<p>填写正确后我们保存并退出。</p>
+<p><strong>运行:</strong></p>
+<pre><code>ssserver -c /etc/shadowsocks.json
+</code></pre>
+<p>如果一切配置顺利，你可以在你的终端看见端口正在启动，然后我们在客户端上按照之前的一样填写好我们的配置就可以了。这里的小细节，不要打错任何东西，否则两边不一致是无论如何都都建立不起来连接的。</p>
+<p><img src="https://i.imgur.com/RV10Sah.png"></p>
+<p>好了，我们又可以愉快的玩耍了~</p>
+<h2 id="又是彩蛋："><a href="#又是彩蛋：" class="headerlink" title="又是彩蛋："></a>又是彩蛋：</h2><hr>
+<p>没错，我们通过自己建立VPS有了一个自己的专属服务器连接，这个的速度和性能完全是根据我们选择去定制的。同时，我们会发现一个小弊端，那么就是我们如何让它一直活动，不能关闭后就不能用了，那也太坑了。</p>
+<p>我们当然可以写一个shell脚本，放在开机自启动。这里有个比较取巧的方法。(感谢我的渣浪好室友,冠希童鞋:手动撒花~)</p>
+<blockquote>
+<h3 id="保持SS运行"><a href="#保持SS运行" class="headerlink" title="保持SS运行"></a>保持SS运行</h3></blockquote>
+<blockquote>
+<p><strong>使用screen命令进行远程回话管理流程：</strong></p>
+<ol>
+<li>ssh登陆到远程机器上</li>
+<li>键入screen建立一个新的会话窗口</li>
+<li>在这个新的会话窗口中运行命令（通常是一些时间较长的任务），键入C-a d，退出并保存该会话窗口<br>（这之后可以退出ssh登陆的终端，下次工作时重新ssh登陆，再进行如下步骤）</li>
+<li>screen -ls列出所有会话</li>
+<li>screen -r id重新连接会话</li>
+<li>使用exit真正退出会话</li>
+</ol>
+</blockquote>
+<p>该命令真正强大之处是退出远程登陆后，<strong>screen依然会替我们管理保存的会话</strong>，在后台执行，我们再次远程登陆后可以恢复任何会话的现场，<strong>适用于时间较长的任务</strong>。</p>
+<p>其中C-a d是<code>ctrl</code> + <code>A</code> + <code>D</code>一起键入。</p>
+<p>这样我们在screen中运行启动命令，然后按<code>ctrl</code> + <code>A</code> + <code>D</code>退出。<br>再断开连接的时候就不会中断这个命令，可以放心的关闭SSH连接了。</p>
+<hr>
+<p><strong>当然正统的方法是这样的：</strong></p>
+<p><strong>添加应用到service：</strong><br>创建脚本 <code>/etc/init.d/shadowsocks</code> 文件（其实也是 <code>/etc/rc.d/init.d/shadowsocks</code> 文件）</p>
+<pre><code>sudo vim /etc/init.d/shadowsocks
+</code></pre>
+<p>添加以下内容：</p>
+<pre><code>#!/bin/sh
+#
+# shadowsocks start/restart/stop shadowsocks
+#
+# chkconfig: 2345 85 15
+# description: start shadowsocks/ssserver at boot time
+
+start()&#123;
+        ssserver -c /etc/shadowsocks.json -d start
+&#125;
+stop()&#123;
+        ssserver -c /etc/shadowsocks.json -d stop
+&#125;
+restart()&#123;
+        ssserver -c /etc/shadowsocks.json -d restart
+&#125;
+
+case &quot;$1&quot; in
+start)
+        start
+        ;;
+stop)
+        stop
+        ;;
+restart)
+        restart
+        ;;
+*)
+        echo &quot;Usage: $0 &#123;start|restart|stop&#125;&quot;
+        exit 1
+        ;;
+esac
+</code></pre>
+<p><strong>然后增加这个文件的可执行权限：</strong></p>
+<pre><code>sudo chmod +x /etc/init.d/shadowsocks
+</code></pre>
+<p>**<br>这样就可以在 shell 中直接运行下面的命令开启程序了（重启和停止同理）：**</p>
+<pre><code>sudo service shadowsocks start
+</code></pre>
+<blockquote>
+<p>注意：<br>这里以root权限运行的，如果不想以root权限运行可以用 sudo -u {user} {command}。<br>如果不给脚本文件加上其他用户的可执行权限，不带参数运行 service shadowsocks 会提示 unrecognized service。</p>
+</blockquote>
+<p><strong>设置开机启动：</strong><br>在上面脚本没有问题（也就是保留了前面10行，并且语法正确）的情况下，通过下面的命令，就可以设置程序自动启动了</p>
+<pre><code>sudo chkconfig shadowsocks on
+</code></pre>
+<p>这样程序就会自动启动了。</p>
+<p>结合此处两个解决方案:</p>
+<p><a target="_blank" rel="noopener" href="https://www.awaimai.com/439.html">Linux将应用添加到service，并设置自动启动</a></p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/a/20680309/6835285">How do I install chkconfig on Ubuntu?</a></p>
+<hr>
+<blockquote>
+<h3 id="多用户配置"><a href="#多用户配置" class="headerlink" title="多用户配置"></a>多用户配置</h3></blockquote>
+<p>我使用的每个月有2T流量，嗯…单单使用做SS的话，的确过剩了。</p>
+<p>我们可以开辟多个端口，为每个端口使用不同的密码来登录。</p>
+<pre><code>&#123;  
+ &quot;server&quot;:&quot;my_server_ip&quot;,  
+ &quot;local_address&quot;: &quot;127.0.0.1&quot;,  
+ &quot;local_port&quot;:1080,  
+  &quot;port_password&quot;: &#123;  
+    &quot;2333&quot;:&quot;mima12345&quot;,
+    &quot;6666&quot;:&quot;mima12345&quot;
+ &#125;,  
+ &quot;timeout&quot;:300,  
+ &quot;method&quot;:&quot;aes-256-cfb&quot;,  
+ &quot;fast_open&quot;: false  
+&#125;
+</code></pre>
+<p>这其中加密方式 我还是推荐rc4-md5的。或者他们说chacha20对移动端访问速度比较快。</p>
+<p>主要是AES加密太耗时。</p>
+<p>另附地址：<a target="_blank" rel="noopener" href="http://calonye.com/22419.html">多用户配置</a></p>
+<h2 id="结束"><a href="#结束" class="headerlink" title="结束:"></a>结束:</h2><hr>
+<p>经过这样我们可以暂时有一个小小的窗户，来继续访问官网的最新技术。</p>
+<p>扔给你个小软件<a target="_blank" rel="noopener" href="https://sspai.com/post/38846">HyperApp</a><del>（撒花</del>φ(&gt;ω&lt;*) ）</p>
+<p>至此，我们已经可以实现一个很理想的状态。但是能不能更好地让家里全局的设备，比如Chromecat也支持呢？下一篇我会介绍。</p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='http://music.163.com/song/media/outer/url?id=1349292048.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://music.163.com/song/media/outer/url?id=539176.mp3'></li>
+                        
+                    
+                        
+                            <li title='2' data-url='http://music.163.com/song/media/outer/url?id=1331819951.mp3'></li>
+                        
+                    
+                        
+                            <li title='3' data-url='http://music.163.com/song/media/outer/url?id=784455.mp3'></li>
+                        
+                    
+                        
+                            <li title='4' data-url='http://music.163.com/song/media/outer/url?id=863489767.mp3'></li>
+                        
+                    
+                        
+                            <li title='5' data-url='http://music.163.com/song/media/outer/url?id=28692519.mp3'></li>
+                        
+                    
+                        
+                            <li title='6' data-url='http://music.163.com/song/media/outer/url?id=28468136.mp3'></li>
+                        
+                    
+                        
+                            <li title='7' data-url='http://music.163.com/song/media/outer/url?id=27808360.mp3'></li>
+                        
+                    
+                        
+                            <li title='8' data-url='http://music.163.com/song/media/outer/url?id=723174.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='true'
+        data-ae='true'
+        data-ci='bea144b43eefb358981c'
+        data-cs='a36c22fec87740cbe5e17b541731a652d8e2785d'
+        data-r='gitalk'
+        data-o='ArnoFrost'
+        data-a='ArnoFrost'
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E6%AC%A1%E6%8A%98%E8%85%BE"><span class="toc-number">1.</span> <span class="toc-text"> 第二次折腾:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VPS%EF%BC%9A"><span class="toc-number">2.</span> <span class="toc-text">VPS：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B"><span class="toc-number">3.</span> <span class="toc-text">开始</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%88%E6%98%AF%E5%BD%A9%E8%9B%8B%EF%BC%9A"><span class="toc-number">4.</span> <span class="toc-text">又是彩蛋：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%9D%E6%8C%81SS%E8%BF%90%E8%A1%8C"><span class="toc-number">4.1.</span> <span class="toc-text">保持SS运行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E7%94%A8%E6%88%B7%E9%85%8D%E7%BD%AE"><span class="toc-number">4.2.</span> <span class="toc-text">多用户配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9D%9F"><span class="toc-number">5.</span> <span class="toc-text">结束:</span></a></li></ol>	
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+</html>

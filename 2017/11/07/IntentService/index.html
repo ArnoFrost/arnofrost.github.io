@@ -1,0 +1,242 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>IntentService - Fox Hound</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="ArnoFrost,"> 
+    <meta name="description" content="Life should be so,IntentService1. IntentService是什么1.1 特殊的Service&amp;#x2F;&amp;#x2F;继承了Service,可以执行高优先级的任务, 封装了HandlerThread和,"> 
+    <meta name="author" content="Arno Frost"> 
+    <link rel="alternative" href="atom.xml" title="Fox Hound" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">Fox Hound</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="https://arnoforst.github.io"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">IntentService</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">IntentService</h1>
+        <div class="stuff">
+            <span>十一月 07, 2017</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/IntentService/" rel="tag">IntentService</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E6%9C%BA%E5%88%B6/" rel="tag">机制</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h1 id="IntentService"><a href="#IntentService" class="headerlink" title="IntentService"></a>IntentService</h1><h1 id="1-IntentService是什么"><a href="#1-IntentService是什么" class="headerlink" title="1. IntentService是什么"></a>1. IntentService是什么</h1><h2 id="1-1-特殊的Service"><a href="#1-1-特殊的Service" class="headerlink" title="1.1 特殊的Service"></a>1.1 特殊的Service</h2><p>&#x2F;&#x2F;继承了Service,可以执行<strong>高优先级</strong>的任务, 封装了HandlerThread和Handler</p>
+<ul>
+<li>本质上是一种特殊的Service, 继承自Service并且本身就是一个抽象类</li>
+<li>它的内部通过HandlerThread 和 Handler 实现异步操作</li>
+</ul>
+<blockquote>
+<p>是继承并处理<strong>异步同步请求</strong>的一个类, 在IntentService内有一个工作线程来处理耗时操作, 启动IntentService的方式和启动传统的Service一样, 同时, 当任务执行完后, IntentService 会自动停止, 而不需要我们手动去控制stopSelf(), 另外, 可以启动IntentService多次, 而每一个耗时操作都会以工作队列的方式在IntentService的onHandlerIntent回调方法中执行, 并且 , 每次只会执行一个工作线程, 执行完第一个再执行第二个;(<strong>串行</strong>)</p>
+</blockquote>
+<h2 id="2-IntentService使用方法"><a href="#2-IntentService使用方法" class="headerlink" title="2. IntentService使用方法"></a>2. IntentService使用方法</h2><h3 id="2-1-必须实现两个方法"><a href="#2-1-必须实现两个方法" class="headerlink" title="2.1 必须实现两个方法"></a>2.1 必须实现两个方法</h3><p>(创建IntentService时, 只需要实现onHandleIntent和构造方法, onHandleIntent为异步方法, 可以执行耗时操作)</p>
+<p>写一个类继承IntentService</p>
+<p>构造方法: 传入线程名称</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="title function_">IntentService</span><span class="params">(String name)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>();</span><br><span class="line">    mName = name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>onHandleIntent()</code>: 进行Itent的耗时操作 后intent里携带信息, 并startService(intent),<br>最后MyIntentService.setUpdate(this);</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WorkerThread</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title function_">onHandleIntent</span><span class="params">(<span class="meta">@Nullable</span> Intent intent)</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="3-IntentService源码解析"><a href="#3-IntentService源码解析" class="headerlink" title="3. IntentService源码解析"></a>3. IntentService源码解析</h2><h3 id="3-1-onCreate"><a href="#3-1-onCreate" class="headerlink" title="3.1 onCreate()"></a>3.1 onCreate()</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// <span class="doctag">TODO:</span> It would be nice to have an option to hold a partial wakelock</span></span><br><span class="line">        <span class="comment">// during processing, and to have a static startService(Context, Intent)</span></span><br><span class="line">        <span class="comment">// method that would launch the service &amp; hand off a wakelock.</span></span><br><span class="line"></span><br><span class="line">        <span class="built_in">super</span>.onCreate();</span><br><span class="line">        <span class="type">HandlerThread</span> <span class="variable">thread</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">HandlerThread</span>(<span class="string">&quot;IntentService[&quot;</span> + mName + <span class="string">&quot;]&quot;</span>);<span class="comment">// 创建了HandlerThread来进行异步消息传递</span></span><br><span class="line">        thread.start();</span><br><span class="line"></span><br><span class="line">        mServiceLooper = thread.getLooper();<span class="comment">// 传递的是HandlerThread的loop对象;</span></span><br><span class="line"><span class="comment">// (由于looper 对象和 HandlerThread绑定,而HandlerThread又是一个异步线程,把HandlerThread 持有的 looper 传递给 ServiceHandler</span></span><br><span class="line">这样ServiceHandler就变成了处理异步线程的执行类)</span><br><span class="line">        mServiceHandler = <span class="keyword">new</span> <span class="title class_">ServiceHandler</span>(mServiceLooper);<span class="comment">// 一个继承了Handler的Handler</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>intentService启动后还会调用onStartCommand();</p>
+<h3 id="3-2-onStartCommand"><a href="#3-2-onStartCommand" class="headerlink" title="3.2 onStartCommand():"></a>3.2 onStartCommand():</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * You should not override this method for your IntentService. Instead,</span></span><br><span class="line"><span class="comment">     * override &#123;<span class="doctag">@link</span> #onHandleIntent&#125;, which the system calls when the IntentService</span></span><br><span class="line"><span class="comment">     * receives a start request.</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@see</span> android.app.Service#onStartCommand</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">onStartCommand</span><span class="params">(<span class="meta">@Nullable</span> Intent intent, <span class="type">int</span> flags, <span class="type">int</span> startId)</span> &#123;</span><br><span class="line">        onStart(intent, startId);<span class="comment">//实际操作都在onStart</span></span><br><span class="line">        <span class="keyword">return</span> mRedelivery ? START_REDELIVER_INTENT : START_NOT_STICKY;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-4-onStart"><a href="#3-4-onStart" class="headerlink" title="3.4 onStart():"></a>3.4 onStart():</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onStart</span><span class="params">(<span class="meta">@Nullable</span> Intent intent, <span class="type">int</span> startId)</span> &#123;</span><br><span class="line">        <span class="type">Message</span> <span class="variable">msg</span> <span class="operator">=</span> mServiceHandler.obtainMessage();</span><br><span class="line">        msg.arg1 = startId;</span><br><span class="line">        msg.obj = intent;</span><br><span class="line">        mServiceHandler.sendMessage(msg);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-5-ServiceHandler类"><a href="#3-5-ServiceHandler类" class="headerlink" title="3.5 ServiceHandler类:"></a>3.5 ServiceHandler类:</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">ServiceHandler</span> <span class="keyword">extends</span> <span class="title class_">Handler</span> &#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">ServiceHandler</span><span class="params">(Looper looper)</span> &#123;</span><br><span class="line">            <span class="built_in">super</span>(looper);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">handleMessage</span><span class="params">(Message msg)</span> &#123;</span><br><span class="line">            onHandleIntent((Intent)msg.obj);</span><br><span class="line">            stopSelf(msg.arg1);<span class="comment">// 如果没有参数会立即停止, 如果有参数会等待所有消息都处理完之后才会终止任务</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">```java</span><br><span class="line">onHandleIntent: 是一个抽象方法, 在创建IntentService时一定要实现该方法(异步方法)</span><br><span class="line">如果执行完会立刻销毁, 当有多个服务时会明确到执行完最后一个服务才会销毁;</span><br><span class="line">stopSelf加参数;</span><br><span class="line"></span><br><span class="line">**(Service里不能做耗时操作, 而IntentService可以执行耗时操作)**</span><br><span class="line"></span><br><span class="line">```java</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * This method is invoked on the worker thread with a request to process.</span></span><br><span class="line"><span class="comment">     * Only one Intent is processed at a time, but the processing happens on a</span></span><br><span class="line"><span class="comment">     * worker thread that runs independently from other application logic.</span></span><br><span class="line"><span class="comment">     * So, if this code takes a long time, it will hold up other requests to</span></span><br><span class="line"><span class="comment">     * the same IntentService, but it will not hold up anything else.</span></span><br><span class="line"><span class="comment">     * When all requests have been handled, the IntentService stops itself,</span></span><br><span class="line"><span class="comment">     * so you should not call &#123;<span class="doctag">@link</span> #stopSelf&#125;.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> intent The value passed to &#123;<span class="doctag">@link</span></span></span><br><span class="line"><span class="comment">     *               android.content.Context#startService(Intent)&#125;.</span></span><br><span class="line"><span class="comment">     *               This may be null if the service is being restarted after</span></span><br><span class="line"><span class="comment">     *               its process has gone away; see</span></span><br><span class="line"><span class="comment">     *               &#123;<span class="doctag">@link</span> android.app.Service#onStartCommand&#125;</span></span><br><span class="line"><span class="comment">     *               for details.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@WorkerThread</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title function_">onHandleIntent</span><span class="params">(<span class="meta">@Nullable</span> Intent intent)</span>;</span><br></pre></td></tr></table></figure>
+<p>本质上就是一个封装了HandlerThread 和 handler的异步框架</p>
+<p>每次去实现时一定实现onHandleIntent()在里面进行耗时操作, 会按照顺序执行</p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='http://music.163.com/song/media/outer/url?id=1349292048.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://music.163.com/song/media/outer/url?id=539176.mp3'></li>
+                        
+                    
+                        
+                            <li title='2' data-url='http://music.163.com/song/media/outer/url?id=1331819951.mp3'></li>
+                        
+                    
+                        
+                            <li title='3' data-url='http://music.163.com/song/media/outer/url?id=784455.mp3'></li>
+                        
+                    
+                        
+                            <li title='4' data-url='http://music.163.com/song/media/outer/url?id=863489767.mp3'></li>
+                        
+                    
+                        
+                            <li title='5' data-url='http://music.163.com/song/media/outer/url?id=28692519.mp3'></li>
+                        
+                    
+                        
+                            <li title='6' data-url='http://music.163.com/song/media/outer/url?id=28468136.mp3'></li>
+                        
+                    
+                        
+                            <li title='7' data-url='http://music.163.com/song/media/outer/url?id=27808360.mp3'></li>
+                        
+                    
+                        
+                            <li title='8' data-url='http://music.163.com/song/media/outer/url?id=723174.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='true'
+        data-ae='true'
+        data-ci='bea144b43eefb358981c'
+        data-cs='a36c22fec87740cbe5e17b541731a652d8e2785d'
+        data-r='gitalk'
+        data-o='ArnoFrost'
+        data-a='ArnoFrost'
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#IntentService"><span class="toc-number">1.</span> <span class="toc-text">IntentService</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-IntentService%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">2.</span> <span class="toc-text">1. IntentService是什么</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-%E7%89%B9%E6%AE%8A%E7%9A%84Service"><span class="toc-number">2.1.</span> <span class="toc-text">1.1 特殊的Service</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-IntentService%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">2.2.</span> <span class="toc-text">2. IntentService使用方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E5%BF%85%E9%A1%BB%E5%AE%9E%E7%8E%B0%E4%B8%A4%E4%B8%AA%E6%96%B9%E6%B3%95"><span class="toc-number">2.2.1.</span> <span class="toc-text">2.1 必须实现两个方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-IntentService%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="toc-number">2.3.</span> <span class="toc-text">3. IntentService源码解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-onCreate"><span class="toc-number">2.3.1.</span> <span class="toc-text">3.1 onCreate()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-onStartCommand"><span class="toc-number">2.3.2.</span> <span class="toc-text">3.2 onStartCommand():</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-onStart"><span class="toc-number">2.3.3.</span> <span class="toc-text">3.4 onStart():</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-ServiceHandler%E7%B1%BB"><span class="toc-number">2.3.4.</span> <span class="toc-text">3.5 ServiceHandler类:</span></a></li></ol></li></ol></li></ol>	
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+</html>
