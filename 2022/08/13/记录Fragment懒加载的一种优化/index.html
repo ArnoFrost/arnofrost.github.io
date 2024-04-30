@@ -1,0 +1,250 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>记录Fragment懒加载的一种优化 - Fox Hound</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="ArnoFrost FoxHound,"> 
+    <meta name="description" content="Life should be so,
+version 0.2
+
+主feed 页面懒加载的渲染优化问题背景当前新闻主端，主feed页面使用viewpager进行预加载，当冷启用户进入后会加载旁边channel的fragment ，其中包,"> 
+    <meta name="author" content="Arno Frost"> 
+    <link rel="alternative" href="atom.xml" title="Fox Hound" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">Fox Hound</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="https://arnoforst.github.io"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">记录Fragment懒加载的一种优化</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">记录Fragment懒加载的一种优化</h1>
+        <div class="stuff">
+            <span>八月 13, 2022</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Fragment/" rel="tag">Fragment</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E4%BC%98%E5%8C%96/" rel="tag">优化</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E6%87%92%E5%8A%A0%E8%BD%BD/" rel="tag">懒加载</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <blockquote>
+<p>version 0.2</p>
+</blockquote>
+<h1 id="主feed-页面懒加载的渲染优化"><a href="#主feed-页面懒加载的渲染优化" class="headerlink" title="主feed 页面懒加载的渲染优化"></a>主feed 页面懒加载的渲染优化</h1><h2 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h2><p>当前新闻主端，主feed页面使用viewpager进行<strong>预加载</strong>，当冷启用户进入后会加载旁边channel的fragment ，其中包括<strong>数据请求</strong>与<strong>UI渲染</strong>。通常情况下主流推荐<strong>懒加载模式</strong>，但是粒度有些<strong>粗</strong>，即将数据请求于渲染逻辑都放在可见时才执行，对于主端feed来说数据请求也可能耗时，同时需要接口曝光请求业务，所以不能直接单纯靠后移动触发时机。<code>（2022-10-27: 后续在开屏广告性能卡顿中实践本方案，已经在灰度中，后续线上效果待观察）</code></p>
+<blockquote>
+<p>本文优化点在于试行探讨能否只在fragment真正可见的时候才进行UI绘制</p>
+</blockquote>
+<h2 id="当前逻辑概述"><a href="#当前逻辑概述" class="headerlink" title="当前逻辑概述"></a>当前逻辑概述</h2><p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/16603908026213.jpg"></p>
+<p>目前Fragment的初始化里面进行了<code>initData()</code> <strong>请求数据</strong>， 在收到数据后进行 <strong>UI绘制</strong><br><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/upload_77a78ff3e2693b4fc83791da26acb759.jpg"></p>
+<h2 id="改进方法概述"><a href="#改进方法概述" class="headerlink" title="改进方法概述"></a>改进方法概述</h2><ol>
+<li>将原本接收到数据后，执行<code>renderFeedListUI</code>的方法保存到一个任务队列中，先不执行</li>
+<li>执行的触发契机有两个，也就是<code>check</code> 是否fragment可见 如果可见则直接执行渲染，以及当fragment外层被调用adpater的<code>setPrimaryItem</code> 方法时再进行一次<code>check</code></li>
+<li>当渲染任务执行后，移除本次任务</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/upload_8ed319a5fb80a08700eaf32b8b0dba5b.jpg"><br><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/upload_11db91f9731b97a9c61b9bf11e1ef197.jpg"></p>
+<h2 id="测试对比"><a href="#测试对比" class="headerlink" title="测试对比"></a>测试对比</h2><h3 id="改进前"><a href="#改进前" class="headerlink" title="改进前"></a>改进前</h3><p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/upload_0a78793bf9485f7a590e21791bf6e179.jpg"></p>
+<p>当前情况会在收到数据后，执行<code>renderFeedListUI</code>操作，可以看见由于预加载的特性，不可见的两个fragment也执行了ui的操作</p>
+<p>优化前冷启加载主feed时，<code>renderFeedListUI</code>方法耗时检测:<br><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/upload_9d649f5ded24fb4eddfbeeddc3e8b80a.jpg"></p>
+<h3 id="改进后"><a href="#改进后" class="headerlink" title="改进后"></a>改进后</h3><p>其中可以看到，在收到数据的回调中，只有推荐频道被执行了<code>renderFeedListUI</code>操作，其他两个频道的fragment没有再执行<code>renderFeedListUI</code>，减少了主线程的负担<br><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/upload_750876ca55fc97882ed425d4b0c39347.jpg"></p>
+<p>优化后冷启加载主feed时，<code>renderFeedListUI</code>方法耗时检测:<br><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/upload_d6c0eba61848ab8e12f3a5d977197549.jpg"></p>
+<p>由于加载少了两个页面，大体耗时为原来的三分之一，基本符合预期理论</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>综上实验表现，我们可以试行后续是否可以基于此方向来进一步优化feed的加载体验效果</p>
+<p>同时，Fragment相关的API 在近几年已经进行了优化，大体里面优化解耦了很多于Activity 绑定的逻辑，以及减少了代码复杂度， 其中的懒加载也有优化。 本场景下，官方的推荐解决方案是通过<code>setMaxLifeCycle</code>，这样可以真正依赖onResume的回调时机来判定可见性，减少代码复杂度。</p>
+<p>参考文章:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/wDk8izBXtCoXVV6_lauJCg">ViewPager中的Fragment如何实现懒加载？</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/AcOf0nEMJv8Z9xC8aokm9A">Fragment 这么多 API 被废弃了？</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.android.com/studio/profile/record-traces">Android Profiler</a></li>
+</ul>
+<h1 id="更新日志："><a href="#更新日志：" class="headerlink" title="更新日志："></a>更新日志：</h1><table>
+<thead>
+<tr>
+<th>版本</th>
+<th>时间</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>version 0.1</td>
+<td>2022年08月13日19:39:10</td>
+<td>初版整理</td>
+</tr>
+<tr>
+<td>version 0.2</td>
+<td>2022年10月27日14:49:30</td>
+<td>更换图床</td>
+</tr>
+</tbody></table>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='http://music.163.com/song/media/outer/url?id=723174.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='true'
+        data-ae='true'
+        data-ci='bea144b43eefb358981c'
+        data-cs='a36c22fec87740cbe5e17b541731a652d8e2785d'
+        data-r='gitalk'
+        data-o='ArnoFrost'
+        data-a='ArnoFrost'
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%BBfeed-%E9%A1%B5%E9%9D%A2%E6%87%92%E5%8A%A0%E8%BD%BD%E7%9A%84%E6%B8%B2%E6%9F%93%E4%BC%98%E5%8C%96"><span class="toc-number">1.</span> <span class="toc-text">主feed 页面懒加载的渲染优化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E8%83%8C%E6%99%AF"><span class="toc-number">1.1.</span> <span class="toc-text">问题背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BD%93%E5%89%8D%E9%80%BB%E8%BE%91%E6%A6%82%E8%BF%B0"><span class="toc-number">1.2.</span> <span class="toc-text">当前逻辑概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%B9%E8%BF%9B%E6%96%B9%E6%B3%95%E6%A6%82%E8%BF%B0"><span class="toc-number">1.3.</span> <span class="toc-text">改进方法概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E5%AF%B9%E6%AF%94"><span class="toc-number">1.4.</span> <span class="toc-text">测试对比</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%94%B9%E8%BF%9B%E5%89%8D"><span class="toc-number">1.4.1.</span> <span class="toc-text">改进前</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%94%B9%E8%BF%9B%E5%90%8E"><span class="toc-number">1.4.2.</span> <span class="toc-text">改进后</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.5.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97%EF%BC%9A"><span class="toc-number">2.</span> <span class="toc-text">更新日志：</span></a></li></ol>	
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'G-M1XD2J0EJY', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+
+</html>

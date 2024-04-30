@@ -1,0 +1,257 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kotlin多变量判空 - Fox Hound</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="ArnoFrost FoxHound,"> 
+    <meta name="description" content="Life should be so,
+version 0.1 2022年02月09日20:48:26
+
+[TOC]
+背景：最近梳理了一下自己远古的Kotlin业务代码，在一个Kotlin方法实现里遇到了两个变量连续判空的具体写法引发的,"> 
+    <meta name="author" content="Arno Frost"> 
+    <link rel="alternative" href="atom.xml" title="Fox Hound" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">Fox Hound</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="https://arnoforst.github.io"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">Kotlin多变量判空</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">Kotlin多变量判空</h1>
+        <div class="stuff">
+            <span>二月 09, 2022</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Kotlin/" rel="tag">Kotlin</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E6%8A%80%E5%B7%A7/" rel="tag">技巧</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <blockquote>
+<p>version 0.1 2022年02月09日20:48:26</p>
+</blockquote>
+<p>[TOC]</p>
+<h1 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h1><p>最近梳理了一下自己远古的Kotlin业务代码，在一个Kotlin方法实现里遇到了<strong>两个变量连续判空</strong>的具体写法引发的一个思考。系统整理一下，当做一个有意思的思考点。如果对于Java与Kotlin单变量判空区别已经熟悉，可直接跳到<a href="#%E5%A4%9A%E5%8F%98%E9%87%8F%E5%88%A4%E7%A9%BA">多变量判空</a>部分。</p>
+<blockquote>
+<p>注： 为了方便说明这次的问题，下文将使用编译器截图来突出标明。</p>
+</blockquote>
+<h1 id="单变量的判空"><a href="#单变量的判空" class="headerlink" title="单变量的判空"></a>单变量的判空</h1><h2 id="Kotlin的判空编译期检查"><a href="#Kotlin的判空编译期检查" class="headerlink" title="Kotlin的判空编译期检查"></a>Kotlin的判空编译期检查</h2><p>先从熟悉的位置入手，日常开发中判空是无处不在的，为了维护健壮性很多时候都要引入判空。对于判空的检查，Kotlin 在编译期提供了更严格安全的检查，就是线程安全检查。<br>假设我们分别有一个成员变量与局部变量<code>name</code>与<code>localName</code>进行非空判断并打印长度。<br><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/20220209192504.png" alt="Java-单变量判空"></p>
+<p>这是我们很常见的判空情况，在Java中很常见。那么如果我们照搬过来写Kotlin 会是怎样？<br><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/20220209192919.png" alt="Kotlin-单变量判空"></p>
+<p>可以看到对于成员变量的判空，Kotlin在编译期阶段给出了报错提示。<br><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/20220209193032.png" alt="Kotlin-成员变量判空报错"></p>
+<p>看提示可以知道，Kotlin对于可变的变量是有线程安全检查的，也就是说之前很多时候Java的这种判空都是非线程安全的。多数时候Android开发其实那样写也没有事情，但Kotlin会更加明确的让你知道，提高我们的编程意识。</p>
+<p>在初学时候没有想过太多，想当然那么我就利用<code>!!</code>强制非空来判断，以此达到目的。</p>
+<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/20220209193406.png" alt="Kotlin-强制非空"></p>
+<p>这样编译器是不报错了，但是我们真正的解决提示说的问题了吗？很遗憾并没有解决线程安全的问题，如果涉及多线程那么我们对于这个变量的保护措施就是不够的。</p>
+<h2 id="线程安全的判空"><a href="#线程安全的判空" class="headerlink" title="线程安全的判空"></a>线程安全的判空</h2><p>那么如何来保证线程安全的判空？简单直观的一种方式就是用局部变量来进行判空保护。先贴出写法：</p>
+<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/20220209194601.png" alt="Java-线程安全判空"></p>
+<p>对于此写法是利用了局部变量的特性来维护值的拷贝，不被其他线程修改的特性。</p>
+<p>针对于此Kotlin才有了诸如<code>?.run、apply、let、with</code>等特性来辅助我们进行快速的线程安全的非空判断。</p>
+<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/20220209194936.png" alt="Kotlin-线程安全单变量判空"></p>
+<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/20220209195047.png" alt="Kotlin-let源码"></p>
+<p>以上类似的问题如果展开篇幅也比较多，虽然偏八股文一些但本质上还是会对我们编程安全有很大的启发与指导意义的。详细介绍与思考可以参考下面文章，本篇文章不再展开。<br><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/lP-xB5yzpvqVEiA439euVQ">Java的值传递和引用传递，你真的搞清楚了吗？</a></p>
+<h1 id="多变量判空"><a href="#多变量判空" class="headerlink" title="多变量判空"></a>多变量判空</h1><p>回到这篇文章的记录初衷，先看一下原来的代码。</p>
+<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/20220209201746.png" alt="Kotlin-多变量判空原始"><br>这里可以看到首先是非线程安全，如果在特定场景单线程也罢，顶多是一个<code>let</code>的语法糖问题。</p>
+<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/20220209202056.png" alt="Kotlin-多变量判空嵌套"></p>
+<h2 id="多变量嵌套臃肿问题"><a href="#多变量嵌套臃肿问题" class="headerlink" title="多变量嵌套臃肿问题"></a>多变量嵌套臃肿问题</h2><p>但是这样做在面临多变量时就会显得臃肿嵌套变多，而且甚至还不得不这样做。那么能不能简化一下？我也搜索了一下百度，那么看到常见的标题符合我的预期，方法是这样：</p>
+<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/20220209202316.png" alt="Kotlin-多变量判空资料方法"></p>
+<p>乍一看，符合预期，赶紧试试看。<br>（这里有一个有意思的点，就是我发现项目里之前一位同事已经在公共的Kotlin扩展函数库里添加了这个方法，甚至欣喜若狂原来英雄所见略同）</p>
+<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/20220209202535.png"></p>
+<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/20220209202911.png" alt="Kotlin-判空方法依旧不行"></p>
+<p>这一刻突然有了一些疑惑，为什么还是需要判空？然后仔细看了一下，这方法障眼法太强，本质上还是因为判断时用了函数来屏蔽成员变量，使用时依旧没用局部变量导致了这个判断几乎等同于上面Java原生写法，甚至可以说更繁琐了。</p>
+<h2 id="简易但明确的一种解决方案"><a href="#简易但明确的一种解决方案" class="headerlink" title="简易但明确的一种解决方案"></a>简易但明确的一种解决方案</h2><p>在Kotlin社区的讨论中，发现这个问题在16年时候社区里就有人提出来过，并且下面的讨论也都很精彩对自己也都是个启发，其中不乏就有上面那个网络传闻的解决方案的原版（或许）。</p>
+<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/CleanShot%202022-02-09%20at%2020.36.32.png" alt="Kotlin社区提问"></p>
+<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/CleanShot%202022-02-09%20at%2020.38.32.png" alt="Kotlin社区答案之一"><br>点开评论，早就有前辈提出来同样的问题，这个方法仍旧不可行。</p>
+<p>其中的讨论都特别有意思，有人类比Swift与Groovy等语言特性以此来希望官方支持等等。</p>
+<p>最后我才用了一种更“笨”，但我认为更实用的解决方法。<a target="_blank" rel="noopener" href="https://discuss.kotlinlang.org/t/kotlin-null-check-for-multiple-nullable-vars/1946/48">Kotlin社区答案原贴</a></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="type">&lt;R, A, B&gt;</span> <span class="title">withNoNulls</span><span class="params">(p1: <span class="type">A</span>?, p2: <span class="type">B</span>?, function: (<span class="type">p1</span>: <span class="type">A</span>, <span class="type">p2</span>: <span class="type">B</span>) -&gt; <span class="type">R</span>)</span></span>: R? = p1?.let &#123; p2?.let &#123; function.invoke(p1, p2) &#125; &#125;</span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="type">&lt;R, A, B, C&gt;</span> <span class="title">withNoNulls</span><span class="params">(p1: <span class="type">A</span>?, p2: <span class="type">B</span>?, p3: <span class="type">C</span>?, function: (<span class="type">p1</span>: <span class="type">A</span>, <span class="type">p2</span>: <span class="type">B</span>, <span class="type">p3</span>: <span class="type">C</span>) -&gt; <span class="type">R</span>)</span></span>: R? = p1?.let &#123; p2?.let &#123; p3?.let &#123; function.invoke(p1, p2, p3) &#125; &#125; &#125;</span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="type">&lt;R, A, B, C, D&gt;</span> <span class="title">withNoNulls</span><span class="params">(p1: <span class="type">A</span>?, p2: <span class="type">B</span>?, p3: <span class="type">C</span>?, p4: <span class="type">D</span>?, function: (<span class="type">p1</span>: <span class="type">A</span>, <span class="type">p2</span>: <span class="type">B</span>, <span class="type">p3</span>: <span class="type">C</span>, <span class="type">p4</span>: <span class="type">D</span>) -&gt; <span class="type">R</span>)</span></span>: R? = p1?.let &#123; p2?.let &#123; p3?.let &#123; p4?.let &#123; function.invoke(p1, p2, p3, p4) &#125; &#125; &#125; &#125;</span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="type">&lt;R, A, B, C, D, E&gt;</span> <span class="title">withNoNulls</span><span class="params">(p1: <span class="type">A</span>?, p2: <span class="type">B</span>?, p3: <span class="type">C</span>?, p4: <span class="type">D</span>?, p5: <span class="type">E</span>?, function: (<span class="type">p1</span>: <span class="type">A</span>, <span class="type">p2</span>: <span class="type">B</span>, <span class="type">p3</span>: <span class="type">C</span>, <span class="type">p4</span>: <span class="type">D</span>, <span class="type">p5</span>: <span class="type">E</span>) -&gt; <span class="type">R</span>)</span></span>: R? = p1?.let &#123; p2?.let &#123; p3?.let &#123; p4?.let &#123; p5?.let &#123; function.invoke(p1, p2, p3, p4, p5) &#125; &#125; &#125; &#125; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>而没用varargs是因为泛型的问题，提供到第五个参数的重载应该也足够了。本质上虽然我依旧没有很好消除嵌套的方式，但是利用语法糖特性依旧可以做到在<strong>调用处消除嵌套</strong>的使用现象。如果后续知道并了解后，我会继续更新。</p>
+<p>改造后代码：<br><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/20220209204642.png" alt="Kotlin-多变量判空改造后代码"></p>
+<h1 id="更新日志："><a href="#更新日志：" class="headerlink" title="更新日志："></a>更新日志：</h1><table>
+<thead>
+<tr>
+<th>版本</th>
+<th>时间</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>version 0.1</td>
+<td>2022年02月09日20:48:26</td>
+<td>初版整理</td>
+</tr>
+</tbody></table>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='http://music.163.com/song/media/outer/url?id=723174.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='true'
+        data-ae='true'
+        data-ci='bea144b43eefb358981c'
+        data-cs='a36c22fec87740cbe5e17b541731a652d8e2785d'
+        data-r='gitalk'
+        data-o='ArnoFrost'
+        data-a='ArnoFrost'
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%83%8C%E6%99%AF%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">背景：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%95%E5%8F%98%E9%87%8F%E7%9A%84%E5%88%A4%E7%A9%BA"><span class="toc-number">2.</span> <span class="toc-text">单变量的判空</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Kotlin%E7%9A%84%E5%88%A4%E7%A9%BA%E7%BC%96%E8%AF%91%E6%9C%9F%E6%A3%80%E6%9F%A5"><span class="toc-number">2.1.</span> <span class="toc-text">Kotlin的判空编译期检查</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84%E5%88%A4%E7%A9%BA"><span class="toc-number">2.2.</span> <span class="toc-text">线程安全的判空</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A4%9A%E5%8F%98%E9%87%8F%E5%88%A4%E7%A9%BA"><span class="toc-number">3.</span> <span class="toc-text">多变量判空</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E5%8F%98%E9%87%8F%E5%B5%8C%E5%A5%97%E8%87%83%E8%82%BF%E9%97%AE%E9%A2%98"><span class="toc-number">3.1.</span> <span class="toc-text">多变量嵌套臃肿问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E6%98%93%E4%BD%86%E6%98%8E%E7%A1%AE%E7%9A%84%E4%B8%80%E7%A7%8D%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">3.2.</span> <span class="toc-text">简易但明确的一种解决方案</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97%EF%BC%9A"><span class="toc-number">4.</span> <span class="toc-text">更新日志：</span></a></li></ol>	
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'G-M1XD2J0EJY', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+
+</html>
