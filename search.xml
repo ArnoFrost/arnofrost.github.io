@@ -24,32 +24,6 @@
       </tags>
   </entry>
   <entry>
-    <title>AndroidStudio 工程jar包重复引入报错</title>
-    <url>/2017/10/27/AndroidStudio%20%E5%B7%A5%E7%A8%8Bjar%E5%8C%85%E9%87%8D%E5%A4%8D%E5%BC%95%E5%85%A5%E6%8A%A5%E9%94%99/</url>
-    <content><![CDATA[<h2 id="app-transformClassesWithJarMergingForDebug"><a href="#app-transformClassesWithJarMergingForDebug" class="headerlink" title="app:transformClassesWithJarMergingForDebug"></a>app:transformClassesWithJarMergingForDebug</h2><hr>
-<p>工程中，如果我们叫A，要引用的两个三方库分别叫B和C。</p>
-<p>其中B包含了若干小jar包，比如其中有一个叫d，C中也包含了同样的jar包d。</p>
-<p>那么我们直接应用这两个库的时候，编译过程会报错</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Execution failed <span class="keyword">for</span> task <span class="string">&#x27;:app:transformClassesWithJarMergingForDebug&#x27;</span>.</span><br></pre></td></tr></table></figure>
-<p>那么我们只需要在其中库中「去掉」jar包的引用，或者说过滤掉。</p>
-<p>可以切换到「Project」视图， 查看比较两者间有什么库是一样的名字。这里我举了个例子：</p>
-<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/20220208181535.png" alt="rxjava包冲突"></p>
-<p>在MANIFEST.MF文件中,找到要过滤的包名: <strong>io.reactivex.java</strong></p>
-<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/20220208181544.png" alt="Bundle-SymbolicName的字段"></p>
-<p>在gradle文件中，引用工程后面添加过滤的包名。这里我将rx有关的都过滤了，（使用的是AS3.0有了新的关键字implementation<a href="https://stackoverflow.com/questions/44493378/whats-the-difference-between-implementation-and-compile-in-gradle">具体看这里</a>）</p>
-<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/20220208181554.png" alt="添加group"></p>
-<figure class="highlight groovy"><table><tr><td class="code"><pre><span class="line">compile(<span class="string">&#x27;cn.bmob.android:bmob-sdk:3.5.5&#x27;</span>) &#123;</span><br><span class="line">    exclude <span class="attr">group:</span> <span class="string">&#x27;io.reactivex&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line">compile(<span class="string">&#x27;com.kymjs.rxvolley:rxvolley:1.1.4&#x27;</span>) &#123;</span><br><span class="line">    exclude <span class="attr">group:</span> <span class="string">&#x27;io.reactivex&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>重新编译一下，就可以正常运行了。</p>
-]]></content>
-      <categories>
-        <category>开发</category>
-        <category>安卓</category>
-      </categories>
-      <tags>
-        <tag>杂类解决</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Android Studio更改R文件位置</title>
     <url>/2017/06/22/Android%20Studio%E6%9B%B4%E6%94%B9R%E6%96%87%E4%BB%B6%E4%BD%8D%E7%BD%AE/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title=" 前言"></a> 前言</h2><p>AndroidStudio（以下简称AS）内置了多种强大的快捷操作，最近项目需要在另一个项目基础上更改，替换包名是个麻烦的工作。安卓程序中的R文件改名的各种坑，导致找不到文件的错误。</p>
@@ -82,6 +56,32 @@
 <ul>
 <li>这时候会发现包名及R文件已经更改。</li>
 </ul>
+]]></content>
+      <categories>
+        <category>开发</category>
+        <category>安卓</category>
+      </categories>
+      <tags>
+        <tag>杂类解决</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>AndroidStudio 工程jar包重复引入报错</title>
+    <url>/2017/10/27/AndroidStudio%20%E5%B7%A5%E7%A8%8Bjar%E5%8C%85%E9%87%8D%E5%A4%8D%E5%BC%95%E5%85%A5%E6%8A%A5%E9%94%99/</url>
+    <content><![CDATA[<h2 id="app-transformClassesWithJarMergingForDebug"><a href="#app-transformClassesWithJarMergingForDebug" class="headerlink" title="app:transformClassesWithJarMergingForDebug"></a>app:transformClassesWithJarMergingForDebug</h2><hr>
+<p>工程中，如果我们叫A，要引用的两个三方库分别叫B和C。</p>
+<p>其中B包含了若干小jar包，比如其中有一个叫d，C中也包含了同样的jar包d。</p>
+<p>那么我们直接应用这两个库的时候，编译过程会报错</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Execution failed <span class="keyword">for</span> task <span class="string">&#x27;:app:transformClassesWithJarMergingForDebug&#x27;</span>.</span><br></pre></td></tr></table></figure>
+<p>那么我们只需要在其中库中「去掉」jar包的引用，或者说过滤掉。</p>
+<p>可以切换到「Project」视图， 查看比较两者间有什么库是一样的名字。这里我举了个例子：</p>
+<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/20220208181535.png" alt="rxjava包冲突"></p>
+<p>在MANIFEST.MF文件中,找到要过滤的包名: <strong>io.reactivex.java</strong></p>
+<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/20220208181544.png" alt="Bundle-SymbolicName的字段"></p>
+<p>在gradle文件中，引用工程后面添加过滤的包名。这里我将rx有关的都过滤了，（使用的是AS3.0有了新的关键字implementation<a href="https://stackoverflow.com/questions/44493378/whats-the-difference-between-implementation-and-compile-in-gradle">具体看这里</a>）</p>
+<p><img src="https://raw.githubusercontent.com/ArnoFrost/BlogImage/main/img/20220208181554.png" alt="添加group"></p>
+<figure class="highlight groovy"><table><tr><td class="code"><pre><span class="line">compile(<span class="string">&#x27;cn.bmob.android:bmob-sdk:3.5.5&#x27;</span>) &#123;</span><br><span class="line">    exclude <span class="attr">group:</span> <span class="string">&#x27;io.reactivex&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line">compile(<span class="string">&#x27;com.kymjs.rxvolley:rxvolley:1.1.4&#x27;</span>) &#123;</span><br><span class="line">    exclude <span class="attr">group:</span> <span class="string">&#x27;io.reactivex&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>重新编译一下，就可以正常运行了。</p>
 ]]></content>
       <categories>
         <category>开发</category>
@@ -500,6 +500,22 @@
       </tags>
   </entry>
   <entry>
+    <title>Hello Arno , hello world</title>
+    <url>/2017/06/08/Hello%20Arno%20,%20hello%20world/</url>
+    <content><![CDATA[<p><embed src="//music.163.com/style/swf/widget.swf?sid=461525011&type=2&auto=1&width=320&height=66" width="340" height="86"  allowNetworking="all"></embed></p>
+<p>blah blah blah</p>
+<p>Hello, 欢迎来到我的个人博客。</p>
+]]></content>
+      <categories>
+        <category>Life</category>
+        <category>安卓</category>
+      </categories>
+      <tags>
+        <tag>纪念</tag>
+        <tag>符号·人生</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Handler相关知识点</title>
     <url>/2020/07/20/Handler%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E7%82%B9/</url>
     <content><![CDATA[<h1 id="Handler常见知识总结"><a href="#Handler常见知识总结" class="headerlink" title="Handler常见知识总结"></a>Handler常见知识总结</h1><blockquote>
@@ -717,19 +733,124 @@
       </tags>
   </entry>
   <entry>
-    <title>Hello Arno , hello world</title>
-    <url>/2017/06/08/Hello%20Arno%20,%20hello%20world/</url>
-    <content><![CDATA[<p><embed src="//music.163.com/style/swf/widget.swf?sid=461525011&type=2&auto=1&width=320&height=66" width="340" height="86"  allowNetworking="all"></embed></p>
-<p>blah blah blah</p>
-<p>Hello, 欢迎来到我的个人博客。</p>
+    <title>Hexo升级手册</title>
+    <url>/2024/04/30/Hexo%E5%8D%87%E7%BA%A7%E6%89%8B%E5%86%8C/</url>
+    <content><![CDATA[<blockquote>
+<p>version 0.1</p>
+</blockquote>
+<h2 id="1-SSH-配置"><a href="#1-SSH-配置" class="headerlink" title="1. SSH 配置"></a>1. SSH 配置</h2><p>为了区分不同的 Git 服务，需要配置 SSH 连接。</p>
+<ol>
+<li><p>修改 SSH 配置文件 <code>~/.ssh/config</code>，添加如下内容：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># GitHub SSH配置</span></span><br><span class="line">Host github</span><br><span class="line">    HostName github.com</span><br><span class="line">    User git</span><br><span class="line">    Port 22</span><br><span class="line">    IdentityFile ~/.ssh/github_id_rsa</span><br><span class="line">    IdentitiesOnly <span class="built_in">yes</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>通过以下命令验证 SSH 连接：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ssh -vT git@github.com</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="2-环境配置"><a href="#2-环境配置" class="headerlink" title="2. 环境配置"></a>2. 环境配置</h2><h3 id="macOS-下-NVM-安装"><a href="#macOS-下-NVM-安装" class="headerlink" title="macOS 下 NVM 安装"></a>macOS 下 NVM 安装</h3><ol>
+<li><p>安装 NVM（Node Version Manager）：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">brew install nvm</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>列出可用的 Node.js 版本：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">nvm ls-remote</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装指定版本的 Node.js：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">nvm install xxx</span><br></pre></td></tr></table></figure>
+
+<p>其中 <code>xxx</code> 选择的 Node.js 版本。</p>
+</li>
+</ol>
+<h2 id="3-Hexo-升级"><a href="#3-Hexo-升级" class="headerlink" title="3. Hexo 升级"></a>3. Hexo 升级</h2><ol>
+<li><p>进入 Hexo 项目目录。</p>
+</li>
+<li><p>查看当前 Hexo 版本：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo version</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>全局升级 <code>hexo-cli</code>：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">npm i hexo-cli -g</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>再次查看版本以确认升级成功：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo version</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装 <code>npm-check</code>（如果尚未安装）：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">npm install -g npm-check</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>检查项目依赖是否需要升级：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">npm-check</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装 <code>npm-upgrade</code>（如果尚未安装）：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">npm install -g npm-upgrade</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>更新 <code>package.json</code>：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">npm-upgrade</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>更新全局插件：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">npm update -g</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>更新项目依赖：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">npm update --save</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>最后，再次查看 Hexo 版本以确认升级成功：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo version</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="4-备份当前配置"><a href="#4-备份当前配置" class="headerlink" title="4. 备份当前配置"></a>4. 备份当前配置</h2><ol>
+<li><p><strong>备份 Hexo 目录</strong>：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">tar -czf hexo_backup_$(<span class="built_in">date</span> +%Y%m%d).tar.gz /path/to/hexo</span><br></pre></td></tr></table></figure>
+
+<p>替换 <code>/path/to/hexo</code> 为你的 Hexo 项目路径。</p>
+</li>
+</ol>
+<h2 id="5-Troubleshooting"><a href="#5-Troubleshooting" class="headerlink" title="5. Troubleshooting"></a>5. Troubleshooting</h2><p>如果在升级过程中遇到问题，这里提供一些常见问题及其解决方案：</p>
+<h3 id="问题-1-升级后网站样式丢失"><a href="#问题-1-升级后网站样式丢失" class="headerlink" title="问题 1: 升级后网站样式丢失"></a>问题 1: 升级后网站样式丢失</h3><ul>
+<li><strong>可能原因</strong>：主题配置文件未更新或被覆盖。</li>
+<li><strong>解决方案</strong>：恢复主题配置文件的备份，或从主题的源仓库中获取最新的配置文件样本。</li>
+</ul>
+<h3 id="问题-2-插件不兼容"><a href="#问题-2-插件不兼容" class="headerlink" title="问题 2: 插件不兼容"></a>问题 2: 插件不兼容</h3><ul>
+<li><strong>可能原因</strong>：插件不支持新版的 Hexo 或 Node.js。</li>
+<li><strong>解决方案</strong>：<ul>
+<li>检查插件的 GitHub 仓库，看是否有相关的兼容性更新。</li>
+<li>降级不兼容的插件或替换为其他相似功能的插件。</li>
+</ul>
+</li>
+</ul>
+<h2 id="6-版本回退"><a href="#6-版本回退" class="headerlink" title="6. 版本回退"></a>6. 版本回退</h2><ol>
+<li><p><strong>使用 NVM 管理 Node.js 版本</strong>：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">nvm use xxx</span><br></pre></td></tr></table></figure>
+
+<p>其中 <code>xxx</code> 是要回退到的 Node.js 版本号。</p>
+</li>
+<li><p><strong>回退 Hexo 版本</strong>：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">npm uninstall hexo-cli -g</span><br><span class="line">npm install hexo-cli@x.x.x -g</span><br></pre></td></tr></table></figure>
+
+<p>其中 <code>x.x.x</code> 是要回退到的 Hexo 版本号。</p>
+</li>
+<li><p><strong>恢复 Hexo 项目文件</strong>：</p>
+<p>使用之前备份的 tar.gz 文件恢复项目。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">tar -xzf hexo_backup_date.tar.gz -C /path/to/hexo</span><br></pre></td></tr></table></figure>
+
+<p>替换 <code>hexo_backup_date.tar.gz</code> 为备份文件名。</p>
+</li>
+</ol>
+<h2 id="更新日志："><a href="#更新日志：" class="headerlink" title="更新日志："></a>更新日志：</h2><table>
+<thead>
+<tr>
+<th>版本</th>
+<th>时间</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>version 0.1</td>
+<td>2024年04月30日11:39:34</td>
+<td>初版整理</td>
+</tr>
+</tbody></table>
 ]]></content>
       <categories>
-        <category>Life</category>
-        <category>安卓</category>
+        <category>开发</category>
       </categories>
       <tags>
-        <tag>纪念</tag>
-        <tag>符号·人生</tag>
+        <tag>杂类解决</tag>
+        <tag>博客</tag>
       </tags>
   </entry>
   <entry>
@@ -896,52 +1017,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Kotlin实用技巧</title>
-    <url>/2022/03/01/Kotlin%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7/</url>
-    <content><![CDATA[<blockquote>
-<p>version 0.1</p>
-</blockquote>
-<h1 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h1><p>现在主力语言已经完全迁移至Kotlin,日常除了维护老的一些业务模块外，基本全都是Kotlin了。我认为Kotlin是一门偏向生产，提高码字效率的语言。很多时候Kotlin便捷的语法糖能给编程带来更丝滑的体验，但Kotlin依旧有很多的语法糖并不是那么的想当然。这些语法糖多数时候是很甜的，但也可能导致一些不好排查的问题，所以打算写一篇记录一下。</p>
-<h2 id="集合越界判空"><a href="#集合越界判空" class="headerlink" title="集合越界判空"></a>集合越界判空</h2><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> list = emptyList&lt;String&gt;()</span><br><span class="line"><span class="keyword">val</span> result = list?.<span class="keyword">get</span>(<span class="number">1</span>) ?: <span class="string">&quot;&quot;</span></span><br></pre></td></tr></table></figure>
-<p>之前真有过，刚接触的时候乍一看没什么问题啊，无脑<code>?</code>就行。结果遇到集合这种还是要判断越界的，那么又<code>if-else</code>，这时候用<code>getOrNull()</code>代替</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">fun</span> <span class="type">&lt;T&gt;</span> List<span class="type">&lt;T&gt;</span>.<span class="title">getOrNull</span><span class="params">(index: <span class="type">Int</span>)</span></span>: T? &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">if</span> (index &gt;= <span class="number">0</span> &amp;&amp; index &lt;= lastIndex) <span class="keyword">get</span>(index) <span class="keyword">else</span> <span class="literal">null</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="inline-noinline-crossline"><a href="#inline-noinline-crossline" class="headerlink" title="inline noinline crossline"></a>inline noinline crossline</h2><p>首先写两个方法,打印日志  其中<code>doSomethingElse</code> 是一个被嵌套在<code>doSomething</code>中的<code>Unit</code> 类型</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">doSomething</span><span class="params">()</span></span> &#123;</span><br><span class="line">    print(<span class="string">&quot;doSomething start&quot;</span>)</span><br><span class="line">    doSomethingElse()</span><br><span class="line">    print(<span class="string">&quot;doSomething end&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">doSomethingElse</span><span class="params">()</span></span> &#123;</span><br><span class="line">    print(<span class="string">&quot;doSomethingElse&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>然后传统的<code>crossline</code>做法优化嵌套我们都知道, 但有的时候还真不能随便加.<br>当嵌套的方法有类似return之类的返回时要格外注意:</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">doSomething</span><span class="params">()</span></span> &#123;</span><br><span class="line">    print(<span class="string">&quot;doSomething start&quot;</span>)</span><br><span class="line">    doSomethingElse &#123;</span><br><span class="line">        print(<span class="string">&quot;doSomethingElse&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="comment">// notice this return</span></span><br><span class="line">    &#125;</span><br><span class="line">    print(<span class="string">&quot;doSomething end&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">inline</span> <span class="function"><span class="keyword">fun</span> <span class="title">doSomethingElse</span><span class="params">(abc: () -&gt; <span class="type">Unit</span>)</span></span> &#123;</span><br><span class="line">    <span class="comment">// I can take function</span></span><br><span class="line">    <span class="comment">// do something else here</span></span><br><span class="line">    <span class="comment">// execute the function</span></span><br><span class="line">    abc()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在不看字节码情况下,这个<code>return</code>的作用到底会产生什么后果的确是个容易忽略的点,要知道<code>return</code>的作用范围.这段代码的字节码如下?:</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> void doSomething() &#123;</span><br><span class="line">    System.<span class="keyword">out</span>.print(<span class="string">&quot;doSomething start&quot;</span>);</span><br><span class="line">    System.<span class="keyword">out</span>.print(<span class="string">&quot;doSomethingElse&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可以看到,并没有<code>end</code>的打印输出后续.</p>
-<p>这个时候就要加入<code>crossinline</code>来配合,避免”非本地返回”</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">inline</span> <span class="function"><span class="keyword">fun</span> <span class="title">doSomethingElse</span><span class="params">(<span class="keyword">crossinline</span> abc: () -&gt; <span class="type">Unit</span>)</span></span> &#123;</span><br><span class="line">    <span class="comment">// I can take function</span></span><br><span class="line">    <span class="comment">// do something else here</span></span><br><span class="line">    <span class="comment">// execute the function</span></span><br><span class="line">    abc()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="JvmOverload注解"><a href="#JvmOverload注解" class="headerlink" title="@JvmOverload注解"></a>@JvmOverload注解</h2><p>其实没有太多好说,只是很多时候利于旧代码模块在调用新的类方法时候可以简化一些东西,安卓中其中一个常用场景在自定义view中可以省略很多:</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">CustomView</span> <span class="meta">@JvmOverloads</span> <span class="keyword">constructor</span>(</span><br><span class="line">context: Context, </span><br><span class="line">attrs: AttributeSet? = <span class="literal">null</span>, </span><br><span class="line">defStyleAttr: <span class="built_in">Int</span> = <span class="number">0</span>) : RelativeLayout(context, attrs, defStyleAttr) &#123;&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="更新日志："><a href="#更新日志：" class="headerlink" title="更新日志："></a>更新日志：</h2><table>
-<thead>
-<tr>
-<th>版本</th>
-<th>时间</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>version 0.1</td>
-<td>2022年04月11日</td>
-<td>初版整理</td>
-</tr>
-</tbody></table>
-]]></content>
-      <categories>
-        <category>开发</category>
-      </categories>
-      <tags>
-        <tag>Kotlin</tag>
-        <tag>技巧</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Kotlin多变量判空</title>
     <url>/2022/02/09/Kotlin%E5%A4%9A%E5%8F%98%E9%87%8F%E5%88%A4%E7%A9%BA/</url>
     <content><![CDATA[<blockquote>
@@ -1009,6 +1084,52 @@
       </tags>
   </entry>
   <entry>
+    <title>Kotlin实用技巧</title>
+    <url>/2022/03/01/Kotlin%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7/</url>
+    <content><![CDATA[<blockquote>
+<p>version 0.1</p>
+</blockquote>
+<h1 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h1><p>现在主力语言已经完全迁移至Kotlin,日常除了维护老的一些业务模块外，基本全都是Kotlin了。我认为Kotlin是一门偏向生产，提高码字效率的语言。很多时候Kotlin便捷的语法糖能给编程带来更丝滑的体验，但Kotlin依旧有很多的语法糖并不是那么的想当然。这些语法糖多数时候是很甜的，但也可能导致一些不好排查的问题，所以打算写一篇记录一下。</p>
+<h2 id="集合越界判空"><a href="#集合越界判空" class="headerlink" title="集合越界判空"></a>集合越界判空</h2><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> list = emptyList&lt;String&gt;()</span><br><span class="line"><span class="keyword">val</span> result = list?.<span class="keyword">get</span>(<span class="number">1</span>) ?: <span class="string">&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+<p>之前真有过，刚接触的时候乍一看没什么问题啊，无脑<code>?</code>就行。结果遇到集合这种还是要判断越界的，那么又<code>if-else</code>，这时候用<code>getOrNull()</code>代替</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">fun</span> <span class="type">&lt;T&gt;</span> List<span class="type">&lt;T&gt;</span>.<span class="title">getOrNull</span><span class="params">(index: <span class="type">Int</span>)</span></span>: T? &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">if</span> (index &gt;= <span class="number">0</span> &amp;&amp; index &lt;= lastIndex) <span class="keyword">get</span>(index) <span class="keyword">else</span> <span class="literal">null</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="inline-noinline-crossline"><a href="#inline-noinline-crossline" class="headerlink" title="inline noinline crossline"></a>inline noinline crossline</h2><p>首先写两个方法,打印日志  其中<code>doSomethingElse</code> 是一个被嵌套在<code>doSomething</code>中的<code>Unit</code> 类型</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">doSomething</span><span class="params">()</span></span> &#123;</span><br><span class="line">    print(<span class="string">&quot;doSomething start&quot;</span>)</span><br><span class="line">    doSomethingElse()</span><br><span class="line">    print(<span class="string">&quot;doSomething end&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">doSomethingElse</span><span class="params">()</span></span> &#123;</span><br><span class="line">    print(<span class="string">&quot;doSomethingElse&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后传统的<code>crossline</code>做法优化嵌套我们都知道, 但有的时候还真不能随便加.<br>当嵌套的方法有类似return之类的返回时要格外注意:</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">doSomething</span><span class="params">()</span></span> &#123;</span><br><span class="line">    print(<span class="string">&quot;doSomething start&quot;</span>)</span><br><span class="line">    doSomethingElse &#123;</span><br><span class="line">        print(<span class="string">&quot;doSomethingElse&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="comment">// notice this return</span></span><br><span class="line">    &#125;</span><br><span class="line">    print(<span class="string">&quot;doSomething end&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">inline</span> <span class="function"><span class="keyword">fun</span> <span class="title">doSomethingElse</span><span class="params">(abc: () -&gt; <span class="type">Unit</span>)</span></span> &#123;</span><br><span class="line">    <span class="comment">// I can take function</span></span><br><span class="line">    <span class="comment">// do something else here</span></span><br><span class="line">    <span class="comment">// execute the function</span></span><br><span class="line">    abc()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在不看字节码情况下,这个<code>return</code>的作用到底会产生什么后果的确是个容易忽略的点,要知道<code>return</code>的作用范围.这段代码的字节码如下?:</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> void doSomething() &#123;</span><br><span class="line">    System.<span class="keyword">out</span>.print(<span class="string">&quot;doSomething start&quot;</span>);</span><br><span class="line">    System.<span class="keyword">out</span>.print(<span class="string">&quot;doSomethingElse&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到,并没有<code>end</code>的打印输出后续.</p>
+<p>这个时候就要加入<code>crossinline</code>来配合,避免”非本地返回”</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">inline</span> <span class="function"><span class="keyword">fun</span> <span class="title">doSomethingElse</span><span class="params">(<span class="keyword">crossinline</span> abc: () -&gt; <span class="type">Unit</span>)</span></span> &#123;</span><br><span class="line">    <span class="comment">// I can take function</span></span><br><span class="line">    <span class="comment">// do something else here</span></span><br><span class="line">    <span class="comment">// execute the function</span></span><br><span class="line">    abc()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="JvmOverload注解"><a href="#JvmOverload注解" class="headerlink" title="@JvmOverload注解"></a>@JvmOverload注解</h2><p>其实没有太多好说,只是很多时候利于旧代码模块在调用新的类方法时候可以简化一些东西,安卓中其中一个常用场景在自定义view中可以省略很多:</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">CustomView</span> <span class="meta">@JvmOverloads</span> <span class="keyword">constructor</span>(</span><br><span class="line">context: Context, </span><br><span class="line">attrs: AttributeSet? = <span class="literal">null</span>, </span><br><span class="line">defStyleAttr: <span class="built_in">Int</span> = <span class="number">0</span>) : RelativeLayout(context, attrs, defStyleAttr) &#123;&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="更新日志："><a href="#更新日志：" class="headerlink" title="更新日志："></a>更新日志：</h2><table>
+<thead>
+<tr>
+<th>版本</th>
+<th>时间</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>version 0.1</td>
+<td>2022年04月11日</td>
+<td>初版整理</td>
+</tr>
+</tbody></table>
+]]></content>
+      <categories>
+        <category>开发</category>
+      </categories>
+      <tags>
+        <tag>Kotlin</tag>
+        <tag>技巧</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>ListView和RecyclerView中item中宽度不占满的一种可能</title>
     <url>/2017/10/25/ListView%E5%92%8CRecyclerView%E4%B8%ADitem%E4%B8%AD%E5%AE%BD%E5%BA%A6%E4%B8%8D%E5%8D%A0%E6%BB%A1%E7%9A%84%E4%B8%80%E7%A7%8D%E5%8F%AF%E8%83%BD/</url>
     <content><![CDATA[<h2 id="ListView和RecyclerView中item中宽度不占满的一种可能"><a href="#ListView和RecyclerView中item中宽度不占满的一种可能" class="headerlink" title="ListView和RecyclerView中item中宽度不占满的一种可能"></a>ListView和RecyclerView中item中宽度不占满的一种可能</h2><p>开发中遇到一个问题，用到一个简单的ListView，我在item里写了match_parent属性，但是在运行中却并没有占满一整行，就导致了布局有问题。</p>
@@ -1044,6 +1165,35 @@
       </categories>
       <tags>
         <tag>ListView</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Mac实用技巧</title>
+    <url>/2022/02/18/Mac%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7/</url>
+    <content><![CDATA[<p>[TOC]</p>
+<blockquote>
+<p>version 0.1</p>
+</blockquote>
+<h1 id="搜索文件"><a href="#搜索文件" class="headerlink" title="搜索文件"></a>搜索文件</h1><h2 id="按照类型搜索"><a href="#按照类型搜索" class="headerlink" title="按照类型搜索"></a>按照类型搜索</h2><blockquote>
+<p>kind:(file type)</p>
+</blockquote>
+<p>文件类型搜索运算符可以是<code>image</code>,<code>music</code>,<code>application</code>,<code>text</code>,<code>email</code>,<code>save</code>等。</p>
+<h2 id="搜索特定文件格式匹配"><a href="#搜索特定文件格式匹配" class="headerlink" title="搜索特定文件格式匹配"></a>搜索特定文件格式匹配</h2><blockquote>
+<p>kind:(file format)</p>
+</blockquote>
+<p>文件格式搜索运算符非常直观,<code>jpeg</code>,<code>gif</code>,<code>aiff</code>,<code>pdf</code>,<code>rtf</code>,<code>psd</code>,<code>mp3</code>,<code>zip</code>或基本上任何其他内容文件格式</p>
+<h2 id="搜索文件名和特定文件类型-格式"><a href="#搜索文件名和特定文件类型-格式" class="headerlink" title="搜索文件名和特定文件类型&#x2F;格式"></a>搜索文件名和特定文件类型&#x2F;格式</h2><blockquote>
+<p>kind:(operator) “text to search match”</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>日常</category>
+        <category>效率</category>
+        <category>Mac</category>
+      </categories>
+      <tags>
+        <tag>技巧</tag>
+        <tag>Mac</tag>
       </tags>
   </entry>
   <entry>
@@ -1278,35 +1428,6 @@ dpkg-reconfigure tzdata
       </categories>
       <tags>
         <tag>vps</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Mac实用技巧</title>
-    <url>/2022/02/18/Mac%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7/</url>
-    <content><![CDATA[<p>[TOC]</p>
-<blockquote>
-<p>version 0.1</p>
-</blockquote>
-<h1 id="搜索文件"><a href="#搜索文件" class="headerlink" title="搜索文件"></a>搜索文件</h1><h2 id="按照类型搜索"><a href="#按照类型搜索" class="headerlink" title="按照类型搜索"></a>按照类型搜索</h2><blockquote>
-<p>kind:(file type)</p>
-</blockquote>
-<p>文件类型搜索运算符可以是<code>image</code>,<code>music</code>,<code>application</code>,<code>text</code>,<code>email</code>,<code>save</code>等。</p>
-<h2 id="搜索特定文件格式匹配"><a href="#搜索特定文件格式匹配" class="headerlink" title="搜索特定文件格式匹配"></a>搜索特定文件格式匹配</h2><blockquote>
-<p>kind:(file format)</p>
-</blockquote>
-<p>文件格式搜索运算符非常直观,<code>jpeg</code>,<code>gif</code>,<code>aiff</code>,<code>pdf</code>,<code>rtf</code>,<code>psd</code>,<code>mp3</code>,<code>zip</code>或基本上任何其他内容文件格式</p>
-<h2 id="搜索文件名和特定文件类型-格式"><a href="#搜索文件名和特定文件类型-格式" class="headerlink" title="搜索文件名和特定文件类型&#x2F;格式"></a>搜索文件名和特定文件类型&#x2F;格式</h2><blockquote>
-<p>kind:(operator) “text to search match”</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>日常</category>
-        <category>效率</category>
-        <category>Mac</category>
-      </categories>
-      <tags>
-        <tag>技巧</tag>
-        <tag>Mac</tag>
       </tags>
   </entry>
   <entry>
@@ -2399,7 +2520,7 @@ AT_MOST : 父容器为所有子视图指定一个最大的尺寸, 子视图所�
 <p><a href="http://markdownpad.com/download/awesomium_v1.6.6_sdk_win.exe">Awesomium 1.6.6 SDK</a></p>
 </blockquote>
 <blockquote>
-<p>邮箱:<strong><a href="mailto:&#x53;&#x6f;&#x61;&#114;&#x33;&#x36;&#48;&#x40;&#108;&#105;&#x76;&#x65;&#46;&#x63;&#111;&#109;">&#x53;&#x6f;&#x61;&#114;&#x33;&#x36;&#48;&#x40;&#108;&#105;&#x76;&#x65;&#46;&#x63;&#111;&#109;</a></strong></p>
+<p>邮箱:<strong><a href="mailto:&#83;&#x6f;&#x61;&#x72;&#x33;&#54;&#x30;&#64;&#108;&#x69;&#118;&#101;&#x2e;&#99;&#111;&#x6d;">&#83;&#x6f;&#x61;&#x72;&#x33;&#54;&#x30;&#64;&#108;&#x69;&#118;&#101;&#x2e;&#99;&#111;&#x6d;</a></strong></p>
 </blockquote>
 <blockquote>
 <p>授权秘钥:</p>
