@@ -1,0 +1,243 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Jetpack Compose 中的 remember 函数详解 - Fox Hound</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="ArnoFrost FoxHound,"> 
+    <meta name="description" content="Life should be so,
+Version 1.0
+
+引言在 Jetpack Compose 中，有效地管理 UI 组件的状态是至关重要的。要深入理解 remember 函数的重要性，首先需要探讨仅使用 MutableSta,"> 
+    <meta name="author" content="Arno Frost"> 
+    <link rel="alternative" href="atom.xml" title="Fox Hound" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">Fox Hound</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="https://arnoforst.github.io"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">Jetpack Compose 中的 remember 函数详解</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">Jetpack Compose 中的 remember 函数详解</h1>
+        <div class="stuff">
+            <span>四月 30, 2024</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Compose/" rel="tag">Compose</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <blockquote>
+<p>Version 1.0</p>
+</blockquote>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>在 Jetpack Compose 中，有效地管理 UI 组件的状态是至关重要的。要深入理解 <code>remember</code> 函数的重要性，首先需要探讨仅使用 <code>MutableState</code> 而不使用 <code>remember</code> 可能带来的问题。</p>
+<h2 id="MutableState-的陷阱"><a href="#MutableState-的陷阱" class="headerlink" title="MutableState 的陷阱"></a><code>MutableState</code> 的陷阱</h2><p><code>MutableState</code> 对象在 Jetpack Compose 中用于保存可观察数据，其变化能触发 UI 重绘（recompose）。但若不慎使用，即在没有 <code>remember</code> 的情况下使用 <code>MutableState</code>，可能会导致一些难以察觉的问题：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">CounterWithoutRemember</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> count = mutableStateOf(<span class="number">0</span>)</span><br><span class="line">    Button(onClick = &#123; count.value++ &#125;) &#123;</span><br><span class="line">        Text(<span class="string">&quot;Count is <span class="subst">$&#123;count.value&#125;</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>每次 <code>CounterWithoutRemember</code> 重组时，由于 <code>count</code> 没有被 <code>remember</code> 函数包裹，它都会重新初始化为 0。这导致计数器看似在增加，但实际上每次重组后都会重置。<strong>使得界面并没有发生“实际改变”</strong>。</p>
+<h2 id="引入-remember"><a href="#引入-remember" class="headerlink" title="引入 remember"></a>引入 <code>remember</code></h2><p>为了解决上述问题，确保 <code>count</code> 的状态在重组间持久保存，应使用 <code>remember</code>：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">CounterWithRemember</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> count = remember &#123; mutableStateOf(<span class="number">0</span>) &#125;</span><br><span class="line">    Button(onClick = &#123; count.value++ &#125;) &#123;</span><br><span class="line">        Text(<span class="string">&quot;Count is <span class="subst">$&#123;count.value&#125;</span>&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>remember</code> 确保即使在多次重组后，<code>count</code> 保持其状态，不会重新初始化。</p>
+<h2 id="重组作用域-Recompose-Scope"><a href="#重组作用域-Recompose-Scope" class="headerlink" title="重组作用域 (Recompose Scope)"></a>重组作用域 (Recompose Scope)</h2><p><code>@Composable</code> 函数被视为一个重组作用域。当作用域内的变量发生变化时，整个作用域将被标记为无效，并重新执行以反映最新状态。</p>
+<h2 id="remember-函数详解"><a href="#remember-函数详解" class="headerlink" title="remember 函数详解"></a><code>remember</code> 函数详解</h2><p><code>remember</code> 的目的是解决重组过程中的多次初始化问题，通过保持变量状态跨重组持久存在，避免每次重组时的重新初始化。它确保所包含的初始化代码在 Composable 函数<strong>首次调用时执行一次，并在后续的重组过程中保持状态不变</strong>。</p>
+<h2 id="使用场景与最佳实践"><a href="#使用场景与最佳实践" class="headerlink" title="使用场景与最佳实践"></a>使用场景与最佳实践</h2><ul>
+<li><strong>状态恢复</strong>：适用于创建需要在重组间保持状态但在某些条件下需要重新初始化的状态对象。</li>
+<li><strong>Composable 范围</strong>：<code>remember</code> 应在 <code>@Composable</code> 函数内使用，与重组密切相关。</li>
+<li><strong>选择键</strong>：当 <code>remember</code> 使用键时，如果依赖的数据变化，它将重新计算或更新状态，例如：</li>
+</ul>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">UserGreeting</span><span class="params">(name: <span class="type">String</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> greeting = remember(name) &#123; <span class="string">&quot;Hello, <span class="variable">$name</span>&quot;</span> &#125;</span><br><span class="line">    Text(greeting)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此例中，<code>name</code> 的改变将导致 <code>greeting</code> 的重新计算，保证 UI 显示与当前 <code>name</code> 一致。</p>
+<ul>
+<li><strong>避免过度使用键</strong>：虽然键提供了强大的灵活性，但不必为每个 <code>remember</code> 使用键，特别是当状态不依赖于动态数据时。</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>remember</code> 是构建高效、可维护和无错误 Compose UI 的关键。它不仅帮助管理状态，还确保 UI 组件能够在合适的时机更新，提升用户体验并减少因状态管理错误导致的 bug，确保应用的稳定性和性能。</p>
+<p>通过合理使用 <code>remember</code> 及其键重载功能，开发者可以在保持性能与逻辑正确性之间找到平衡，构建出响应迅速且可靠的现代 Android 应用。</p>
+<h2 id="更新日志："><a href="#更新日志：" class="headerlink" title="更新日志："></a>更新日志：</h2><table>
+<thead>
+<tr>
+<th>版本</th>
+<th>时间</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>version 1.0</td>
+<td>2022年04月11日</td>
+<td>初版整理</td>
+</tr>
+</tbody></table>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='http://music.163.com/song/media/outer/url?id=723174.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='true'
+        data-ae='true'
+        data-ci='bea144b43eefb358981c'
+        data-cs='a36c22fec87740cbe5e17b541731a652d8e2785d'
+        data-r='gitalk'
+        data-o='ArnoFrost'
+        data-a='ArnoFrost'
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MutableState-%E7%9A%84%E9%99%B7%E9%98%B1"><span class="toc-number">2.</span> <span class="toc-text">MutableState 的陷阱</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E5%85%A5-remember"><span class="toc-number">3.</span> <span class="toc-text">引入 remember</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8D%E7%BB%84%E4%BD%9C%E7%94%A8%E5%9F%9F-Recompose-Scope"><span class="toc-number">4.</span> <span class="toc-text">重组作用域 (Recompose Scope)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#remember-%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3"><span class="toc-number">5.</span> <span class="toc-text">remember 函数详解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF%E4%B8%8E%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="toc-number">6.</span> <span class="toc-text">使用场景与最佳实践</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">7.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97%EF%BC%9A"><span class="toc-number">8.</span> <span class="toc-text">更新日志：</span></a></li></ol>	
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'G-M1XD2J0EJY', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+
+</html>
